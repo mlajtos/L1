@@ -31,16 +31,16 @@ class Interpreter {
         Min,
         Max,
 
-        "+": tf.add,
-        "-": tf.sub,
-        "*": tf.mul,
-        "×": tf.mul,
-        "/": tf.div,
-        "÷": tf.div,
-        "^": tf.pow,
-        "%": tf.mod,
-        "@": tf.matMul,
-        "⊗": tf.matMul,
+        "+": binarize(tf.add),
+        "-": binarize(tf.sub),
+        "*": binarize(tf.mul),
+        "×": binarize(tf.mul),
+        "/": binarize(tf.div),
+        "÷": binarize(tf.div),
+        "^": binarize(tf.pow),
+        "%": binarize(tf.mod),
+        "@": binarize(tf.matMul),
+        "⊗": binarize(tf.matMul),
 
         Mouse
     }
@@ -253,8 +253,8 @@ class Interpreter {
                     }
                 ),
                 map(
-                    ([fn, left, right]) => {
-                        return call(fn, left, right)
+                    ([fn, a, b]) => {
+                        return call(fn, { a, b })
                     }
                 ),
                 catchError(e => {
@@ -310,5 +310,7 @@ const call = (fn, arg) => {
 
     throw new Error(`${fn} is not callable.`)
 }
+
+const binarize = (fn) => (({ a, b }) => fn(a, b))
 
 export default new Interpreter
