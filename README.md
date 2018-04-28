@@ -99,8 +99,8 @@ a: Fn 23
 ### Pipeline
 
 ```L1
-a: [1 2 3] => Sum { tensor: $, axis: 0 }
-a: [1 2 3] => Sum { axis: 0 }
+a: [1 2 3] -> Sum { tensor: $, axis: 0 }
+a: [1 2 3] -> Sum { axis: 0 }
 ``` 
 
 ## Objects
