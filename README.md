@@ -99,8 +99,8 @@ a: Fn 23
 ### Pipeline
 
 ```L1
-a: [1 2 3] -> Sum { tensor: $, axis: 0 }
-a: [1 2 3] -> Sum { axis: 0 }
+a: [1 2 3] => Sum { tensor: $, axis: 0 }
+a: [1 2 3] => Sum { axis: 0 }
 ``` 
 
 ## Objects
@@ -168,7 +168,7 @@ obj: {
 ## Functions
 
 ```L1
-Fn: x -> x^2
+Fn: x => x^2
 a: Fn 3
 
 # a: 9
@@ -178,7 +178,7 @@ a: Fn 3
 2. Higher-order functions are okay.
 
 ```L1
-Fn: x -> {
+Fn: x => {
     linear: x
     quadratic: x^2
     cubic: x^3
@@ -193,7 +193,7 @@ a: Fn 3
 ```
 
 ```L1
-Fn: { x y } -> x + y
+Fn: { x y } => x + y
 a: Fn {
     x: 1
     y: 2
@@ -203,7 +203,7 @@ a: Fn {
 ```
 
 ```L1
-Fn: { x y } -> {
+Fn: { x y } => {
     z: x + y
     value: z^2
 }.value
