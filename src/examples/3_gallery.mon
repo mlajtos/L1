@@ -1,0 +1,12 @@
+shape: [20 20]
+x: RandomNormal shape
+x1: Relu x
+x2: Elu x
+x3: Sin x
+x4: Log x
+
+y: RandomUniform shape
+y1: Relu y
+y2: Elu y
+y3: Sin y
+y4: Log y

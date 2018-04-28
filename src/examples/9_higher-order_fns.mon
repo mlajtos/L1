@@ -1,0 +1,5 @@
+x: GetDigit '5
+Fn: x -> x^2 + x
+y: Fn x
+GradFn: (Gradient Fn)
+mu: GradFn x

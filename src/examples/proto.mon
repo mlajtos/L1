@@ -1,0 +1,41 @@
+v0: 0
+shape: [1 2 3]
+data: [
+    1.2   2.3   3.4
+    4.5   5.4   6.5
+]
+arguments: (data, shape)
+v3: Reshape arguments
+
+number: v2 @ [1 2]
+
+# function definition
+Reshape: (tensor, shape) -> {
+    # code block
+    out: Reshape(tensor, shape)
+    out.tensor: tensor
+    out.shape: shape
+}
+
+Reshape: in -> {
+    out: (
+        tensor: in.tensor
+        shape: in.shape
+    )
+}
+
+function: (number) -> 2 + in.number
+
+# TODO:
+#   indexing
+#   loops
+#   conditionals
+
+arguments: (
+    shape: [100 50]
+    mean: 1
+    deviation: 1
+)
+
+t1: RandomNormal arguments
+t2: RandomNormal(...arguments, mean: -1)

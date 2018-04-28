@@ -1,0 +1,2 @@
+weights: RandomNormal [28 28]
+weights2: RandomNormal [28 28]

@@ -1,0 +1,11 @@
+shape: [20 20]
+x: RandomNormal shape
+weights1: Relu x
+# Relu: Max ? 0
+# Relu: x -> Max x 0
+# mu: x Relu
+# mu: x (x –> Max(x,0)) (x->Min(x,100)) Exp
+# CutBottom: Max [? 0]
+# CutTop: Min [? 100]
+# Cut: CutBottom CutTop
+# mu: x Cut Exp

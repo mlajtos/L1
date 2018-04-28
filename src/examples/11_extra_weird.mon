@@ -1,0 +1,11 @@
+a: ExpandDimension {
+    tensor: Iota '1000
+
+} 
+b: Transpose a
+
+
+c: b @ a
+d: a * b
+e: a + b
+x: Sine -d / e

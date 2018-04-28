@@ -1,0 +1,8 @@
+length: '28
+range: 3.14159
+a: Cos Linspace {start: '-range, stop: 'range, num: length}
+b: ExpandDims {tensor: a, axis: '1}
+d: Tile {tensor: b, repeats: '[1 28]}
+f: d * (Transpose d)
+e1: GetDigit {class: '4}
+i:  e1 * f

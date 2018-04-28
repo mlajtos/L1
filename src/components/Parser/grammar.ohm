@@ -1,0 +1,84 @@
+Moniel {
+    StartHere
+        = Program
+
+    Program
+        = Assignment*
+
+    Assignment
+        = functionName ":" Function -- function
+        | Path ":" Value ("\n"|",")? -- value
+
+        
+    Function
+        = (identifier) "=>" Expression
+
+    Value
+        = Expression | Object
+
+    FunctionApplication
+        =  BackwardChain 
+
+    BackwardChain
+        = (functionName | Function) Argument
+
+    Argument (function argument)
+        = Value
+        
+    Expression (an expression)
+        = FunctionApplication | Addition
+    Addition
+        = (Addition ("+"|"-") Multiplication) -- binary
+        | Multiplication -- fallthrough
+    Multiplication
+        = (Multiplication ("*"|"×"|"/"|"÷"|"%"|"@") Exponentiation) -- binary
+        | Exponentiation -- fallthrough
+    Exponentiation
+        = PrimitiveExpression "^" Exponentiation  -- binary
+        | PrimitiveExpression -- fallthrough
+    
+    PrimitiveExpression
+        = "(" Expression ")"  -- paren
+        | "'" PrimitiveExpression  -- magic
+        | "-" PrimitiveExpression  -- negative
+        | "/" PrimitiveExpression  -- reciprocal
+        | FunctionApplication -- function_application
+        | Function
+        | Reference -- path
+        | (Scalar | Vector | Matrix)  -- literal
+        
+    Reference
+    	= Path
+    Path
+        = nonemptyListOf<identifier, ".">
+
+    Object (object)
+        = "{" Program "}"
+
+    Scalar
+        = number
+    Vector (vector)
+        = "[" row "]"
+    Matrix (matrix)
+        = "[" rows "]"
+
+    rows
+        = nonemptyListOf<row, rowSeparator>
+    row
+        = spaceButNewLine* nonemptyListOf<number, spaceButNewLine*> spaceButNewLine*
+    rowSeparator
+        = ("\n" | ",")
+    spaceButNewLine
+        = ~"\n" space
+    number (a number)
+        = "-"? (digit|"_")+ ("." (digit|"_")+)?
+
+    functionName (function name)
+        = &upper (alnum | "_" | "-")+
+    identifier (an identifier)
+        = &letter (alnum | "_" | "-")+
+    space
+        += comment
+    comment
+        = "#" (~"\n" any)* "\n"?
+}

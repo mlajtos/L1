@@ -1,0 +1,101 @@
+@import "~firacode/distr/fira_code.css"
+
+html, body
+    overflow: hidden
+
+.panel
+    flex: 1
+    display: flex
+    flex-direction: column
+    &.hidden
+        flex: 0
+        .panel-header
+            text-orientation: upright
+            writing-mode: vertical-lr
+            text-transform: uppercase
+
+    .panel-content
+        flex: 1
+
+.message
+    color: hsl(0, 52%, 22%)
+    border-radius: 20px 0 0 20px
+    padding: 0.35em 1em 0.35em 1em
+    font-size: smaller
+    position: absolute
+    right: 0em
+    bottom: 0
+    &.error
+        background-color: rgba(210, 30, 30, 0.18)
+    &.warning
+        background-color: hsla(41, 79%, 85%, 1)
+
+.inlineDecoration
+    &.error
+        background-color: rgba(255, 0, 0, 0.15)
+    &.warning
+        background-color: hsla(55, 100%, 50%, 0.15)
+.glyphDecoration
+    display: block
+    left: unset !important
+    right: 0
+    border-radius: 10px 0 0 10px
+    padding: 0 5px
+    &.error
+        background-color: rgba(255, 0, 0, 0.15)
+        &:after
+            //content: "🚫"
+            content: "🐞"
+    &.warning
+        background-color: hsla(55, 100%, 50%, 0.15)
+        &:after
+            content: "⚠️"
+    &:after
+        font-size: small
+        display: block
+        text-align: center
+        text-shadow: 0 0 0px #000000ad
+
+canvas.decorationsOverviewRuler
+    display: none
+.vs .monaco-scrollable-element > .scrollbar > .slider
+    border-radius: 10px
+
+.tensors
+    display: grid
+    grid-template-columns: repeat(3, 1fr)
+    grid-auto-rows: minmax(100px, auto)
+    overflow: scroll
+    .entity
+        margin: 5px
+        display: inline-flex
+        flex-direction: column
+        font-family: "Fira Code"
+        transition: all 0.1s
+        .name
+            text-align: left
+            margin-bottom: 0.1em
+        .content
+            display: flex
+            flex-direction: row
+            canvas
+                image-rendering: pixelated
+                min-height: 100px
+                max-height: 100px
+                min-width: 100px
+                max-width: 100px
+                border: 1px solid gray
+                border-radius: 5px
+            .info
+                margin: 0 0 0.2em 0.3em
+                .field
+                    font-size: smaller
+                    display: flex
+                    align-items: baseline
+                    .label, .value
+                        flex: 1
+
+                    .value
+                        text-align: right
+                        white-space: pre
+                        font-size: smaller

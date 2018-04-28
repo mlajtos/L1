@@ -1,0 +1,19 @@
+favorite_number: 23
+first_three_numbers: [1 2 3]
+some_data: [
+    1.2   2.3   3.4
+    4.5   5.4   6.5
+]
+
+shape: [2 3]
+mean: 1
+stdDev: 1
+
+random_1: RandomNormal shape
+
+F: (mean, stdDev) -> {
+    out: shape -> RandomNormal (shape, mean, stdDev)
+}
+
+F2: (1, 2) F
+mu: F2 [1 2 3]
