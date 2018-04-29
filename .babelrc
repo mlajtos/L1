@@ -1,0 +1,27 @@
+{
+    "env": {
+        "development": {
+            "presets": [
+                ["env", {
+                    "targets": {
+                        "browsers": [
+                            ">1%",
+                            "not ie 11",
+                            "not op_mini all"
+                        ]
+                    },
+                    "modules": false,
+                    "useBuiltIns": true
+                }],
+                "react",
+                "stage-2"
+            ],
+            "plugins": [
+                ["transform-runtime", {
+                    "polyfill": false,
+                    "regenerator": true
+                  }]
+            ]
+        }
+    }
+}
