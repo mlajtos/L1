@@ -53,7 +53,7 @@ class Interpreter {
             const reference = this.processToken(token.value, state)
             const referencedValue = getPropertyValue(reference, {...state, ...runtimeEnvironment})
             if (!referencedValue) {
-                console.error(`Cannot resolve "${reference}".`)
+                throw new Error(`Cannot resolve "${reference}".`)
             }
             return referencedValue
         },
@@ -67,7 +67,7 @@ class Interpreter {
         FunctionApplication: (token, state) => {
             const value = this.processToken(token.argument, state)
             const ffn = getForeignFunction(token.functionName, {...state, ...runtimeEnvironment})
-            return safeFunctionCall(ffn, value, this.issues)
+            return safeFunctionCall(ffn, value)
         },
         FunctionComposition: (token, state) => {
             const fns = token.list.map(functionName => getForeignFunction(functionName, {...state, ...runtimeEnvironment}))
@@ -80,17 +80,17 @@ class Interpreter {
             const a = this.processToken(token.left, state)
             const b = this.processToken(token.right, state)
             const ffn = operatorToFunction(token.operator, 2)
-            return safeFunctionCall(ffn, { a, b }, this.issues)
+            return safeFunctionCall(ffn, { a, b })
         },
         UnaryOperation: (token, state) => {
             const value = this.processToken(token.value, state)
             const ffn = operatorToFunction(token.operator, 1)
-            return safeFunctionCall(ffn, value, this.issues)
+            return safeFunctionCall(ffn, value)
         },
         ImplicitConversion: (token, state) => {
             const value = this.processToken(token.value, state)
             const ffn = getForeignFunction("Tensor")
-            return safeFunctionCall(ffn, value, this.issues)
+            return safeFunctionCall(ffn, value)
         },
         Tensor: (token, state) => {
             return token.value
@@ -121,13 +121,36 @@ class Interpreter {
             }
         }
     }
+    reportIssue({ source, message }) {
+        this.issues.push({
+            ...source,
+            message,
+            severity: "error"
+        })
+    }
     processToken = (token, state) => {
         if (!state) {
             console.error("No state to operate on!")
         }
         // console.log(token)
         const fn = this.tokenActions[token.type] || this.tokenActions.__unknown__
-        return fn(token, state)
+        let result
+        try {
+            result = fn(token, state)
+        } catch (e) {
+            if (token._source) {
+                this.reportIssue({
+                    source: token._source,
+                    message: e.message
+                })
+            } else {
+                console.error(e)
+            }
+
+            result = "XXX"
+        }
+
+        return result
     }
 }
 
@@ -136,7 +159,7 @@ const getForeignFunction = (name, state = runtimeEnvironment) => {
     const foreignName = name
     const found = state.hasOwnProperty(foreignName)
     if (!found) {
-        console.error(`Foreign function "${foreignName}" not found! Passing through...`) // maybe add some computed suggestion
+        throw new Error(`Foreign function "${foreignName}" not found! Passing through...`) // maybe add some computed suggestion
         console.log(`Properties:`, Object.keys(state))
     }
     const passThrough = arg => arg
@@ -176,27 +199,9 @@ const operatorToFunction = (operator, arity) => {
     return fn
 }
 
-const safeFunctionCall = (fn, arg, issuesAccumulator) => {
+const safeFunctionCall = (fn, arg) => {
     // TODO: memoize maybe?
-    try {
-        return call(fn, arg)
-    } catch (e) {
-        //console.log(e.message, e)
-
-        const mockLine = Math.floor(Math.random() * 20)
-        const mockColumn = Math.floor(Math.random() * 40)
-        const mockLength = 3 + Math.floor(Math.random() * 10)
-
-        issuesAccumulator.push({
-            startLineNumber: mockLine,
-            startColumn: mockColumn,
-            endLineNumber: mockLine,
-            endColumn: mockColumn + mockLength,
-            message: e.message,
-            severity: "error"
-        })
-        return "ERROR"
-    }
+    return call(fn, arg)
 }
 
 const getPropertyValue = (property, object) => {

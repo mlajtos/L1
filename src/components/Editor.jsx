@@ -59,6 +59,9 @@ export default class Editor extends PureComponent {
             return
         }
 
+        // max one error, otherwise it is confusing
+        issues = issues.filter((v, i) => i == 0)
+
         const markers = issues.map(issue => ({
             startLineNumber: issue.startLineNumber,
             startColumn: issue.startColumn,
@@ -69,7 +72,7 @@ export default class Editor extends PureComponent {
         }))
 
         const lineDecorations = issues.map(issue => ({
-            range: new monaco.Range(issue.startLineNumber, issue.startColumn, issue.endLineNumber,issue. endColumn),
+            range: new monaco.Range(issue.startLineNumber, issue.startColumn, issue.startLineNumber,issue. startColumn),
             options: {
                 isWholeLine: true,
                 className: `inlineDecoration ${issue.severity}`,

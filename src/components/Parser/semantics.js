@@ -1,3 +1,5 @@
+import { convertToLineNumberAndColumn } from "./index"
+
 const semantics = {
     operation: "eval",
     actions: {
@@ -23,6 +25,7 @@ const semantics = {
             const path = p.eval()
             const value = v.eval()
             return {
+                ...includeSource(this.source),
                 type: "Assignment",
                 path,
                 value
@@ -30,6 +33,7 @@ const semantics = {
         },
         BackwardChain: function(functionName, argument) {
             return {
+                ...includeSource(this.source),
                 type: "FunctionApplication",
                 direction: "backward",
                 functionName: functionName.eval(),
@@ -77,21 +81,22 @@ const semantics = {
             }
         },
         // Ohm, why are you like this?
-        Addition_binary: function(l, op, r) { return binaryOperation(l, op, r) },
-        Multiplication_binary: function(l, op, r) { return binaryOperation(l, op, r) },
-        Exponentiation_binary: function(l, op, r) { return binaryOperation(l, op, r) },
+        Addition_binary: function(l, op, r) { return binaryOperation(l, op, r, this.source) },
+        Multiplication_binary: function(l, op, r) { return binaryOperation(l, op, r, this.source) },
+        Exponentiation_binary: function(l, op, r) { return binaryOperation(l, op, r, this.source) },
         PrimitiveExpression_literal: function(value) {
             return {
                 type: "ImplicitConversion",
                 value: value.eval()
             }
         },
-        PrimitiveExpression_negative: function(op, v) { return unaryOperation(op, v) },
-        PrimitiveExpression_reciprocal: function(op, v) { return unaryOperation(op, v) },
-        PrimitiveExpression_magic: function(op, v) { return unaryOperation(op, v) },
+        PrimitiveExpression_negative: function(op, v) { return unaryOperation(op, v, this.source) },
+        PrimitiveExpression_reciprocal: function(op, v) { return unaryOperation(op, v, this.source) },
+        PrimitiveExpression_magic: function(op, v) { return unaryOperation(op, v, this.source) },
         PrimitiveExpression_paren: function(_, v, __) { return v.eval() },
         Reference: function(path) {
             return {
+                ...includeSource(this.source),
                 type: "Reference",
                 value: path.eval()
             }
@@ -118,17 +123,23 @@ const semantics = {
     }
 }
 
-const unaryOperation = (op, value) => ({
+const unaryOperation = (op, value, source) => ({
+    ...includeSource(source),
     type: "UnaryOperation",
     operator: op.sourceString,
     value: value.eval()
 })
 
-const binaryOperation = (left, op, right) => ({
+const binaryOperation = (left, op, right, source) => ({
+    ...includeSource(source),
     type: "BinaryOperation",
     operator: op.sourceString,
     left: left.eval(),
     right: right.eval()
+})
+
+const includeSource = (source) => ({
+    _source: convertToLineNumberAndColumn(source.sourceString, source.startIdx, source.endIdx)
 })
 
 export default semantics

@@ -83,7 +83,7 @@ const runtimeEnvironment = {
     ConvertToNative: (tensor) => {
         const isTensor = (tensor instanceof tf.Tensor)
         if (!isTensor) {
-            console.error(`Only tensors can be converted to native type.`)
+            throw new Error(`Only tensors can be converted to native type.`)
             console.log(tensor)
             return
         }

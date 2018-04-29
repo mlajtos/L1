@@ -2,7 +2,6 @@ import ohm from "ohm-js"
 import grammar from "./grammar.ohm"
 import semantics from "./semantics.js"
 
-
 class Parser {
     grammar = null
     semantics = null
@@ -41,13 +40,16 @@ class Parser {
 
 export default new Parser
 
-const convertToLineNumberAndColumn = (code, position) => {
-    const r = getLineAndColumn(code, position)
+export const convertToLineNumberAndColumn = (code, startOffset, endOffset) => {
+    endOffset = endOffset || startOffset
+
+    const start = getLineAndColumn(code, startOffset)
+    const end = getLineAndColumn(code, endOffset)
     return {
-        startLineNumber: r.lineNum,
-        startColumn: r.colNum,
-        endLineNumber: r.lineNum,
-        endColumn: r.colNum
+        startLineNumber: start.lineNum,
+        startColumn: start.colNum,
+        endLineNumber: end.lineNum,
+        endColumn: end.colNum
     }
 }
 
