@@ -9,6 +9,9 @@ const runtimeEnvironment = {
         return tensor
     },
     Shape: (tensor) => tensor.shape, // noun
+    Shape: (tensor) => tf.tensor(tensor.shape), // noun
+    Rank: (tensor) => tf.scalar(tensor.rank),
+    Size: (tensor) => tf.scalar(tensor.size),
 
     Mean: tf.mean, // noun
     Sum: ({ tensor, axis }) => tf.sum(tensor, axis),

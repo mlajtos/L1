@@ -194,6 +194,9 @@ class TensorStatistics extends PureComponent {
                 <Field name="Size">
                     {this.state.data.size}
                 </Field>
+                <Field name="Rank">
+                    {this.state.data.rank}
+                </Field>
                 <Field name="Mean">
                     {formatNumber(+this.state.mean)}
                 </Field>
