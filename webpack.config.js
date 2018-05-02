@@ -55,7 +55,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      inject: true,
+      chunks: ["app"],
       hash: true,
       template: "./src/index.html",
       filename: "index.html"
