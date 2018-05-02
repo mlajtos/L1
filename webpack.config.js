@@ -9,6 +9,7 @@ module.exports = {
   entry: {
     hotReload: "react-hot-loader/patch",
     app: "./src/index.js",
+    tests: "./src/test.js",
     "editor.worker": 'monaco-editor/esm/vs/editor/editor.worker.js',
     "json.worker": 'monaco-editor/esm/vs/language/json/json.worker',
   },
