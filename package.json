@@ -1,7 +1,7 @@
 {
-  "name": "tensor-studio",
+  "name": "l1-tensor-studio",
   "version": "0.0.1",
-  "description": "Tensor Studio",
+  "description": "L1: Tensor Studio",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
