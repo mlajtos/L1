@@ -7,8 +7,7 @@ import "./style.sass"
 import code from "../examples/7_edge_detection.mon";
 
 import Editor from "./Editor"
-import Parser from "./Parser"
-import Interpreter from "./Interpreter"
+import Evaluator from "./Evaluator"
 import TensorVisualization from "./TensorVisualization"
 
 import Worker from "./test.worker.js"
@@ -27,23 +26,8 @@ export default class App extends PureComponent {
         issues: [],
         computedValues: []
     }
-    codeChanged = async (code) => {
-        const parsingResult = await Parser.parse(code)
-        const ast = parsingResult.result || null
-        const parsingError =  parsingResult.error || null
-        const interpretingResult = ast ? await Interpreter.interpret(ast) : null
-        const computedValues = interpretingResult ? interpretingResult.success.result || [] : []
-
-        const parsingIssues = parsingResult.issues
-        const interpretingIssues = interpretingResult ? interpretingResult.success.issues : []
-
-        this.setState({
-            code,
-            ast,
-            error: parsingError,
-            computedValues,
-            issues: [...parsingIssues, ...interpretingIssues]
-        })
+    codeChanged = (code) => {
+        this.setState(Evaluator.evaluateSync(code))
     }
     render() {
         const style = {
