@@ -1,11 +1,10 @@
 e: 2.71828182845904
-# x: RandomNormal (shape: +[28 28])
-x: GetDigit (class: +3)
-a: RandomUniform (shape: +[28 28])
-b: RandomUniform (shape: +[28 28])
+x: GetDigit 3
+a: RandomUniform {shape: [28 28]}
+b: RandomUniform {shape: [28 28]}
 
 y_1: a*e^x
 y_2: b*e^-x
 y: y_1 - y_2
 
-z: Relu y
+z: RectifiedLinearUnit y
