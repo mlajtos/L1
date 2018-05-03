@@ -51,7 +51,7 @@ class StandardLibrary {
     Transpose = (tensor) => {
         return tf.transpose(tensor)
     }
-    ExpandDimension = ({ tensor, axis }) => {
+    ExpandDimension = ({ tensor, axis = tf.scalar(0) }) => {
         axis = this.ConvertToNative(axis)
         return tf.expandDims(tensor, axis)
     }
