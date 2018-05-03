@@ -91,6 +91,7 @@ class StandardLibrary {
     Ceiling = tf.ceil
     Round = tf.round
     Absolute = tf.abs
+    Logarithm = tf.log
 
     // Trigonometry
     Sine = tf.sin
@@ -108,13 +109,13 @@ class StandardLibrary {
     Softplus = tf.softplus
     
     // Generators
-    RandomNormal = ({ shape = tf.tensor([1, 1]), mean = tf.scalar(0), stdDev = tf.scalar(1) }) => {
+    RandomNormal = ({ shape = tf.tensor([1]), mean = tf.scalar(0), stdDev = tf.scalar(1) }) => {
         shape = this.ConvertToNative(shape)
         mean = this.ConvertToNative(mean)
         stdDev = this.ConvertToNative(stdDev)
         return tf.randomNormal(shape, mean, stdDev)
     }
-    RandomUniform = ({ shape, minval, maxval, dtype }) => {
+    RandomUniform = ({ shape, min = tf.scalar(0), max = tf.scalar(1), dtype }) => {
         shape = this.ConvertToNative(shape)
         min = this.ConvertToNative(min)
         max = this.ConvertToNative(max)
