@@ -41,6 +41,7 @@ class TensorCanvas extends PureComponent {
         }
     }
     
+    // FIXME: 1-rank tensors are flipped - should be LTR not TTB
     _draw = async (tensor) => {
         const t = tensor
         const canvas = this.canvas
@@ -77,33 +78,26 @@ class TensorCanvas extends PureComponent {
 }
 
 class ColorizedValue extends PureComponent {
-    el = null
-    mount = (el) => {
-        this.el = el
+    state = {
+        colorizedValue: null
+    }
+    colorize = async (value) => {
+        const stringValue = "" + value
+        const colorizedValue = await monaco.editor.colorize(stringValue, "moniel")
+        this.setState({ colorizedValue })
     }
     componentDidUpdate() {
-        if (this.el) {
-            monaco.editor.colorizeElement(this.el, {
-                theme: "moniel",
-                language: "moniel",
-                fontFamily: "Fira Code"
-            })
-        }
+        this.colorize(this.props.value)
     }
     componentDidMount() {
-        if (this.el) {
-            monaco.editor.colorizeElement(this.el, {
-                theme: "moniel",
-                language: "moniel"
-            })
-        }
+        this.colorize(this.props.value)
     }
     render() {
-        return (
-            <div data-lang="moniel" ref={this.mount}>
-                {this.props.value}
-            </div>
-        )
+        if (!this.state.colorizedValue) {
+            return <div>{this.props.value}</div>
+        } else {
+            return <div dangerouslySetInnerHTML={{__html: this.state.colorizedValue}} />
+        }
     }
 
 }
@@ -120,9 +114,6 @@ const Field = ({ name, children }) => (
 )
 
 const formatNumber = (number) => {
-    if (isNaN(number)) {
-        return <span style={{color: "red"}}>NaN</span>
-    }
     try{
         return number.toFixed(2)
     } catch (e) {
