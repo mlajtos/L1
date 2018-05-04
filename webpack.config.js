@@ -65,7 +65,7 @@ module.exports = {
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new FaviconsWebpackPlugin({
-      logo: "./src/favicon.svg",
+      logo: "./src/favicon.png",
       prefix: "icons-[hash]/",
       inject: true,
       background: "#fff",
