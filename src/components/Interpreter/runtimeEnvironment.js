@@ -56,6 +56,7 @@ class StandardLibrary {
         return tf.expandDims(tensor, axis)
     }
     ResizeBilinear = ({ tensor, shape }) => {
+        shape = shape || this.Shape(tensor)
         shape = this.ConvertToNative(shape)
         return tf.image.resizeBilinear(tensor, shape)
     }
