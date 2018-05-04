@@ -1,0 +1,3 @@
+mu.in: GetDigit 5
+mu: { a: ExpandDimension {tensor: mu.in axis: 2} Fn: x => MaxPool { tensor: x filterSize: 2 strides: 1 } d: (Fn a) + (Fn -a) mu.out: d }
+a: mu.out
