@@ -1,34 +1,23 @@
 import React, { PureComponent } from "react"
 import * as tf from "@tensorflow/tfjs"
 
-// TODO: simplify this
-import { monaco, language, provider, theme } from "./MonacoEditor"
-monaco.languages.register(language)
-monaco.languages.setMonarchTokensProvider("moniel", provider)
-monaco.editor.defineTheme("moniel", theme)
+import Colorize from "../../ColorizedCode"
 
-export default class DataVisualization extends PureComponent {
+import "./style.sass"
+
+export default class Tensor extends PureComponent {
     render() {
         const data = this.props.data
         const isTensor = (data instanceof tf.Tensor)
 
-        return (
-            <div className="entity">
-                <div className="name">
-                    <ColorizedValue value={this.props.name} />
-                </div>
-                <div className="content">
-                    {
-                        isTensor
-                            ? [
-                                <TensorCanvas key="canvas" data={data} />,
-                                <TensorStatistics key="stats" data={data} />
-                            ]
-                            : <pre>{JSON.stringify(data)}</pre>
-                    }
-                </div>
-            </div>
-        )
+        if (!isTensor) {
+            return null
+        }
+
+        return [
+            <TensorCanvas key="canvas" data={data} />,
+            <TensorStatistics key="stats" data={data} />
+        ]
     }
 }
 
@@ -73,42 +62,17 @@ class TensorCanvas extends PureComponent {
         this._draw(this.props.data)
     }
     render() {
-        return <canvas ref={this._mount} />
+        return <canvas className="tensor-canvas" ref={this._mount} />
     }
-}
-
-class ColorizedValue extends PureComponent {
-    state = {
-        colorizedValue: null
-    }
-    colorize = async (value) => {
-        const stringValue = "" + value
-        const colorizedValue = await monaco.editor.colorize(stringValue, "moniel")
-        this.setState({ colorizedValue })
-    }
-    componentDidUpdate() {
-        this.colorize(this.props.value)
-    }
-    componentDidMount() {
-        this.colorize(this.props.value)
-    }
-    render() {
-        if (!this.state.colorizedValue) {
-            return <div>{this.props.value}</div>
-        } else {
-            return <div dangerouslySetInnerHTML={{__html: this.state.colorizedValue}} />
-        }
-    }
-
 }
 
 const Field = ({ name, children }) => (
     <div className="field">
         <div className="label">
-            <ColorizedValue value={name} />
+            <Colorize>{name}</Colorize>
         </div>
         <div className="value">
-            <ColorizedValue value={children} />
+            <Colorize>{children}</Colorize>
         </div>
     </div>
 )

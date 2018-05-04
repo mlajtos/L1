@@ -1,0 +1,13 @@
+.panel
+    flex: 1
+    display: flex
+    flex-direction: column
+    &.hidden
+        flex: 0
+        .panel-header
+            text-orientation: upright
+            writing-mode: vertical-lr
+            text-transform: uppercase
+
+    .panel-content
+        flex: 1
