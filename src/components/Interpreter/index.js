@@ -67,7 +67,7 @@ class Interpreter {
         FunctionApplication: (token, state) => {
             const value = this.processToken(token.argument, state)
             const ffn = getForeignFunction(token.functionName, {...state, ...runtimeEnvironment})
-            return safeFunctionCall(ffn, value)
+            return call(ffn, value)
         },
         FunctionComposition: (token, state) => {
             const fns = token.list.map(functionName => getForeignFunction(functionName, {...state, ...runtimeEnvironment}))
@@ -80,17 +80,17 @@ class Interpreter {
             const a = this.processToken(token.left, state)
             const b = this.processToken(token.right, state)
             const ffn = operatorToFunction(token.operator, 2)
-            return safeFunctionCall(ffn, { a, b })
+            return call(ffn, { a, b })
         },
         UnaryOperation: (token, state) => {
             const value = this.processToken(token.value, state)
             const ffn = operatorToFunction(token.operator, 1)
-            return safeFunctionCall(ffn, value)
+            return call(ffn, value)
         },
         ImplicitConversion: (token, state) => {
             const value = this.processToken(token.value, state)
             const ffn = getForeignFunction("Tensor")
-            return safeFunctionCall(ffn, value)
+            return call(ffn, value)
         },
         Tensor: (token, state) => {
             return token.value
@@ -121,11 +121,11 @@ class Interpreter {
             }
         }
     }
-    reportIssue({ source, message }) {
+    reportIssue({ source, message, severity = "error" }) {
         this.issues.push({
             ...source,
             message,
-            severity: "error"
+            severity
         })
     }
     processToken = (token, state) => {
@@ -141,7 +141,8 @@ class Interpreter {
             if (token._source) {
                 this.reportIssue({
                     source: token._source,
-                    message: e.message
+                    message: e.message,
+                    severity: e.severity
                 })
             } else {
                 console.error(e)
@@ -159,8 +160,10 @@ const getForeignFunction = (name, state = runtimeEnvironment) => {
     const foreignName = name
     const found = state.hasOwnProperty(foreignName)
     if (!found) {
-        throw new Error(`Foreign function "${foreignName}" not found! Passing through...`) // maybe add some computed suggestion
-        console.log(`Properties:`, Object.keys(state))
+        throw ({
+            message: `${foreignName}?`,
+            severity: "warning"
+        })
     }
     const passThrough = arg => arg
     const foreignFunction = found ? state[foreignName] : passThrough
@@ -199,9 +202,10 @@ const operatorToFunction = (operator, arity) => {
     return fn
 }
 
-const safeFunctionCall = (fn, arg) => {
-    // TODO: memoize maybe?
-    return call(fn, arg)
+// TODO: memoize maybe?
+const call = (fn, arg) => {
+    // console.log(`Call with params: `, args)
+    return fn(arg)
 }
 
 const getPropertyValue = (property, object) => {
@@ -211,9 +215,5 @@ const getPropertyValue = (property, object) => {
 }
 
 const isPlainObject = (value) => (value && value.toString && value.toString() === "[object Object]")
-const call = (fn, arg) => {
-    // console.log(`Call with params: `, args)
-    return fn(arg)
-}
 
 export default new Interpreter
