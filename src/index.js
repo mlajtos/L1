@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom"
 import React from "react"
-import App from "./components/App"
+import Studio from "./components/Studio"
 
 self.MonacoEnvironment = {
     getWorkerUrl: function (moduleId, label) {
@@ -20,6 +20,6 @@ self.MonacoEnvironment = {
     }
 }
 
-ReactDOM.render(<App />, document.querySelector("#app"))
+ReactDOM.render(<Studio />, document.querySelector("#studio"))
 
 module.hot.accept()

@@ -31,18 +31,6 @@ export default class App extends PureComponent {
         this.setState(Evaluator.evaluateSync(code))
     }
     render() {
-
-        // const fakeIssue = {
-        //     startLineNumber: 5,
-        //     startColumn: 5,
-        //     endLineNumber: 5,
-        //     endColumn: 17,
-        //     message: "Aha, tu máš bug...",
-        //     severity: "error"
-        // }
-
-        const issues = [...this.state.issues, /*fakeIssue*/]
-
         return (
             <div className="studio">
                 <Panel name="Visualization" hidden={false}>
@@ -54,20 +42,12 @@ export default class App extends PureComponent {
                         language="moniel"
                         theme="moniel"
                         onChange={this.codeChanged}
-                        issues={issues}
+                        issues={this.state.issues}
                     />
                 </Panel>
                 <Panel name="AST" hidden={true}>
                     <Editor
                         content={JSON.stringify(this.state.ast, null, 2)}
-                        language="json"
-                        readOnly={true}
-                        tabSize={2}
-                    />
-                </Panel>
-                <Panel name="Result" hidden={true}>
-                    <Editor
-                        content={JSON.stringify(this.state.interpretingResult, null, 2)}
                         language="json"
                         readOnly={true}
                         tabSize={2}
