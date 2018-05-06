@@ -9,24 +9,14 @@ const semantics = {
                 value: data.eval()
             }
         },
-        Assignment_function: function(p, _, v) {
+        Assignment: function(p, o, v, __) {
             const path = p.eval()
             const value = v.eval()
-            return {
-                type: "Assignment",
-                path: {
-                    type: "Path",
-                    value:[path]
-                },
-                value
-            }
-        },
-        Assignment_value: function(p, _, v, __) {
-            const path = p.eval()
-            const value = v.eval()
+            const operator = o.sourceString
             return {
                 ...includeSource(this.source),
                 type: "Assignment",
+                operator,
                 path,
                 value
             }

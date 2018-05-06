@@ -2,31 +2,7 @@ import { isString } from "monaco-editor/esm/vs/base/common/types"
 import runtimeEnvironment from "./runtimeEnvironment"
 //import { compose } from "ramda"
 import * as tf from "@tensorflow/tfjs"
-
-function isFunction(f) {
-    return !!(f && f.constructor && f.call && f.apply);
-}
-
-function compose() {
-    var fns = Array.prototype.slice.call(arguments)
-        ;
-
-    return function() {
-        var args = Array.prototype.slice.call(arguments)
-            , fn = fns[fns.length-1]
-            , i = fns.length - 1 // -1 because the last function is special
-            , result = null
-            ;
-
-        result = fn.apply(fn, args);
-        while (i--) {
-            fn = fns[i];
-            result = fn.apply(fn, [result]);
-        }
-        
-        return result;
-    }
-}
+import { isPlainObject, isFunction } from "lodash"
 
 class Interpreter {
     issues = []
@@ -40,20 +16,57 @@ class Interpreter {
             }), {})
             return mu
         },
+        // ripe for refactoring
         Assignment: (token, state) => {
             const path = this.processToken(token.path, state)
             const value = this.processToken(token.value, state)
-            state[path] = value
+            const exists = state.hasOwnProperty(path)
+            const isReassignemnt = (token.operator.length > 1)
 
-            return {
-                [path]: value
+            if (exists) {
+                const oldValue = state[path]
+                const isVariable = oldValue instanceof tf.Variable
+                if (isVariable) {
+                    if (isReassignemnt) {
+                        const fn = getFunction("Assign")
+                        const newValue = call(fn, {
+                            tensor: oldValue,
+                            value
+                        })
+                        state[path] = newValue
+                        return {
+                            [path]: newValue
+                        }
+                    } else {
+                        throw Error(`Use "::"`)
+                    }
+                } else {
+                    throw Error(`Only variables can be reassigned.`)
+                }
+            } else {
+                if (isReassignemnt) {
+                    const fn = getFunction("Variable")
+                    const newValue = call(fn, value)
+                    state[path] = newValue
+                    return {
+                        [path]: newValue
+                    }
+                } else {
+                    state[path] = value
+
+                    return {
+                        [path]: value
+                    }
+                }
             }
+
+            throw Error(`This will never happen.`)
         },
         Reference: (token, state) => {
             const reference = this.processToken(token.value, state)
             const referencedValue = getPropertyValue(reference, {...state, ...runtimeEnvironment})
             if (!referencedValue) {
-                throw new Error(`Cannot resolve "${reference}".`)
+                throw new Error(`"${reference}"?`)
             }
             return referencedValue
         },
@@ -66,11 +79,11 @@ class Interpreter {
         },
         FunctionApplication: (token, state) => {
             const value = this.processToken(token.argument, state)
-            const ffn = getForeignFunction(token.functionName, {...state, ...runtimeEnvironment})
-            return call(ffn, value)
+            const fn = getFunction(token.functionName, {...state, ...runtimeEnvironment})
+            return call(fn, value)
         },
         FunctionComposition: (token, state) => {
-            const fns = token.list.map(functionName => getForeignFunction(functionName, {...state, ...runtimeEnvironment}))
+            const fns = token.list.map(functionName => getFunction(functionName, {...state, ...runtimeEnvironment}))
             const composition = compose(...fns)
             composition(tf.tensor([1, 2, 3, 4])).print()
             console.log(composition, isFunction(isFunction))
@@ -79,18 +92,18 @@ class Interpreter {
         BinaryOperation: (token, state) => {
             const a = this.processToken(token.left, state)
             const b = this.processToken(token.right, state)
-            const ffn = operatorToFunction(token.operator, 2)
-            return call(ffn, { a, b })
+            const fn = operatorToFunction(token.operator, 2)
+            return call(fn, { a, b })
         },
         UnaryOperation: (token, state) => {
             const value = this.processToken(token.value, state)
-            const ffn = operatorToFunction(token.operator, 1)
-            return call(ffn, value)
+            const fn = operatorToFunction(token.operator, 1)
+            return call(fn, value)
         },
         ImplicitConversion: (token, state) => {
             const value = this.processToken(token.value, state)
-            const ffn = getForeignFunction("Tensor")
-            return call(ffn, value)
+            const fn = getFunction("Tensor")
+            return call(fn, value)
         },
         Tensor: (token, state) => {
             return token.value
@@ -99,7 +112,10 @@ class Interpreter {
             const result = this.processToken(token.value, state) // TODO do proper hierarchy
             return result
         },
-        __unknown__: (token, state) => `Unrecognized token: ${token.type}, rest: ${token}`
+        __unknown__: (token, state) => {
+            console.log(token)
+            return `Unrecognized token: ${token.type}, rest: ${token}`
+        }
     }
     interpret = (ast) => {
         return new Promise(resolve => {
@@ -155,19 +171,17 @@ class Interpreter {
     }
 }
 
-const getForeignFunction = (name, state = runtimeEnvironment) => {
-    // console.log("ForeignFunction:", name)
-    const foreignName = name
-    const found = state.hasOwnProperty(foreignName)
+const getFunction = (name, state = runtimeEnvironment) => {
+    const found = state.hasOwnProperty(name)
     if (!found) {
         throw ({
-            message: `${foreignName}?`,
-            severity: "warning"
+            message: `${name}?`,
+            severity: "error"
         })
     }
     const passThrough = arg => arg
-    const foreignFunction = found ? state[foreignName] : passThrough
-    return foreignFunction
+    const fn = found ? state[name] : passThrough
+    return fn
 }
 
 const OPERATORS = {
@@ -198,7 +212,7 @@ const operatorToFunction = (operator, arity) => {
     if (!functionName) {
         console.error(`Operator "${operator}" does not have an associated function.`)
     }
-    const fn = getForeignFunction(functionName)
+    const fn = getFunction(functionName)
     return fn
 }
 
@@ -213,7 +227,5 @@ const getPropertyValue = (property, object) => {
     const hasProperty = object.hasOwnProperty(property)
     return hasProperty ? object[property] : null
 }
-
-const isPlainObject = (value) => (value && value.toString && value.toString() === "[object Object]")
 
 export default new Interpreter
