@@ -8,7 +8,7 @@ export default class Value extends PureComponent {
     render() {
 
         return (
-            <div className="entity">
+            <div className={`property ${this.props.type}`}>
                 <div className="name">
                     <Colorize>{this.props.name}</Colorize>
                 </div>

@@ -1,11 +1,23 @@
-.entity
-    display: inline-flex
+.property
+    display: block
     flex-direction: column
     font-family: "Fira Code"
-    transition: all 0.1s
+    // transition: all 0.1s
+    padding: 0.5em
+    // background-color: hsla(202, 0%, 70%, 0.08)
+    background-color: white
+    border-radius: 5px
+    border: 1px solid lightgray
+
+    &:hover
+        background-color: rgba(0, 160, 236, 0.05)
+        border-color: hsla(208, 100%, 53%, 0.69)
+        mix-blend-mode: screen
+
     .name
         text-align: left
         margin-bottom: 0.1em
     .content
         display: flex
         flex-direction: row
+        overflow: hidden
