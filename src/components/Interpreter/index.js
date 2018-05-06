@@ -2,7 +2,7 @@ import { isString } from "monaco-editor/esm/vs/base/common/types"
 import runtimeEnvironment from "./runtimeEnvironment"
 //import { compose } from "ramda"
 import * as tf from "@tensorflow/tfjs"
-import { isPlainObject, isFunction } from "lodash"
+import { isPlainObject, isFunction, hasIn } from "lodash"
 
 class Interpreter {
     issues = []
@@ -64,7 +64,7 @@ class Interpreter {
         },
         Reference: (token, state) => {
             const reference = this.processToken(token.value, state)
-            const referencedValue = getPropertyValue(reference, {...state, ...runtimeEnvironment})
+            const referencedValue = getPropertyValue(reference, Object.assign(state, runtimeEnvironment))
             if (!referencedValue) {
                 throw new Error(`"${reference}"?`)
             }
@@ -74,12 +74,12 @@ class Interpreter {
             return token.value.join("/") // TODO: do proper hierarchy
         },
         Function: (token, state) => {
-            const fn = (arg) => this.processToken(token.value, {...state, [token.argument]: arg})
+            const fn = (arg) => this.processToken(token.value, Object.assign(state, { [token.argument]: arg}))
             return fn
         },
         FunctionApplication: (token, state) => {
             const value = this.processToken(token.argument, state)
-            const fn = getFunction(token.functionName, {...state, ...runtimeEnvironment})
+            const fn = getFunction(token.functionName, Object.assign(state, runtimeEnvironment))
             return call(fn, value)
         },
         FunctionComposition: (token, state) => {
@@ -109,7 +109,7 @@ class Interpreter {
             return token.value
         },
         Object: (token, state) => {
-            const result = this.processToken(token.value, state) // TODO do proper hierarchy
+            const result = this.processToken(token.value, Object.create(state)) // TODO do proper hierarchy
             return result
         },
         __unknown__: (token, state) => {
@@ -223,8 +223,9 @@ const call = (fn, arg) => {
 }
 
 const getPropertyValue = (property, object) => {
-    // console.log(property, Object.keys(object))
-    const hasProperty = object.hasOwnProperty(property)
+    const hasProperty = hasIn(object, property)
+    console.log("getPropertyValue", property, object)
+    console.log(hasProperty)
     return hasProperty ? object[property] : null
 }
 
