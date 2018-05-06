@@ -2,7 +2,7 @@ import { isString } from "monaco-editor/esm/vs/base/common/types"
 import runtimeEnvironment from "./runtimeEnvironment"
 //import { compose } from "ramda"
 import * as tf from "@tensorflow/tfjs"
-import { isPlainObject, isFunction, hasIn } from "lodash"
+import { isPlainObject, isFunction, hasIn, set, get, merge } from "lodash"
 
 class Interpreter {
     issues = []
@@ -10,21 +10,18 @@ class Interpreter {
         Program: (token, state) => {
             // tf.tidy somewhere here
             const assignments = token.value.map(assignment => this.processToken(assignment, state))
-            const mu = assignments.reduce((prev, curr) => ({
-                ...prev,
-                ...curr
-            }), {})
+            const mu = assignments.reduce((prev, curr) => merge(prev, curr), {})
             return mu
         },
         // ripe for refactoring
         Assignment: (token, state) => {
             const path = this.processToken(token.path, state)
             const value = this.processToken(token.value, state)
-            const exists = state.hasOwnProperty(path)
+            const exists = hasIn(state, path)
             const isReassignemnt = (token.operator.length > 1)
 
             if (exists) {
-                const oldValue = state[path]
+                const oldValue = get(state, path)
                 const isVariable = oldValue instanceof tf.Variable
                 if (isVariable) {
                     if (isReassignemnt) {
@@ -33,10 +30,8 @@ class Interpreter {
                             tensor: oldValue,
                             value
                         })
-                        state[path] = newValue
-                        return {
-                            [path]: newValue
-                        }
+                        set(state, path, newValue)
+                        return set({}, path, newValue)
                     } else {
                         throw Error(`Use "::"`)
                     }
@@ -47,31 +42,26 @@ class Interpreter {
                 if (isReassignemnt) {
                     const fn = getFunction("Variable")
                     const newValue = call(fn, value)
-                    state[path] = newValue
-                    return {
-                        [path]: newValue
-                    }
+                    set(state, path, newValue)
+                    return set({}, path, newValue)
                 } else {
-                    state[path] = value
-
-                    return {
-                        [path]: value
-                    }
+                    set(state, path, value)
+                    return set({}, path, value)
                 }
             }
 
             throw Error(`This will never happen.`)
         },
         Reference: (token, state) => {
-            const reference = this.processToken(token.value, state)
-            const referencedValue = getPropertyValue(reference, Object.assign(state, runtimeEnvironment))
-            if (!referencedValue) {
-                throw new Error(`"${reference}"?`)
+            const path = this.processToken(token.value, state)
+            const value = get(Object.assign(state, runtimeEnvironment), path, null)
+            if (!value) {
+                throw new Error(`${path.join(".")}?`)
             }
-            return referencedValue
+            return value
         },
         Path: (token, state) => {
-            return token.value.join("/") // TODO: do proper hierarchy
+            return token.value
         },
         Function: (token, state) => {
             const fn = (arg) => this.processToken(token.value, Object.assign(state, { [token.argument]: arg}))
@@ -220,13 +210,6 @@ const operatorToFunction = (operator, arity) => {
 const call = (fn, arg) => {
     // console.log(`Call with params: `, args)
     return fn(arg)
-}
-
-const getPropertyValue = (property, object) => {
-    const hasProperty = hasIn(object, property)
-    console.log("getPropertyValue", property, object)
-    console.log(hasProperty)
-    return hasProperty ? object[property] : null
 }
 
 export default new Interpreter
