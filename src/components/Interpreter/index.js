@@ -144,6 +144,7 @@ class Interpreter {
                     message: e.message,
                     severity: e.severity
                 })
+                console.log(e)
             } else {
                 console.error(e)
             }
