@@ -1,5 +1,6 @@
 import * as tf from "@tensorflow/tfjs"
 import * as mnist from "mnist"
+import { flow } from "lodash"
 
 class StandardLibrary {
     Tensor = tf.tensor
@@ -160,6 +161,11 @@ class StandardLibrary {
             return data[0]
         }
         return Array.from(data)
+    }
+
+    Iterate = ({ f, count = 1}) => {
+        count = this.ConvertToNative(count)
+        return flow(Array.from({ length: count }, (v, i) => f))
     }
 }
 
