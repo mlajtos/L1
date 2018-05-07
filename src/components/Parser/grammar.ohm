@@ -6,22 +6,13 @@ Moniel {
         = Assignment*
 
     Assignment
-        = Path (":"+) Value ("\n"|",")?
+        = Path (":"+) Value ("\n"|","|";")?
         
     Function
         = (identifier) "=>" Expression
 
     Value
-        = Function | Expression
-
-    FunctionApplication
-        =  BackwardChain 
-
-    BackwardChain
-        = (functionName | Function) Argument
-
-    Argument (function argument)
-        = Value
+        = Expression
         
     Expression (an expression)
         = Addition
@@ -32,15 +23,17 @@ Moniel {
         = (Multiplication ("*"|"×"|"/"|"÷"|"%"|"@") Exponentiation) -- binary
         | Exponentiation -- fallthrough
     Exponentiation
-        = PrimitiveExpression "^" Exponentiation  -- binary
-        | PrimitiveExpression -- fallthrough
+        = FunctionApplication "^" Exponentiation  -- binary
+        | FunctionApplication -- fallthrough
+        
+    FunctionApplication
+        = PrimitiveExpression PrimitiveExpression?
     
     PrimitiveExpression
-        = "(" Expression ")"  -- paren
+        = "(" Value ")"  -- paren
         | "'" PrimitiveExpression  -- magic
         | "-" PrimitiveExpression  -- negative
         | "/" PrimitiveExpression  -- reciprocal
-        | FunctionApplication -- function_application
         | Function
         | Object
         | Reference -- path

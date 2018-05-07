@@ -54,7 +54,8 @@ class Interpreter {
             const path = this.processToken(token.value, state)
             const value = get(Object.assign(state, runtimeEnvironment), path, null)
             if (!value) {
-                throw new Error(`${path.join(".")}?`)
+                console.log(Object.keys(Object.assign(state, runtimeEnvironment)).join(", "))
+                throw new Error(`No value for "${path.join(".")}".`)
             }
             return value
         },
@@ -66,8 +67,12 @@ class Interpreter {
             return fn
         },
         FunctionApplication: (token, state) => {
+            if (!token.argument) {
+                const value = this.processToken(token.function, state)
+                return value
+            }
+            const fn = this.processToken(token.function, state)
             const value = this.processToken(token.argument, state)
-            const fn = getFunction(token.functionName, Object.assign(state, runtimeEnvironment))
             return call(fn, value)
         },
         BinaryOperation: (token, state) => {
@@ -152,17 +157,16 @@ class Interpreter {
     }
 }
 
-const getFunction = (name, state = runtimeEnvironment) => {
-    const found = state.hasOwnProperty(name)
-    if (!found) {
+const getFunction = (path, state = runtimeEnvironment) => {
+    const passThrough = arg => arg
+    const fn = get(state, path, null)
+    if (!fn) {
         throw ({
-            message: `${name}?`,
+            message: `Function "${name}"?`,
             severity: "error"
         })
     }
-    const passThrough = arg => arg
-    const fn = found ? state[name] : passThrough
-    return fn
+    return fn || passThrough
 }
 
 const OPERATORS = {

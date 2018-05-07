@@ -3,12 +3,12 @@ a: ExpandDimension {
     axis: 2
 }
 Fn: x => MaxPool {
-    tensor: x
-    filterSize: 2
+    tensor: x,
+    filterSize: 2,
     strides: 1
-}
-d: (Fn a) + (Fn -a)
+},
+d: Fn a + Fn -a
 e: ResizeBilinear {
-    tensor: d
+    tensor: d,
     shape: [100 100]
 }

@@ -21,15 +21,26 @@ const semantics = {
                 value
             }
         },
-        BackwardChain: function(functionName, argument) {
+        FunctionApplication: function(fn, arg) {
+            let argument = arg.eval()
+            argument = argument === [] ? null : argument[0]
             return {
                 ...includeSource(this.source),
                 type: "FunctionApplication",
                 direction: "backward",
-                functionName: functionName.eval(),
-                argument: argument.eval()
+                function: fn.eval(),
+                argument
             }
         },
+        // BackwardChain: function(functionName, argument) {
+        //     return {
+        //         ...includeSource(this.source),
+        //         type: "FunctionApplication",
+        //         direction: "backward",
+        //         functionName: functionName.eval(),
+        //         argument: argument.eval()
+        //     }
+        // },
         Path: function(mu) {
             return {
                 type: "Path",
