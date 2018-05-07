@@ -1,6 +1,6 @@
 import runtimeEnvironment from "./runtimeEnvironment"
 import * as tf from "@tensorflow/tfjs"
-import { isPlainObject, isFunction, hasIn, set, get, merge } from "lodash"
+import { isPlainObject, isFunction, has, hasIn, set, get, merge } from "lodash"
 
 class Interpreter {
     issues = []
@@ -15,7 +15,7 @@ class Interpreter {
         Assignment: (token, state) => {
             const path = this.processToken(token.path, state)
             const value = this.processToken(token.value, state)
-            const exists = hasIn(state, path)
+            const exists = has(state, path)
             const isReassignemnt = (token.operator.length > 1)
 
             if (exists) {
@@ -52,9 +52,9 @@ class Interpreter {
         },
         Reference: (token, state) => {
             const path = this.processToken(token.value, state)
-            const value = get(Object.assign(state, runtimeEnvironment), path, null)
+            const value = get(state, path, null)
             if (!value) {
-                console.log(Object.keys(Object.assign(state, runtimeEnvironment)).join(", "))
+                console.log(Object.keys(state).join(", "))
                 throw new Error(`No value for "${path.join(".")}".`)
             }
             return value
@@ -63,7 +63,7 @@ class Interpreter {
             return token.value
         },
         Function: (token, state) => {
-            const fn = (arg) => this.processToken(token.value, Object.assign(state, { [token.argument]: arg}))
+            const fn = (arg) => this.processToken(token.value, Object.create(Object.assign(state, { [token.argument]: arg})))
             return fn
         },
         FunctionApplication: (token, state) => {
@@ -95,7 +95,7 @@ class Interpreter {
             return token.value
         },
         Object: (token, state) => {
-            const result = this.processToken(token.value, Object.create(state)) // TODO do proper hierarchy
+            const result = this.processToken(token.value, Object.create(state))
             return result
         },
         __unknown__: (token, state) => {
@@ -110,9 +110,7 @@ class Interpreter {
         })
     }
     interpretSync = (ast) => {
-        const state = { // shared mutable ;)
-            //...runtimeEnvironment
-        }
+        const state = Object.create(runtimeEnvironment)
         this.issues = []
         const result = this.processToken(ast, state)
         return {
