@@ -37,7 +37,7 @@ Moniel {
         | Function
         | Object
         | Reference -- path
-        | (Scalar | Vector | Matrix)  -- literal
+        | Tensor  -- tensor
         
     Reference
         = Path
@@ -53,6 +53,8 @@ Moniel {
         = "[" row "]"
     Matrix (matrix)
         = "[" rows "]"
+    Tensor
+        = (Scalar | Vector | Matrix)
 
     rows
         = nonemptyListOf<row, rowSeparator>

@@ -86,12 +86,12 @@ class Interpreter {
             const fn = operatorToFunction(token.operator, 1)
             return call(fn, value)
         },
-        ImplicitConversion: (token, state) => {
+        Tensor: (token, state) => {
             const value = this.processToken(token.value, state)
             const fn = getFunction("Tensor")
             return call(fn, value)
         },
-        Tensor: (token, state) => {
+        TensorLiteral: (token, state) => {
             return token.value
         },
         Object: (token, state) => {

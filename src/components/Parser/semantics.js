@@ -53,21 +53,21 @@ const semantics = {
         },
         Matrix: function(_, data, __) {
             return {
-                type: "Tensor",
+                type: "TensorLiteral",
                 rank: 2,
                 value: data.eval()
             }
         },
         Vector: function(_, data, __) {
             return {
-                type: "Tensor",
+                type: "TensorLiteral",
                 rank: 1,
                 value: data.eval()
             }
         },
         Scalar: function(data) {
             return {
-                type: "Tensor",
+                type: "TensorLiteral",
                 rank: 0,
                 value: data.eval()
             }
@@ -76,9 +76,9 @@ const semantics = {
         Addition_binary: function(l, op, r) { return binaryOperation(l, op, r, this.source) },
         Multiplication_binary: function(l, op, r) { return binaryOperation(l, op, r, this.source) },
         Exponentiation_binary: function(l, op, r) { return binaryOperation(l, op, r, this.source) },
-        PrimitiveExpression_literal: function(value) {
+        PrimitiveExpression_tensor: function(value) {
             return {
-                type: "ImplicitConversion",
+                type: "Tensor",
                 value: value.eval()
             }
         },
