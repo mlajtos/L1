@@ -53,6 +53,7 @@ const semantics = {
         },
         Matrix: function(_, data, __) {
             return {
+                ...includeSource(this.source),
                 type: "TensorLiteral",
                 rank: 2,
                 value: data.eval()
@@ -60,6 +61,7 @@ const semantics = {
         },
         Vector: function(_, data, __) {
             return {
+                ...includeSource(this.source),
                 type: "TensorLiteral",
                 rank: 1,
                 value: data.eval()
@@ -67,6 +69,7 @@ const semantics = {
         },
         Scalar: function(data) {
             return {
+                ...includeSource(this.source),
                 type: "TensorLiteral",
                 rank: 0,
                 value: data.eval()
@@ -78,6 +81,7 @@ const semantics = {
         Exponentiation_binary: function(l, op, r) { return binaryOperation(l, op, r, this.source) },
         PrimitiveExpression_tensor: function(value) {
             return {
+                ...includeSource(this.source),
                 type: "Tensor",
                 value: value.eval()
             }
