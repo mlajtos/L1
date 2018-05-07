@@ -1,6 +1,4 @@
-import { isString } from "monaco-editor/esm/vs/base/common/types"
 import runtimeEnvironment from "./runtimeEnvironment"
-//import { compose } from "ramda"
 import * as tf from "@tensorflow/tfjs"
 import { isPlainObject, isFunction, hasIn, set, get, merge } from "lodash"
 
@@ -71,13 +69,6 @@ class Interpreter {
             const value = this.processToken(token.argument, state)
             const fn = getFunction(token.functionName, Object.assign(state, runtimeEnvironment))
             return call(fn, value)
-        },
-        FunctionComposition: (token, state) => {
-            const fns = token.list.map(functionName => getFunction(functionName, {...state, ...runtimeEnvironment}))
-            const composition = compose(...fns)
-            composition(tf.tensor([1, 2, 3, 4])).print()
-            console.log(composition, isFunction(isFunction))
-            return composition
         },
         BinaryOperation: (token, state) => {
             const a = this.processToken(token.left, state)
