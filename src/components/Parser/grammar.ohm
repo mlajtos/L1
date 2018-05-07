@@ -65,8 +65,6 @@ Moniel {
     number (a number)
         = "-"? (digit|"_")+ ("." (digit|"_")+)?
 
-    functionName (function name)
-        = &upper (alnum | "_" | "-")+
     identifier (an identifier)
         = &letter (alnum | "_" | "-")+
     space

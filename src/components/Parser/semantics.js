@@ -32,15 +32,6 @@ const semantics = {
                 argument
             }
         },
-        // BackwardChain: function(functionName, argument) {
-        //     return {
-        //         ...includeSource(this.source),
-        //         type: "FunctionApplication",
-        //         direction: "backward",
-        //         functionName: functionName.eval(),
-        //         argument: argument.eval()
-        //     }
-        // },
         Path: function(mu) {
             return {
                 type: "Path",
@@ -107,9 +98,6 @@ const semantics = {
         },
         rows: function(data) {
             return data.eval()
-        },
-        functionName: function(_, __) {
-            return this.sourceString
         },
         identifier: function(_, __) {
             return this.sourceString
