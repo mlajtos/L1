@@ -49,7 +49,8 @@ export const convertToLineNumberAndColumn = (code, startOffset, endOffset) => {
         startLineNumber: start.lineNum,
         startColumn: start.colNum,
         endLineNumber: end.lineNum,
-        endColumn: end.colNum
+        endColumn: end.colNum,
+        _value: code.substring(startOffset, endOffset)
     }
 }
 
