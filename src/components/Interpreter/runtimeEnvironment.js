@@ -60,7 +60,7 @@ class StandardLibrary {
         shape = this.ConvertToNative(shape)
         return tf.image.resizeBilinear(tensor, shape)
     }
-    MaxPool = ({ tensor, filterSize, strides }) => {
+    MaxPool = ({ tensor, filterSize = tf.scalar(1), strides = tf.scalar(1) }) => {
         filterSize = this.ConvertToNative(filterSize)
         strides = this.ConvertToNative(strides)
         return tf.maxPool(tensor, filterSize, strides, "same")
