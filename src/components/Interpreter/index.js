@@ -202,7 +202,10 @@ const operatorToFunction = (operator, arity) => {
 
 // TODO: memoize maybe?
 const call = (fn, arg) => {
-    // console.log(`Call with params: `, args)
+    if (!isFunction(fn)) {
+        console.log(fn, arg)
+        throw new Error(`${fn} is not a function.`)
+    }
     return fn(arg)
 }
 
