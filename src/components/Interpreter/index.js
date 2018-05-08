@@ -7,9 +7,11 @@ class Interpreter {
     tokenActions = {
         Program: (token, state) => {
             // tf.tidy somewhere here
-            const assignments = token.value.map(assignment => this.processToken(assignment, state))
-            const mu = assignments.reduce((prev, curr) => merge(prev, curr), {})
-            return mu
+            const assignments = token.value.forEach(assignment => {
+                const stateDelta = this.processToken(assignment, state)
+                state = merge(state, stateDelta)
+            })
+            return state
         },
         // ripe for refactoring
         Assignment: (token, state) => {
@@ -28,7 +30,6 @@ class Interpreter {
                             tensor: oldValue,
                             value
                         })
-                        set(state, path, newValue)
                         return set({}, path, newValue)
                     } else {
                         throw Error(`Use "::"`)
@@ -40,10 +41,8 @@ class Interpreter {
                 if (isReassignemnt) {
                     const fn = getFunction("Variable")
                     const newValue = call(fn, value)
-                    set(state, path, newValue)
                     return set({}, path, newValue)
                 } else {
-                    set(state, path, value)
                     return set({}, path, value)
                 }
             }
@@ -63,7 +62,10 @@ class Interpreter {
             return token.value
         },
         Function: (token, state) => {
-            const fn = (arg) => this.processToken(token.value, Object.create(Object.assign(state, { [token.argument]: arg})))
+            const fn = (arg) => {
+                const boundEnv = Object.create(Object.assign(Object.create(state), { [token.argument]: arg } ))
+                return this.processToken(token.value, boundEnv)
+            } 
             return fn
         },
         FunctionApplication: (token, state) => {
