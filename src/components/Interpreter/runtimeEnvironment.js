@@ -1,8 +1,16 @@
 import * as tf from "@tensorflow/tfjs"
 import * as mnist from "mnist"
-import { flow } from "lodash"
+import { flow, get, hasIn } from "lodash"
 
 class StandardLibrary {
+    PropertyAccess = ({a, b}) => {
+        const found = hasIn(a, b)
+        if (!found) {
+            throw new Error(`No such thing.`)
+        }
+        return get(a, b)
+    }
+
     Tensor = tf.tensor
     Variable = tf.variable
     Assign = ({ tensor, value }) => {

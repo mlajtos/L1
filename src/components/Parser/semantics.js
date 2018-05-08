@@ -79,6 +79,7 @@ const semantics = {
         Addition_binary: function(l, op, r) { return binaryOperation(l, op, r, this.source) },
         Multiplication_binary: function(l, op, r) { return binaryOperation(l, op, r, this.source) },
         Exponentiation_binary: function(l, op, r) { return binaryOperation(l, op, r, this.source) },
+        Access_binary: function(l, op, r) { return binaryOperation(l, op, r, this.source) },
         PrimitiveExpression_tensor: function(value) {
             return {
                 ...includeSource(this.source),

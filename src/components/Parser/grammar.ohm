@@ -25,7 +25,10 @@ Moniel {
         | Exponentiation -- fallthrough
         | "/" Multiplication  -- reciprocal
     Exponentiation
-        = FunctionApplication "^" Exponentiation  -- binary
+        = Access "^" Exponentiation  -- binary
+        | Access -- fallthrough
+    Access
+        = Access "." Path -- binary
         | FunctionApplication -- fallthrough
         
     FunctionApplication

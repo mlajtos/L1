@@ -183,7 +183,9 @@ const OPERATORS = {
         "÷": "Divide",
         "^": "Power",
         "%": "Modulus",
-        "@": "MatrixMultiply"
+        "@": "MatrixMultiply",
+
+        ".": "PropertyAccess"
         // TODO: strict versions should be ++, --, **, //, etc. (if they are needed)
     }
 }
