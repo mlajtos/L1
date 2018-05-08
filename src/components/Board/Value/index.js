@@ -9,8 +9,13 @@ export default class Value extends PureComponent {
 
         return (
             <div className={`property ${this.props.type}`}>
-                <div className="name">
-                    <Colorize>{this.props.name}</Colorize>
+                <div className="header">
+                    <div className="cell name">
+                        <Colorize>{this.props.name}</Colorize>
+                    </div>
+                    <div className="cell literal">
+                        <Colorize>{this.props.literal}</Colorize>
+                    </div>
                 </div>
                 <div className="content">
                     {this.props.children}

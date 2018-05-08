@@ -1,35 +1,56 @@
 import React, { PureComponent } from "react"
 import * as tf from "@tensorflow/tfjs"
-import { isPlainObject, isFunction } from "lodash"
+import { isObject, isFunction } from "lodash"
 
 import TensorVis from "../Tensor"
 import Value from "../Value"
 
 import "./style.sass"
 
+const UnknownVis = () => <div className="WestWorldQuote">Doesn't look like anything to me.</div>
+const FunctionVis = () => <div className="SophiaLorenQuote">Spaghetti can be eaten most successfully if you inhale it like a vacuum cleaner.</div>
+
 const getTypeAndComponent = (value) => {
     if (value instanceof tf.Tensor) {
-        return ["tensor", TensorVis]
-    }
-
-    if (isPlainObject(value)) {
-        return ["object", ObjectVis]
+        return {
+            type: "tensor",
+            literal: "[]",
+            Component: TensorVis
+        }
     }
 
     if (isFunction(value)) {
-        return ["function", () => <div>"Graph"</div>]
+        return {
+            type: "function",
+            literal: "λ => λ",
+            Component: FunctionVis
+        }
     }
 
-    return ["unknown", () => <div>No idea</div>]
+    if (isObject(value)) {
+        return {
+            type: "object",
+            literal: "{}",
+            Component: ObjectVis
+        }
+    }
+
+
+    return {
+        type: "unknown",
+        literal: "",
+        Component: UnknownVis
+    }
 }
 
 export default class ObjectVis extends PureComponent {
     render() {
         const props = Object.entries(this.props.data)
             .map(([key, value]) => {
-                const [type, Component] = getTypeAndComponent(value)
+                const { type, literal, Component } = getTypeAndComponent(value)
+                console.log(value, Component)
                 return (
-                    <Value key={key} name={key} type={type}>
+                    <Value key={key} name={key} type={type} literal={literal}>
                         <Component data={value} />
                     </Value>
                 )

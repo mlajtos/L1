@@ -1,5 +1,5 @@
 .property
-    display: block
+    display: flex
     flex-direction: column
     font-family: "Fira Code"
     // transition: all 0.1s
@@ -14,10 +14,20 @@
         border-color: hsla(208, 100%, 53%, 0.69)
         mix-blend-mode: screen
 
-    .name
+    .header
+        display: flex
+        flex-direction: row
         text-align: left
         margin-bottom: 0.1em
+        .cell
+            flex: 1
+            &.literal
+                text-align: right
+                font-size: 0.6em
     .content
         display: flex
         flex-direction: row
         overflow: hidden
+        flex: 1
+        justify-content: center
+        align-items: center
