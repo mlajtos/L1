@@ -19,21 +19,21 @@ Moniel {
     Addition
         = (Addition ("+"|"-") Multiplication) -- binary
         | Multiplication -- fallthrough
+        | "-" Multiplication -- negative
     Multiplication
         = (Multiplication ("*"|"×"|"/"|"÷"|"%"|"@") Exponentiation) -- binary
         | Exponentiation -- fallthrough
+        | "/" Multiplication  -- reciprocal
     Exponentiation
         = FunctionApplication "^" Exponentiation  -- binary
         | FunctionApplication -- fallthrough
         
     FunctionApplication
-        = PrimitiveExpression PrimitiveExpression?
+        = PrimitiveExpression FunctionApplication?
     
     PrimitiveExpression
         = "(" Value ")"  -- paren
         | "'" PrimitiveExpression  -- magic
-        | "-" PrimitiveExpression  -- negative
-        | "/" PrimitiveExpression  -- reciprocal
         | Function
         | Object
         | Reference -- path

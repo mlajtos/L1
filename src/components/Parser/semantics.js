@@ -86,8 +86,8 @@ const semantics = {
                 value: value.eval()
             }
         },
-        PrimitiveExpression_negative: function(op, v) { return unaryOperation(op, v, this.source) },
-        PrimitiveExpression_reciprocal: function(op, v) { return unaryOperation(op, v, this.source) },
+        Addition_negative: function(op, v) { return unaryOperation(op, v, this.source) },
+        Multiplication_reciprocal: function(op, v) { return unaryOperation(op, v, this.source) },
         PrimitiveExpression_magic: function(op, v) { return unaryOperation(op, v, this.source) },
         PrimitiveExpression_paren: function(_, v, __) { return v.eval() },
         Reference: function(path) {
