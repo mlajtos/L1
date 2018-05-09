@@ -27,7 +27,7 @@ export default class App extends PureComponent {
         issues: [],
         computedValues: []
     }
-    codeChanged = (code) => {
+    codeChanged = (code, editor) => {
         this.setState(Evaluator.evaluateSync(code))
     }
     render() {
@@ -43,6 +43,7 @@ export default class App extends PureComponent {
                         theme="moniel"
                         onChange={this.codeChanged}
                         issues={this.state.issues}
+                        onExecute={this.codeChanged.bind(this, this.state.code)}
                     />
                 </Panel>
                 <Panel name="AST" hidden={true}>

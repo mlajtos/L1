@@ -6,6 +6,7 @@ import "./style.sass"
 
 // TODO: simplify this
 import { monaco, language, provider, theme } from "../MonacoEditor"
+import { isFunction } from "lodash";
 monaco.languages.register(language)
 monaco.languages.setMonarchTokensProvider("moniel", provider)
 monaco.editor.defineTheme("moniel", theme)
@@ -57,6 +58,20 @@ export default class Editor extends PureComponent {
                 this.props.onChange(code)
             }
         })
+        this.editor.addAction({
+            id: "execute",
+            label: "Execute",
+            keybindings: [
+                monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter
+            ],
+            run: (editor) => {
+                const fn = this.props.onExecute || undefined
+                if (isFunction(fn)) {
+                    fn.apply(null, [editor])
+                }
+                return null;
+            }
+        });
     }
     setDecorations(issues) {
         if (!issues) {
