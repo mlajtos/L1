@@ -151,7 +151,7 @@ class Interpreter {
                 console.error(e)
             }
 
-            result = "XXX"
+            result = null
         }
 
         return result
