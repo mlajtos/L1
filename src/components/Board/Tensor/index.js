@@ -16,10 +16,12 @@ export default class Tensor extends PureComponent {
             return null
         }
 
-        return [
-            <TensorCanvas key="canvas" data={data} />,
-            <TensorStatistics key="stats" data={data} />
-        ]
+        return (
+            <div className="tensor-content">
+                <TensorCanvas key="canvas" data={data} />
+                <TensorStatistics key="stats" data={data} />
+            </div>
+        )
     }
 }
 
@@ -44,12 +46,16 @@ class TensorCanvas extends PureComponent {
 
         const imageData = await fn(tensor, context)
         
-        console.log(imageData)
+        // console.log(imageData)
 
         canvas.width = imageData.width
         canvas.height = imageData.height
 
         context.putImageData(imageData, 0, 0)
+    }
+    _createImageData0D = async (tensor, context) => {
+        const imageData = context.createImageData(1, 1)
+        return imageData
     }
     _createImageData1D = async (tensor, context) => {
         let [height, width] = ((tensorShape) => {
