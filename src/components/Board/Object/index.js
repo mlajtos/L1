@@ -4,11 +4,20 @@ import { isObject, isFunction } from "lodash"
 
 import TensorVis from "../Tensor"
 import Value from "../Value"
+// import Colorize from "../../ColorizedCode"
 
 import "./style.sass"
 
-const UnknownVis = () => <div className="WestWorldQuote">Doesn't look like anything to me.</div>
-const FunctionVis = () => <div className="SophiaLorenQuote">Spaghetti can be eaten most successfully if you inhale it like a vacuum cleaner.</div>
+const UnknownVis = () => (
+    <div className="WestWorldQuote">
+        Doesn't look like anything to me.
+    </div>
+)
+const FunctionVis = () => (
+    <div className="SophiaLorenQuote">
+        Spaghetti can be eaten most successfully if you inhale it like a vacuum cleaner.
+    </div>
+)
 
 const getTypeAndComponent = (value) => {
     if (value instanceof tf.Tensor) {
@@ -48,7 +57,6 @@ export default class ObjectVis extends PureComponent {
         const props = Object.entries(this.props.data)
             .map(([key, value]) => {
                 const { type, literal, Component } = getTypeAndComponent(value)
-                console.log(value, Component)
                 return (
                     <Value key={key} name={key} type={type} literal={literal}>
                         <Component data={value} />
