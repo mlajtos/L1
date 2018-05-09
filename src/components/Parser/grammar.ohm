@@ -32,7 +32,7 @@ Moniel {
         | FunctionApplication -- fallthrough
         
     FunctionApplication
-        = PrimitiveExpression FunctionApplication?
+        = PrimitiveExpression (~Assignment FunctionApplication)?
     
     PrimitiveExpression
         = "(" Value ")"  -- paren
@@ -72,6 +72,8 @@ Moniel {
 
     identifier (an identifier)
         = &letter (alnum | "_" | "-")+
+
+    // TODO: Comment that will comment out the rest of the program.
     space
         += comment
     comment
