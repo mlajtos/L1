@@ -140,6 +140,7 @@ class StandardLibrary {
     Iota = (value) => {
         value = this.ConvertToNative(value)
         return tf.linspace(1, value, value)
+        return tf.linspace(0, value, value)
     }
     Ones = (shape) => {
         shape = this.ConvertToNative(shape)
