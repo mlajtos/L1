@@ -21,15 +21,15 @@ class StandardLibrary {
     Rank = (tensor) => tf.scalar(tensor.rank)
     Size = (tensor) => tf.scalar(tensor.size)
 
-    Mean = ({ tensor, axis }) => {
+    Mean = ({ tensor, axis = tf.scalar(0) }) => {
         axis = this.ConvertToNative(axis)
         return tf.mean(tensor, axis)
     }
-    Sum = ({ tensor, axis }) => {
+    Sum = ({ tensor, axis = tf.scalar(0) }) => {
         axis = this.ConvertToNative(axis)
         return tf.sum(tensor, axis)
     }
-    Min = ({ tensor, axis }) => {
+    Min = ({ tensor, axis = tf.scalar(0) }) => {
         axis = this.ConvertToNative(axis)
         return tf.min(tensor, axis)
     }
@@ -63,6 +63,9 @@ class StandardLibrary {
     ExpandDimension = ({ tensor, axis = tf.scalar(0) }) => {
         axis = this.ConvertToNative(axis)
         return tf.expandDims(tensor, axis)
+    }
+    RankUp = (tensor) => {
+        return tf.expandDims(tensor, 0)
     }
     ResizeBilinear = ({ tensor, shape }) => {
         shape = shape || this.Shape(tensor)
@@ -139,7 +142,6 @@ class StandardLibrary {
     }
     Iota = (value) => {
         value = this.ConvertToNative(value)
-        return tf.linspace(1, value, value)
         return tf.linspace(0, value, value)
     }
     Ones = (shape) => {
@@ -156,7 +158,17 @@ class StandardLibrary {
         return tf.tensor(mnist[classes].get()).reshape([28, 28])
     }
 
-    Gradient = tf.grad // NOPE, not yet  =D
+    Gradient = tf.grad
+    StochasticGradientDescent = (learningRate = tf.scalar(1)) => {
+        learningRate = this.ConvertToNative(learningRate)
+        const optimizer = tf.train.sgd(learningRate)
+        return optimizer.minimize.bind(optimizer)
+    }
+    
+    Iterate = ({ f, count = 1}) => {
+        count = this.ConvertToNative(count)
+        return flow(Array.from({ length: count }, (v, i) => f))
+    }
 
     ConvertToNative = (tensor) => {
         const isTensor = (tensor instanceof tf.Tensor)
@@ -172,10 +184,6 @@ class StandardLibrary {
         return Array.from(data)
     }
 
-    Iterate = ({ f, count = 1}) => {
-        count = this.ConvertToNative(count)
-        return flow(Array.from({ length: count }, (v, i) => f))
-    }
 }
 
 // const registerMaxPool = () => {
