@@ -4,6 +4,7 @@ import { isObject, isFunction } from "lodash"
 
 import TensorVis from "../Tensor"
 import ScalarVis from "../Scalar"
+import FunctionVis from "../Function"
 import Property from "../Property"
 
 import "./style.sass"
@@ -11,11 +12,6 @@ import "./style.sass"
 const UnknownVis = () => (
     <div className="WestWorldQuote">
         Doesn't look like anything to me.
-    </div>
-)
-const FunctionVis = () => (
-    <div className="SophiaLorenQuote">
-        Spaghetti can be eaten most successfully if you inhale it like a vacuum cleaner.
     </div>
 )
 
