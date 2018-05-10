@@ -2,6 +2,8 @@ import runtimeEnvironment from "./runtimeEnvironment"
 import * as tf from "@tensorflow/tfjs"
 import { isPlainObject, isFunction, has, hasIn, set, get, merge } from "lodash"
 
+const _m = Symbol.for("meta")
+
 class Interpreter {
     issues = []
     tokenActions = {
@@ -10,6 +12,7 @@ class Interpreter {
             const assignments = token.value.forEach(assignment => {
                 const stateDelta = this.processToken(assignment, state)
                 state = merge(state, stateDelta)
+                state[_m] = merge(state[_m], stateDelta[_m])
             })
             return state
         },
@@ -19,6 +22,15 @@ class Interpreter {
             const value = this.processToken(token.value, state)
             const exists = has(state, path)
             const isReassignemnt = (token.operator.length > 1)
+            const suppress = token.suppress
+
+            const baseValue = {
+                [_m]: {
+                    [path]: {
+                        suppress
+                    }
+                }
+            }
 
             if (exists) {
                 const oldValue = get(state, path)
@@ -30,7 +42,7 @@ class Interpreter {
                             tensor: oldValue,
                             value
                         })
-                        return set({}, path, newValue)
+                        return set(baseValue, path, newValue)
                     } else {
                         throw Error(`Use "::"`)
                     }
@@ -41,9 +53,10 @@ class Interpreter {
                 if (isReassignemnt) {
                     const fn = getFunction("Variable")
                     const newValue = call(fn, value)
-                    return set({}, path, newValue)
+                    return set(baseValue, path, newValue)
                 } else {
-                    return set({}, path, value)
+                    return set(baseValue, path, value)
+                    return set(baseValue, path, value)
                 }
             }
 

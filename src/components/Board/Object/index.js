@@ -9,6 +9,8 @@ import Property from "../Property"
 
 import "./style.sass"
 
+const _m = Symbol.for("meta")
+
 const UnknownVis = () => (
     <div className="WestWorldQuote">
         Doesn't look like anything to me.
@@ -56,9 +58,16 @@ const getTypeAndComponent = (value) => {
 
 export default class ObjectVis extends PureComponent {
     render() {
-        const props = Object.entries(this.props.data)
+        const { data } = this.props
+
+        const props = Object.entries(data)
             .map(([key, value]) => {
                 const { type, literal, Component } = getTypeAndComponent(value)
+
+                if (data[_m][key].suppress) {
+                    return null
+                }
+
                 return (
                     <Property key={key} name={key} type={type} literal={literal}>
                         <Component data={value} />
