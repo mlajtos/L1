@@ -30,7 +30,8 @@ class Interpreter {
             const baseValue = {
                 [_m]: {
                     [path]: {
-                        suppress
+                        suppress,
+                        source: token._source
                     }
                 }
             }
