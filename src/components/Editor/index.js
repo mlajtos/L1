@@ -6,7 +6,7 @@ import "./style.sass"
 
 // TODO: simplify this
 import { monaco, language, provider, theme } from "../MonacoEditor"
-import { isFunction } from "lodash";
+import { isFunction } from "lodash"
 monaco.languages.register(language)
 monaco.languages.setMonarchTokensProvider("moniel", provider)
 monaco.editor.defineTheme("moniel", theme)
@@ -53,9 +53,10 @@ export default class Editor extends PureComponent {
             this.editor.layout()
         })
         this.editor.onDidChangeModelContent((e) => {
-            if (this.props.onChange) {
+            const fn = this.props.onChange || undefined
+            if (isFunction(fn)) {
                 const code = this.editor.getValue()
-                this.props.onChange(code)
+                fn(code)
             }
         })
         this.editor.addAction({
@@ -121,9 +122,13 @@ export default class Editor extends PureComponent {
         monaco.editor.setModelMarkers(this.editor.getModel(), "test", markers)
     }
     componentWillReceiveProps(props) {
-        if (props.content !== this.props.content) {
-            this.editor.setValue(props.content)
-        }
+        // This is bad. Only editor should be able to change the content.
+        // However interactive board should be able to change it too. Hmm..
+
+        // if (props.content !== this.props.content) {
+        //     console.log("Setting value")
+        //     this.editor.setValue(props.content)
+        // }
 
         if (props.issues !== this.props.issues) {
             this.setDecorations(props.issues)
