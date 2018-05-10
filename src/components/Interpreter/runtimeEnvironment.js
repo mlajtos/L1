@@ -3,6 +3,8 @@ import * as mnist from "mnist"
 import { flow, get, hasIn } from "lodash"
 
 class StandardLibrary {
+    [Symbol.for("meta")] = {}
+
     PropertyAccess = ({a, b}) => {
         const found = hasIn(a, b)
         if (!found) {

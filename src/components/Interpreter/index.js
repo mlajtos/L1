@@ -9,12 +9,13 @@ class Interpreter {
     tokenActions = {
         Program: (token, state) => {
             // tf.tidy somewhere here
+            let stateAcc = Object.create(state)
             const assignments = token.value.forEach(assignment => {
-                const stateDelta = this.processToken(assignment, state)
-                state = merge(state, stateDelta)
-                state[_m] = merge(state[_m], stateDelta[_m])
+                const stateDelta = this.processToken(assignment, stateAcc)
+                stateAcc = merge(stateAcc, stateDelta)
+                stateAcc[_m] = merge({}, stateAcc[_m], stateDelta[_m])
             })
-            return state
+            return stateAcc
         },
         // ripe for refactoring
         Assignment: (token, state) => {
