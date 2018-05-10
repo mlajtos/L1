@@ -2,6 +2,8 @@ import runtimeEnvironment from "./runtimeEnvironment"
 import * as tf from "@tensorflow/tfjs"
 import { isPlainObject, isFunction, has, hasIn, set, get, merge } from "lodash"
 
+import { OPERATORS } from "./operators"
+
 const _m = Symbol.for("meta")
 
 class Interpreter {
@@ -182,28 +184,6 @@ const getFunction = (path, state = runtimeEnvironment) => {
         })
     }
     return fn || passThrough
-}
-
-const OPERATORS = {
-    "1": {
-        "'": "ConvertToNative",
-        "-": "Negative",
-        "/": "Reciprocal"
-    },
-    "2": {
-        "+": "Add",
-        "-": "Subtract",
-        "*": "Multiply",
-        "×": "Multiply",
-        "/": "Divide",
-        "÷": "Divide",
-        "^": "Power",
-        "%": "Modulus",
-        "@": "MatrixMultiply",
-
-        ".": "PropertyAccess"
-        // TODO: strict versions should be ++, --, **, //, etc. (if they are needed)
-    }
 }
 
 const operatorToFunction = (operator, arity) => {
