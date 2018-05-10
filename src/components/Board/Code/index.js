@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react"
 
 // TODO: simplify this
-import { monaco, language, provider, theme } from "../MonacoEditor"
+import { monaco, language, provider, theme } from "../../MonacoEditor"
 monaco.languages.register(language)
 monaco.languages.setMonarchTokensProvider("moniel", provider)
 monaco.editor.defineTheme("moniel", theme)

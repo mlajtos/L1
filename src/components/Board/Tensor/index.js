@@ -2,8 +2,9 @@ import React, { PureComponent } from "react"
 import * as tf from "@tensorflow/tfjs"
 
 import { isFunction } from "lodash"
+import numeral from "numeral"
 
-import Colorize from "../../ColorizedCode"
+import Code from "../Code"
 
 import "./style.sass"
 
@@ -121,17 +122,17 @@ class TensorCanvas extends PureComponent {
 const Field = ({ name, children }) => (
     <div className="field">
         <div className="label">
-            <Colorize>{name}</Colorize>
+            <Code>{name}</Code>
         </div>
         <div className="value">
-            <Colorize>{children}</Colorize>
+            <Code>{children}</Code>
         </div>
     </div>
 )
 
-const formatNumber = (number) => {
+export const formatNumber = (number) => {
     try{
-        return number.toFixed(2)
+        return numeral(number).format("0,0.[00]").replace(/,/g, "_")
     } catch (e) {
         console.log(number, e)
         return "???"
@@ -196,13 +197,13 @@ class TensorStatistics extends PureComponent {
         return (
             <div className="info">
                 <Field name="Shape">
-                    {"[" + this.state.data.shape.join(" ") + "]"}
+                    {"[" + this.state.data.shape.map(formatNumber).join(" ") + "]"}
                 </Field>
                 <Field name="Size">
-                    {this.state.data.size}
+                    {formatNumber(this.state.data.size)}
                 </Field>
                 <Field name="Rank">
-                    {this.state.data.rank}
+                    {formatNumber(this.state.data.rank)}
                 </Field>
                 <Field name="Mean">
                     {formatNumber(+this.state.mean)}

@@ -3,8 +3,8 @@ import * as tf from "@tensorflow/tfjs"
 import { isObject, isFunction } from "lodash"
 
 import TensorVis from "../Tensor"
-import Value from "../Value"
-// import Colorize from "../../ColorizedCode"
+import ScalarVis from "../Scalar"
+import Property from "../Property"
 
 import "./style.sass"
 
@@ -21,6 +21,13 @@ const FunctionVis = () => (
 
 const getTypeAndComponent = (value) => {
     if (value instanceof tf.Tensor) {
+        if (value.rank === 0) {
+            return {
+                type: "tensor",
+                literal: "[]",
+                Component: ScalarVis
+            }
+        }
         return {
             type: "tensor",
             literal: "[]",
@@ -44,7 +51,6 @@ const getTypeAndComponent = (value) => {
         }
     }
 
-
     return {
         type: "unknown",
         literal: "",
@@ -58,9 +64,9 @@ export default class ObjectVis extends PureComponent {
             .map(([key, value]) => {
                 const { type, literal, Component } = getTypeAndComponent(value)
                 return (
-                    <Value key={key} name={key} type={type} literal={literal}>
+                    <Property key={key} name={key} type={type} literal={literal}>
                         <Component data={value} />
-                    </Value>
+                    </Property>
                 )
             })
 

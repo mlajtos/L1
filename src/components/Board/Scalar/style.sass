@@ -1,0 +1,17 @@
+.scalar
+    display: flex
+    margin: 5px
+    flex: 1
+    text-align: center
+    justify-content: center
+    align-items: center
+    position: relative
+    font-size: larger
+
+    &:focus
+        &:after
+            content: "⌘⇧⎇ ↑ ↓"
+            position: absolute
+            bottom: 0
+            font-size: smaller
+            color: lightgray

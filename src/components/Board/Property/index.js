@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react"
 
-import Colorize from "../../ColorizedCode"
+import Code from "../Code"
 
 import "./style.sass"
 
@@ -11,10 +11,10 @@ export default class Value extends PureComponent {
             <div className={`property ${this.props.type}`}>
                 <div className="header">
                     <div className="cell name">
-                        <Colorize>{this.props.name}</Colorize>
+                        <Code>{this.props.name}</Code>
                     </div>
                     <div className="cell literal">
-                        <Colorize>{this.props.literal}</Colorize>
+                        <Code>{this.props.literal}</Code>
                     </div>
                 </div>
                 <div className="content">

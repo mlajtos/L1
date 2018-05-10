@@ -1,5 +1,6 @@
 .property
     display: grid
+    grid-template-rows: max-content
     font-family: "Fira Code"
     padding: 0.5em
     background-color: white
@@ -7,7 +8,7 @@
     box-sizing: border-box
     border: 1px solid lightgray
 
-    &:hover
+    &:hover, &:focus-within
         background-color: rgba(0, 160, 236, 0.05)
         border-color: hsla(208, 100%, 53%, 0.69)
         mix-blend-mode: screen
@@ -24,3 +25,4 @@
                 font-size: 0.6em
     .content
         overflow: hidden
+        display: flex

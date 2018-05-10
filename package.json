@@ -18,6 +18,7 @@
     "mnist": "^1.1.0",
     "monaco-editor": "^0.12",
     "normalize.css": "^8.0.0",
+    "numeral": "^2.0.6",
     "ohm-js": "^0.14.0",
     "ramda": "^0.25.0",
     "react": "^16.3.1",
