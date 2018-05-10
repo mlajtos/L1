@@ -59,8 +59,8 @@ export default class Editor extends PureComponent {
             }
         })
         this.editor.addAction({
-            id: "execute",
-            label: "Execute",
+            id: "executeCode",
+            label: "Execute Code",
             keybindings: [
                 monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter
             ],
