@@ -68,7 +68,7 @@ Moniel {
     spaceButNewLine
         = ~"\n" space
     number (a number)
-        = "-"? (digit|"_")+ ("." (digit|"_")+)?
+        = "-"? (digit|"_")+ ("." (digit|"_")*)?
 
     identifier (an identifier)
         = &letter (alnum | "_" | "-")+

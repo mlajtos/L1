@@ -98,7 +98,7 @@ monaco.languages.register(language)
 const provider = {
     tokenizer: {
         root: [
-            [/-?[0-9_]+(\.[0-9_]+)?/, "number"],
+            [/-?[0-9_]+(\.[0-9_]*)?/, "number"],
             [/(=>|->|:|\+|-|\*|\/|\^|@|%|\.|×|@|%|÷|∇)/, "operator"],
             [/[a-z_$-][\w$]*/, "identifier"],
             [/[A-Z][\w\$]*/, "type.identifier"],
