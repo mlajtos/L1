@@ -9,7 +9,8 @@ const semantics = {
                 value: data.eval()
             }
         },
-        Assignment: function(p, o, v, __) {
+        Assignment: function(f, p, o, v, __) {
+            const suppress = (f.sourceString === "_")
             const path = p.eval()
             const value = v.eval()
             const operator = o.sourceString
@@ -18,7 +19,8 @@ const semantics = {
                 type: "Assignment",
                 operator,
                 path,
-                value
+                value,
+                suppress
             }
         },
         FunctionApplication: function(fn, arg) {
