@@ -38,7 +38,7 @@ export default class App extends PureComponent {
                 </Panel>
                 <Panel name="Code">
                     <Editor
-                        content={code}
+                        content={this.state.code}
                         language="moniel"
                         theme="moniel"
                         onChange={this.codeChanged}
