@@ -217,4 +217,8 @@ a: Fn {
 ```
 
 # Links
-https://stackoverflow.com/a/2384250
+[Haskell syntax](https://www.haskell.org/onlinereport/exps.html)
+[Iterations in PEG](http://www.dalnefre.com/wp/2011/05/parsing-expression-grammars-part-4/)
+[Continuations by example](http://matt.might.net/articles/programming-with-continuations--exceptions-backtracking-search-threads-generators-coroutines/)
+[CPS in JS by example](http://matt.might.net/articles/by-example-continuation-passing-style/)
+[EinSum](https://rockt.github.io/2018/04/30/einsum#fn.2)
