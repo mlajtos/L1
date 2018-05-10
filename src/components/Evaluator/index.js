@@ -2,6 +2,12 @@ import Parser from "../Parser"
 import Interpreter from "../Interpreter"
 
 class Evaluator {
+    evaluate = (code) => {
+        return new Promise(resolve => {
+            const result = this.evaluateSync(code)
+            resolve(result)
+        })
+    }
     evaluateSync = (code) => {
         const parsingResult = Parser.parseSync(code)
         const ast = parsingResult.result || null

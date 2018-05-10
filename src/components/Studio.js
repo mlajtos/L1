@@ -27,8 +27,8 @@ export default class App extends PureComponent {
         issues: [],
         computedValues: []
     }
-    codeChanged = (code, editor) => {
-        this.setState(Evaluator.evaluateSync(code))
+    codeChanged = async (code, editor) => {
+        this.setState(await Evaluator.evaluate(code))
     }
     render() {
         return (
