@@ -2,7 +2,7 @@ import * as tf from "@tensorflow/tfjs"
 import * as mnist from "mnist"
 import { flow, get, hasIn } from "lodash"
 
-class StandardLibrary {
+class Scope {
     [Symbol.for("meta")] = {}
 
     PropertyAccess = ({a, b}) => {
@@ -201,5 +201,5 @@ class StandardLibrary {
 //     })
 // }
 
-const library = new StandardLibrary()
+const library = new Scope()
 export default library
