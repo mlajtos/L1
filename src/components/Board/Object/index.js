@@ -59,17 +59,18 @@ const getTypeAndComponent = (value) => {
 export default class ObjectVis extends PureComponent {
     render() {
         const { data } = this.props
-
+        
         const props = Object.entries(data)
             .map(([key, value]) => {
+                const meta = data[_m][key]
                 const { type, literal, Component } = getTypeAndComponent(value)
 
-                if (data[_m][key].suppress) {
+                if (meta.suppress) {
                     return null
                 }
 
                 return (
-                    <Property key={key} name={key} type={type} literal={literal}>
+                    <Property key={key} name={key} type={type} literal={literal} source={meta.source}>
                         <Component data={value} />
                     </Property>
                 )

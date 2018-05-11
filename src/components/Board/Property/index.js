@@ -4,11 +4,14 @@ import Code from "../Code"
 
 import "./style.sass"
 
-export default class Value extends PureComponent {
+export default class Property extends PureComponent {
+    onMouseOver = (e) => {
+        console.log(this.props.source)
+    }
     render() {
 
         return (
-            <div className={`property ${this.props.type}`}>
+            <div className={`property ${this.props.type}`} onMouseOver={this.onMouseOver}>
                 <div className="header">
                     <div className="cell name">
                         <Code>{this.props.name}</Code>

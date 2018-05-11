@@ -3,17 +3,23 @@ div.tensor-content
     display: flex
     flex-direction: row
     flex: 1
+    flex-wrap: wrap
+    align-items: center
 
     div.canvas
+        flex: 1 1 0
+        align-items: center
+        justify-content: center
+        display: flex
         .tensor-canvas
             box-sizing: border-box
             margin: 0.2em
             box-shadow: 0px 0px 0px 1px #0000002e
             image-rendering: pixelated
-            min-height: 100px
+            min-height: 10px
             max-height: 100px
-            min-width: 100px
-            max-width: 100px
+            min-width: 100%
+            max-width: 100%
             border-radius: 5px
 
     .info

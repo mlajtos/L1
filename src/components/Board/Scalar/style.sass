@@ -2,16 +2,32 @@
     display: flex
     margin: 5px
     flex: 1
-    text-align: center
-    justify-content: center
+    // text-align: center
+    // justify-content: center
     align-items: center
     position: relative
     font-size: larger
+    padding: 0.5em
+    border-radius: 5px
+    border: 1px solid lightgray
+    background-color: white
+
+    &:hover
+        background-color: rgba(0, 160, 236, 0.05)
+        mix-blend-mode: screen
+        border-color: rgba(15, 143, 255, 0.69)
+        cursor: pointer
+        box-shadow: 0 0 3px rgba(15, 143, 255, 0.69)
 
     &:focus
+        outline: none
+        background-color: white
+        border-color: rgba(15, 143, 255, 0.69)
+        box-shadow: 0 0 5px rgba(15, 143, 255, 0.69)
+
         &:after
-            content: "⌘⇧⎇ ↑ ↓"
+            content: "↑↓"
             position: absolute
-            bottom: 0
+            right: 0.5em
             font-size: smaller
-            color: lightgray
+            color: #9e9e9e
