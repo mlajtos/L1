@@ -4,31 +4,34 @@ import * as tf from "@tensorflow/tfjs"
 import "normalize.css"
 import "./style.sass"
 
-import code from "../examples/7_edge_detection.mon";
-
 import Editor from "./Editor"
 import Evaluator from "./Evaluator"
 import Board from "./Board"
 import Panel from "./Panel"
 
-// import Worker from "./test.worker.js"
-// const worker = new Worker()
-// worker.postMessage({ a: 1 })
-// worker.addEventListener("message", (event) => {
-//     console.log(event)
-// })
-
-//import { loadTestLabels, loadTestImages } from "./Dataset"
-
 export default class Studio extends PureComponent {
     state = {
-        code,
+        code: "",
         ast: null,
         issues: [],
         computedValues: []
     }
+    // worker = new Worker()
+    async componentDidMount() {
+        const code = await this.loadFromGallery("7_edge_detection")
+        this.setState({ code })
+
+        // this.worker.addEventListener("message", (event) => {
+        //     console.log("Message from worker", event)
+        // })
+    }
     codeChanged = async (code, editor) => {
+        // this.worker.postMessage({ code })
         this.setState(await Evaluator.evaluate(code))
+    }
+    loadFromGallery = async id => {
+        const module = await import(`../examples/${id}.mon`)
+        return module.default
     }
     render() {
         return (
