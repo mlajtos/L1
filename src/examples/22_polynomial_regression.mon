@@ -1,50 +1,32 @@
-# Data
-data: {
+Data: {
     train: {
-        xs: [1, 2, 3]
-        ys: [3, 36, 15]
+        xs: Transpose RankUp (1 + Iota 100)
+        ys: xs + 5
     }
 }
 
-# Model
-model: {
-    order: 5
-    a:: RandomNormal {
-        shape: RankUp order
-        mean: 0
-        stdDev: 1
+Model: {
+    params: {
+        a: 0
+        b: 1
+        c:: 1
     }
-    b: Iota order
-    predict: x => a*x^b
-    loss: predictions => labels =>
+    _predict: x => (params.a * x^2) + (x * params.b) + params.c
+    _loss: predictions => labels =>
         Sum {
             tensor: Mean { # this is awful, I know
                 tensor: (predictions - labels)^2
-                axis: [1]
+                axis: [0]
             }
         }
-    step: x => y => (loss (predict x)) y
+    _step: x => y => (loss (predict x)) y
+}
 
-    test: {
-        predictions: predict data.train.xs
-        loss: (loss predictions) data.train.ys
-        step: (step data.train.xs) data.train.ys
+Optimizer: {
+    _optimize: StochasticGradientDescent {
+        learningRate: 0.034
+        iterations: 100
     }
+    loss: a => (Model.step Data.train.xs) Data.train.ys
+    stats: optimize loss
 }
-
-# Optimizer
-optimizer: {
-    learningRate: 0.5
-    optimizer: StochasticGradientDescent learningRate
-    iterations: 75
-    update: a => (model.step data.train.xs) data.train.ys
-    mu: optimizer update
-}
-
-
-# for (let iter = 0; iter < numIterations; iter++) {
-#   optimizer.minimize(() => {
-#     const predsYs = predict(xs);
-#     return loss(predsYs, ys);
-#   });
-# }

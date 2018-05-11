@@ -161,10 +161,21 @@ class Scope {
     }
 
     Gradient = tf.grad
-    StochasticGradientDescent = (learningRate = tf.scalar(1)) => {
+    StochasticGradientDescent = ({ learningRate = tf.scalar(1), iterations = tf.scalar(10) }) => {
         learningRate = this.ConvertToNative(learningRate)
+        iterations = this.ConvertToNative(iterations)
         const optimizer = tf.train.sgd(learningRate)
-        return optimizer.minimize.bind(optimizer)
+        const minimize =  optimizer.minimize.bind(optimizer)
+
+        return update => {
+            const losses = []
+            for (let i = 0; i < iterations; i++) {
+                const loss = update.call()
+                losses.push(this.RankUp(loss))
+                minimize(() => loss)
+            }
+            return tf.concat(losses)
+        }
     }
     
     Iterate = ({ f, count = 1}) => {
