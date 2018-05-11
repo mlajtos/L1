@@ -20,7 +20,7 @@ import Panel from "./Panel"
 
 //import { loadTestLabels, loadTestImages } from "./Dataset"
 
-export default class App extends PureComponent {
+export default class Studio extends PureComponent {
     state = {
         code,
         ast: null,
