@@ -1,0 +1,11 @@
+_samples: 1000
+
+_a: Iota samples
+a_sin: a * Sine a
+
+_offset: 100000
+
+_b: offset + Iota samples
+b_sin: (Sine b) / b
+
+c: a_sin * Transpose (RankUp b_sin)
