@@ -171,8 +171,9 @@ class Scope {
             const losses = []
             for (let i = 0; i < iterations; i++) {
                 const loss = update.call()
+                console.log(loss)
                 losses.push(this.RankUp(loss))
-                minimize(() => loss)
+                minimize(update)
             }
             return tf.concat(losses)
         }

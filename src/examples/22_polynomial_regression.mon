@@ -1,17 +1,13 @@
 Data: {
-    train: {
-        xs: Transpose RankUp (1 + Iota 100)
-        ys: xs + 5
-    }
+    xs: Transpose RankUp (1 + Iota 100)
+    ys: xs + 5
 }
 
 Model: {
-    params: {
-        a: 0
-        b: 1
-        c:: 1
-    }
-    _predict: x => (params.a * x^2) + (x * params.b) + params.c
+    b: 1
+    c:: 1
+
+    _predict: x => x * b + c
     _loss: predictions => labels =>
         Sum {
             tensor: Mean { # this is awful, I know
@@ -20,13 +16,18 @@ Model: {
             }
         }
     _step: x => y => (loss (predict x)) y
+    # test: {
+    #     p: predict Data.xs
+    #     l: (loss p) Data.ys
+    # }
 }
 
 Optimizer: {
     _optimize: StochasticGradientDescent {
         learningRate: 0.034
-        iterations: 100
+        iterations: 20
     }
-    loss: a => (Model.step Data.train.xs) Data.train.ys
+    loss: a => (Model.step Data.xs) Data.ys
     stats: optimize loss
+    # mu: Round (Transpose RankUp ((Iota 20) / 20) @ RankUp stats)
 }
