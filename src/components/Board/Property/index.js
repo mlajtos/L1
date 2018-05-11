@@ -6,7 +6,7 @@ import "./style.sass"
 
 export default class Property extends PureComponent {
     onMouseOver = (e) => {
-        console.log(this.props.source)
+        // console.log(this.props.source)
     }
     render() {
 
