@@ -19,16 +19,18 @@ const UnknownVis = () => (
 
 const getTypeAndComponent = (value) => {
     if (value instanceof tf.Tensor) {
+        let isVariable = value instanceof tf.Variable
+
         if (value.rank === 0) {
             return {
                 type: "tensor",
-                literal: "[]",
+                literal: (isVariable ? "~" : "") + "[]",
                 Component: ScalarVis
             }
         }
         return {
             type: "tensor",
-            literal: "[]",
+            literal: (isVariable ? "~" : "") + "[]",
             Component: TensorVis
         }
     }
