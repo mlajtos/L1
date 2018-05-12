@@ -164,23 +164,28 @@ class Scope {
         return tf.tensor(mnist[classes].get()).reshape([28, 28])
     }
 
-    Gradient = tf.grad
+    Gradient = (f) => {
+        console.log(f)
+        return tf.grad(f)
+    }
     StochasticGradientDescent = ({ learningRate = tf.scalar(1), iterations = tf.scalar(10) }) => {
         learningRate = this.ConvertToNative(learningRate)
         iterations = this.ConvertToNative(iterations)
 
         const optimizer = tf.train.sgd(learningRate)
-        const minimize =  optimizer.minimize.bind(optimizer)
+        const minimize = optimizer.minimize.bind(optimizer)
 
         const optimize = async (lossFn) => {
-            const losses = []
-            for (let i = 0; i < iterations; i++) {
-                const loss = await lossFn.call()
-                minimize((() => loss))
-                losses.push(this.RankUp(loss))
-                // await tf.nextFrame()
-            }
-            return tf.concat(losses)
+            return new Promise(async resolve => {
+                const losses = []
+                for (let i = 0; i < iterations; i++) {
+                    const loss = await lossFn.call()
+                    const cost = minimize((() => loss), true)
+                    losses.push(this.RankUp(loss))
+                    await tf.nextFrame()
+                }
+                resolve(tf.concat(losses))
+            })
         }
 
         return optimize
