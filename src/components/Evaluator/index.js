@@ -2,18 +2,12 @@ import Parser from "../Parser"
 import Interpreter from "../Interpreter"
 
 class Evaluator {
-    evaluate = (code) => {
-        return new Promise(resolve => {
-            const result = this.evaluateSync(code)
-            resolve(result)
-        })
-    }
-    evaluateSync = (code) => {
-        const parsingResult = Parser.parseSync(code)
+    evaluate = async (code) => {
+        const parsingResult = await Parser.parse(code)
         const ast = parsingResult.result || null
         const parsingError =  parsingResult.error || null
-        const interpretingResult = ast ? Interpreter.interpretSync(ast) : null
-        const computedValues = interpretingResult ? interpretingResult.success.result || [] : []
+        const interpretingResult = ast ? await Interpreter.interpret(ast) : null
+        const computedValues = interpretingResult ? interpretingResult.success.result || [] : null
     
         const parsingIssues = parsingResult.issues
         const interpretingIssues = interpretingResult ? interpretingResult.success.issues : []

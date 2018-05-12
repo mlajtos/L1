@@ -14,7 +14,7 @@ export default class Studio extends PureComponent {
         code: "",
         ast: null,
         issues: [],
-        computedValues: []
+        computedValues: null
     }
     // worker = new Worker()
     async componentDidMount() {

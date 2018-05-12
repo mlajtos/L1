@@ -79,6 +79,10 @@ class Scope {
         strides = this.ConvertToNative(strides)
         return tf.maxPool(tensor, filterSize, strides, "same")
     }
+    Convolution2D = ({ tensor, filter, strides = tf.scalar(1) }) => {
+        strides = this.ConvertToNative(strides)
+        return tf.conv2d(tensor, filter, strides, "same")
+    }
     Tile = ({ tensor, reps }) => {
         reps = this.ConvertToNative(reps)
         return tf.tile(tensor, reps)
@@ -164,22 +168,25 @@ class Scope {
     StochasticGradientDescent = ({ learningRate = tf.scalar(1), iterations = tf.scalar(10) }) => {
         learningRate = this.ConvertToNative(learningRate)
         iterations = this.ConvertToNative(iterations)
+
         const optimizer = tf.train.sgd(learningRate)
         const minimize =  optimizer.minimize.bind(optimizer)
 
-        return update => {
+        const optimize = async (lossFn) => {
             const losses = []
             for (let i = 0; i < iterations; i++) {
-                const loss = update.call()
-                console.log(loss)
+                const loss = await lossFn.call()
+                minimize((() => loss))
                 losses.push(this.RankUp(loss))
-                minimize(update)
+                // await tf.nextFrame()
             }
             return tf.concat(losses)
         }
+
+        return optimize
     }
     
-    Iterate = ({ f, count = 1}) => {
+    Flow = ({ f, count = 1}) => {
         count = this.ConvertToNative(count)
         return flow(Array.from({ length: count }, (v, i) => f))
     }

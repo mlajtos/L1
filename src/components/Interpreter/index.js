@@ -6,23 +6,29 @@ import { OPERATORS } from "./operators"
 
 const _m = Symbol.for("meta")
 
+async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+        await callback(array[index], index, array)
+    }
+}
+
 class Interpreter {
     issues = []
     tokenActions = {
-        Program: (token, state) => {
+        Program: async (token, state) => {
             // tf.tidy somewhere here
             let stateAcc = Object.create(state)
-            const assignments = token.value.forEach(assignment => {
-                const stateDelta = this.processToken(assignment, stateAcc)
+            const assignments = await asyncForEach(token.value, async (assignment) => {
+                const stateDelta = await this.processToken(assignment, stateAcc)
                 stateAcc = merge(stateAcc, stateDelta)
                 stateAcc[_m] = merge({}, stateAcc[_m], stateDelta[_m])
             })
             return stateAcc
         },
         // ripe for refactoring
-        Assignment: (token, state) => {
-            const path = this.processToken(token.path, state)
-            const value = this.processToken(token.value, state)
+        Assignment: async (token, state) => {
+            const path = await this.processToken(token.path, state)
+            const value = await this.processToken(token.value, state)
             const exists = has(state, path)
             const isReassignemnt = (token.operator.length > 1)
             const suppress = token.suppress
@@ -66,8 +72,8 @@ class Interpreter {
 
             throw Error(`This will never happen.`)
         },
-        Reference: (token, state) => {
-            const path = this.processToken(token.value, state)
+        Reference: async (token, state) => {
+            const path = await this.processToken(token.value, state)
             const value = get(state, path, null)
             if (!value) {
                 console.log(Object.keys(state).join(", "))
@@ -75,49 +81,49 @@ class Interpreter {
             }
             return value
         },
-        Path: (token, state) => {
+        Path: async (token, state) => {
             return token.value
         },
-        Function: (token, state) => {
-            const fn = (arg) => {
-                const boundEnv = Object.create(Object.assign(Object.create(state), { [token.argument]: arg } ))
-                return this.processToken(token.value, boundEnv)
-            } 
+        Function: async (token, state) => {
+            const fn = async (arg) => {
+                const boundEnv = Object.create(Object.assign(Object.create(state), { [token.argument]: arg }))
+                return await this.processToken(token.value, boundEnv)
+            }
             return fn
         },
-        FunctionApplication: (token, state) => {
+        FunctionApplication: async (token, state) => {
             if (!token.argument) {
-                const value = this.processToken(token.function, state)
+                const value = await this.processToken(token.function, state)
                 return value
             }
-            const fn = this.processToken(token.function, state)
-            const value = this.processToken(token.argument, state)
+            const fn = await this.processToken(token.function, state)
+            const value = await this.processToken(token.argument, state)
             return call(fn, value)
         },
-        BinaryOperation: (token, state) => {
-            const a = this.processToken(token.left, state)
-            const b = this.processToken(token.right, state)
+        BinaryOperation: async (token, state) => {
+            const a = await this.processToken(token.left, state)
+            const b = await this.processToken(token.right, state)
             const fn = operatorToFunction(token.operator, 2)
             return call(fn, { a, b })
         },
-        UnaryOperation: (token, state) => {
-            const value = this.processToken(token.value, state)
+        UnaryOperation: async (token, state) => {
+            const value = await this.processToken(token.value, state)
             const fn = operatorToFunction(token.operator, 1)
             return call(fn, value)
         },
-        Tensor: (token, state) => {
-            const value = this.processToken(token.value, state)
+        Tensor: async (token, state) => {
+            const value = await this.processToken(token.value, state)
             const fn = getFunction("Tensor")
             return call(fn, value)
         },
-        TensorLiteral: (token, state) => {
+        TensorLiteral: async (token, state) => {
             return token.value
         },
-        Object: (token, state) => {
-            const result = this.processToken(token.value, Object.create(state))
+        Object: async (token, state) => {
+            const result = await this.processToken(token.value, Object.create(state))
             return result
         },
-        __unknown__: (token, state) => {
+        __unknown__: async (token, state) => {
             console.log(token)
             return `Unrecognized token: ${token.type}, rest: ${token}`
         }
@@ -128,10 +134,10 @@ class Interpreter {
             resolve(result)
         })
     }
-    interpretSync = (ast) => {
+    interpretSync = async (ast) => {
         const state = Object.create(runtimeEnvironment)
         this.issues = []
-        const result = this.processToken(ast, state)
+        const result = await this.processToken(ast, state)
         return {
             success: {
                 result,
@@ -147,7 +153,7 @@ class Interpreter {
             severity
         })
     }
-    processToken = (token, state) => {
+    processToken = async (token, state) => {
         if (!state) {
             console.error("No state to operate on!")
         }
@@ -155,7 +161,7 @@ class Interpreter {
         const fn = this.tokenActions[token.type] || this.tokenActions.__unknown__
         let result
         try {
-            result = fn(token, state)
+            result = await fn(token, state)
         } catch (e) {
             if (token._source) {
                 this.reportIssue({

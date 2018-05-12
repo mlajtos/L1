@@ -17,6 +17,61 @@ const UnknownVis = () => (
     </div>
 )
 
+class Deferred extends PureComponent {
+    state = {
+        value: undefined
+    }
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const newData = nextProps.data
+        const currData = prevState.data
+
+        if (newData === currData) {
+            return null
+        }
+
+        if (newData instanceof Promise) {
+            return {
+                value: newData
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.handlePromise()
+    }
+
+    componentDidUpdate(prevProps) {
+        this.handlePromise()
+    }
+
+    handlePromise() {
+        if (this.state.value instanceof Promise) {
+            this.state.value.then(this.resolve)
+        }
+    }
+
+    resolve = (value) => {
+        this.setState({ value })
+    }
+
+    render() {
+        const value = this.state.value
+
+        if (value instanceof Promise) {
+            return (
+                <div>
+                    ...
+                </div>
+            )
+        } else {
+            const { type, literal, Component } = getTypeAndComponent(value)
+            return (
+                <Component data={value} />
+            )
+        }
+    }
+}
+
 const getTypeAndComponent = (value) => {
     if (value instanceof tf.Tensor) {
         let isVariable = value instanceof tf.Variable
@@ -43,6 +98,14 @@ const getTypeAndComponent = (value) => {
         }
     }
 
+    if (value instanceof Promise) {
+        return {
+            type: "object",
+            literal: "?",
+            Component: Deferred
+        }
+    }
+
     if (isObject(value)) {
         return {
             type: "object",
@@ -61,6 +124,8 @@ const getTypeAndComponent = (value) => {
 export default class ObjectVis extends PureComponent {
     render() {
         const { data } = this.props
+
+        // console.log("ObjectVis", JSON.stringify(data), Object.entries(data))
         
         const props = Object.entries(data)
             .map(([key, value]) => {
