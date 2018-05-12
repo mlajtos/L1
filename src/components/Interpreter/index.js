@@ -28,7 +28,7 @@ class Interpreter {
         // ripe for refactoring
         Assignment: async (token, state) => {
             const path = await this.processToken(token.path, state)
-            const value = await this.processToken(token.value, state)
+            const value = this.processToken(token.value, state)
             const exists = has(state, path)
             const isReassignemnt = (token.operator.length > 1)
             const suppress = token.suppress
@@ -43,7 +43,7 @@ class Interpreter {
             }
 
             if (exists) {
-                const oldValue = get(state, path)
+                const oldValue = await get(state, path)
                 const isVariable = oldValue instanceof tf.Variable
                 if (isVariable) {
                     if (isReassignemnt) {
@@ -73,8 +73,19 @@ class Interpreter {
             throw Error(`This will never happen.`)
         },
         Reference: async (token, state) => {
+            const get = async (object, path) => {
+                let index = 0
+                const length = path.length
+              
+                while (object != null && index < length) {
+                  object = await object[path[index++]]
+                }
+                return (index && index == length) ? object : undefined
+            }
+
             const path = await this.processToken(token.value, state)
-            const value = get(state, path, null)
+            const value = await get(state, path, null)
+            // console.log("Reference",path, value, state)
             if (!value) {
                 console.log(Object.keys(state).join(", "))
                 throw new Error(`No value for "${path.join(".")}".`)
@@ -128,13 +139,13 @@ class Interpreter {
             return `Unrecognized token: ${token.type}, rest: ${token}`
         }
     }
-    interpret = (ast) => {
-        return new Promise(resolve => {
-            const result = this.interpretSync(ast)
-            resolve(result)
-        })
-    }
-    interpretSync = async (ast) => {
+    // interpret = (ast) => {
+    //     return new Promise(resolve => {
+    //         const result = this.interpretSync(ast)
+    //         resolve(result)
+    //     })
+    // }
+    interpret = async (ast) => {
         const state = Object.create(runtimeEnvironment)
         this.issues = []
         const result = await this.processToken(ast, state)
@@ -169,7 +180,7 @@ class Interpreter {
                     message: e.message,
                     severity: e.severity
                 })
-                console.log(e)
+                console.error(e)
             } else {
                 console.error(e)
             }
@@ -206,9 +217,18 @@ const operatorToFunction = (operator, arity) => {
 }
 
 // TODO: memoize maybe?
-const call = (fn, arg) => {
+const call = async (fn, arg) => {
+    // console.log("Call", fn, arg)
+    if (arg instanceof Promise) {
+        // console.log("Waiting for argument before call.")
+        arg = await arg
+    }
+    if (fn instanceof Promise) {
+        // console.log("Waiting for function before call.")
+        fn = await fn
+    }
     if (!isFunction(fn)) {
-        console.log(fn, arg)
+        // console.log(fn, arg)
         throw new Error(`${fn} is not a function.`)
     }
     return fn(arg)

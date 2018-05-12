@@ -5,17 +5,12 @@ import { isObject, isFunction } from "lodash"
 import TensorVis from "../Tensor"
 import ScalarVis from "../Scalar"
 import FunctionVis from "../Function"
+import UnknownVis from "../Unknown"
 import Property from "../Property"
 
 import "./style.sass"
 
 const _m = Symbol.for("meta")
-
-const UnknownVis = () => (
-    <div className="WestWorldQuote">
-        Doesn't look like anything to me.
-    </div>
-)
 
 class Deferred extends PureComponent {
     state = {
@@ -73,6 +68,7 @@ class Deferred extends PureComponent {
 }
 
 const getTypeAndComponent = (value) => {
+    //console.log("getTypeAndComponent", value)
     if (value instanceof tf.Tensor) {
         let isVariable = value instanceof tf.Variable
 
@@ -98,7 +94,8 @@ const getTypeAndComponent = (value) => {
         }
     }
 
-    if (value instanceof Promise) {
+    if ((value instanceof Promise) || (Promise.resolve(value) === value)) {
+        //console.log(value)
         return {
             type: "object",
             literal: "?",
@@ -116,7 +113,7 @@ const getTypeAndComponent = (value) => {
 
     return {
         type: "unknown",
-        literal: "",
+        literal: "XXX",
         Component: UnknownVis
     }
 }
@@ -129,15 +126,18 @@ export default class ObjectVis extends PureComponent {
         
         const props = Object.entries(data)
             .map(([key, value]) => {
-                const meta = data[_m][key]
+                // console.log(value)
+                // const meta = data[_m][key]
                 const { type, literal, Component } = getTypeAndComponent(value)
 
-                if (meta.suppress) {
-                    return null
-                }
+                // if (meta.suppress) {
+                //     return null
+                // }
 
+                //source={meta.source}
+                
                 return (
-                    <Property key={key} name={key} type={type} literal={literal} source={meta.source}>
+                    <Property key={key} name={key} type={type} literal={literal} >
                         <Component data={value} />
                     </Property>
                 )

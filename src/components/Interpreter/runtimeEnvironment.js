@@ -1,11 +1,11 @@
 import * as tf from "@tensorflow/tfjs"
-import * as mnist from "mnist"
+//import * as mnist from "mnist"
 import { flow, get, hasIn } from "lodash"
 
 class Scope {
     [Symbol.for("meta")] = {}
 
-    PropertyAccess = ({a, b}) => {
+    PropertyAccess = ({ a, b }) => {
         const found = hasIn(a, b)
         if (!found) {
             throw new Error(`No such thing.`)
@@ -23,12 +23,14 @@ class Scope {
     Rank = (tensor) => tf.scalar(tensor.rank)
     Size = (tensor) => tf.scalar(tensor.size)
 
-    Mean = ({ tensor, axis = tf.scalar(0) }) => {
-        axis = this.ConvertToNative(axis)
+    Mean = async ({ tensor, axis = tf.scalar(0) }) => {
+        tensor = await tensor
+        axis = this.ConvertToNative(await axis)
         return tf.mean(tensor, axis)
     }
-    Sum = ({ tensor, axis = tf.scalar(0) }) => {
-        axis = this.ConvertToNative(axis)
+    Sum = async ({ tensor, axis = tf.scalar(0) }) => {
+        tensor = await tensor
+        axis = this.ConvertToNative(await axis)
         return tf.sum(tensor, axis)
     }
     Min = ({ tensor, axis = tf.scalar(0) }) => {
@@ -95,13 +97,13 @@ class Scope {
 
     // Arithmetics
     Negative = tf.neg
-    Add = ({a, b}) => tf.add(a, b)
-    Subtract = ({a, b}) => tf.sub(a, b)
-    Multiply = ({a, b}) => tf.mul(a, b)
-    Divide = ({a, b}) => tf.div(a, b)
-    Modulus = ({a, b}) => tf.mod(a, b)
-    Power = ({a, b}) => tf.pow(a, b)
-    MatrixMultiply = ({a, b}) => tf.matMul(a, b)
+    Add = ({ a, b }) => tf.add(a, b)
+    Subtract = ({ a, b }) => tf.sub(a, b)
+    Multiply = ({ a, b }) => tf.mul(a, b)
+    Divide = ({ a, b }) => tf.div(a, b)
+    Modulus = ({ a, b }) => tf.mod(a, b)
+    Power = ({ a, b }) => tf.pow(a, b)
+    MatrixMultiply = ({ a, b }) => tf.matMul(a, b)
     Square = tf.square
     SquareRoot = tf.sqrt
     Reciprocal = tf.reciprocal
@@ -126,7 +128,7 @@ class Scope {
     Sigmoid = tf.sigmoid
     Softmax = tf.softmax
     Softplus = tf.softplus
-    
+
     // Generators
     RandomNormal = ({ shape = tf.tensor([1]), mean = tf.scalar(0), stdDev = tf.scalar(1) }) => {
         shape = this.ConvertToNative(shape)
@@ -157,58 +159,58 @@ class Scope {
     Zeros = (shape) => {
         shape = this.ConvertToNative(shape)
         return tf.zeros(shape)
-    } 
+    }
 
     GetDigit = (classes = tf.scalar(0)) => {
         classes = this.ConvertToNative(classes)
-        return tf.tensor(mnist[classes].get()).reshape([28, 28])
+        // return tf.tensor(mnist[classes].get()).reshape([28, 28])
     }
 
     Gradient = (f) => {
         console.log(f)
         return tf.grad(f)
     }
-    StochasticGradientDescent = ({ learningRate = tf.scalar(1), iterations = tf.scalar(10) }) => {
-        learningRate = this.ConvertToNative(learningRate)
-        iterations = this.ConvertToNative(iterations)
+    StochasticGradientDescent = async ({ learningRate = tf.scalar(1), iterations = tf.scalar(10) }) => {
+        learningRate = this.ConvertToNative(await learningRate)
+        iterations = this.ConvertToNative(await iterations)
 
         const optimizer = tf.train.sgd(learningRate)
         const minimize = optimizer.minimize.bind(optimizer)
 
         const optimize = async (lossFn) => {
-            return new Promise(async resolve => {
-                const losses = []
-                for (let i = 0; i < iterations; i++) {
-                    const loss = await lossFn.call()
-                    const cost = minimize((() => loss), true)
-                    losses.push(this.RankUp(loss))
-                    await tf.nextFrame()
-                }
-                resolve(tf.concat(losses))
-            })
+            console.log(lossFn)
+            const losses = []
+            for (let i = 0; i < iterations; i++) {
+                const loss = await lossFn.call()
+                // console.log(loss)
+                const cost = minimize((() => loss), true)
+                losses.push(this.RankUp(loss))
+                await tf.nextFrame()
+            }
+            return tf.concat(losses)
         }
 
         return optimize
     }
-    
-    Flow = ({ f, count = 1}) => {
-        count = this.ConvertToNative(count)
-        return flow(Array.from({ length: count }, (v, i) => f))
-    }
 
-    ConvertToNative = (tensor) => {
-        const isTensor = (tensor instanceof tf.Tensor)
-        if (!isTensor) {
-            throw new Error(`Only tensors can be converted to native type.`)
-            console.log(tensor)
-            return
-        }
-        const data = tensor.dataSync()
-        if (tensor.rank === 0 && tensor.size === 1) {
-            return data[0]
-        }
-        return Array.from(data)
+Flow = ({ f, count = 1 }) => {
+    count = this.ConvertToNative(count)
+    return flow(Array.from({ length: count }, (v, i) => f))
+}
+
+ConvertToNative = (tensor) => {
+    const isTensor = (tensor instanceof tf.Tensor)
+    if (!isTensor) {
+        throw new Error(`Only tensors can be converted to native type.`)
+        console.log(tensor)
+        return
     }
+    const data = tensor.dataSync()
+    if (tensor.rank === 0 && tensor.size === 1) {
+        return data[0]
+    }
+    return Array.from(data)
+}
 
 }
 
