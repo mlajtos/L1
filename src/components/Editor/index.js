@@ -21,7 +21,7 @@ export default class Editor extends PureComponent {
         if (this.container) {
             const font = new FontFaceObserver("Fira Code")
             font.load().then(this.instantiateEditor, (e) => {
-                console.error("Could not load the font")
+                console.log("Could not load the font")
             })
         }
     }

@@ -5,6 +5,7 @@ import { isFunction } from "lodash"
 import numeral from "numeral"
 
 import Code from "../Code"
+import PropertyWrapper from "../PropertyWrapper"
 
 import "./style.sass"
 
@@ -18,10 +19,12 @@ export default class Tensor extends PureComponent {
         }
 
         return (
-            <div className="tensor-content">
-                <TensorCanvas key="canvas" data={data} />
-                <TensorStatistics key="stats" data={data} />
-            </div>
+            <PropertyWrapper {...this.props} type="tensor">
+                <div className="tensor-content">
+                    <TensorCanvas key="canvas" data={data} />
+                    <TensorStatistics key="stats" data={data} />
+                </div>
+            </PropertyWrapper>
         )
     }
 }

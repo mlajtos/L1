@@ -1,4 +1,4 @@
-Data: {
+_Data: {
     xs: Transpose RankUp (1 + Iota 100)
     ys: xs + 5
 }
@@ -16,18 +16,18 @@ Model: {
             }
         }
     _step: x => y => (loss (predict x)) y
-    # test: {
-    #     p: predict Data.xs
-    #     l: (loss p) Data.ys
-    # }
+    _test: {
+        p: predict Data.xs
+        l: (loss p) Data.ys
+    }
 }
 
 Optimizer: {
     _optimize: StochasticGradientDescent {
         learningRate: 0.034
-        iterations: 20
+        iterations: 10
     }
-    loss: a => (Model.step Data.xs) Data.ys
+    _loss: a => (Model.step Data.xs) Data.ys
     stats: optimize loss
-    # mu: Round (Transpose RankUp ((Iota 20) / 20) @ RankUp stats)
+    mu: Round (Transpose RankUp ((Iota 10) / 10) @ RankUp stats)
 }
