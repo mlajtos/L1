@@ -13,7 +13,7 @@ export default class ObjectVis extends PureComponent {
         // console.log("ObjectVis", data)
 
         const props = Object.entries(data)
-            .filter(([key]) => !data[_m][key].suppress)
+            .filter(([key]) => !data[_m][key].silent)
             .map(([key, value]) => {
                 const _meta = data[_m][key]
 

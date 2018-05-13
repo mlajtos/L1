@@ -9,8 +9,9 @@ const semantics = {
                 value: data.eval()
             }
         },
-        Assignment: function(f, p, o, v, __) {
-            const suppress = (f.sourceString === "_")
+        Assignment: function(f1, f2, p, o, v, __) {
+            const silent = (f1.sourceString === "_")
+            const variable = (f2.sourceString === "$")
             const path = p.eval()
             const value = v.eval()
             const operator = o.sourceString
@@ -20,7 +21,8 @@ const semantics = {
                 operator,
                 path,
                 value,
-                suppress
+                silent,
+                variable
             }
         },
         FunctionApplication: function(fn, arg) {

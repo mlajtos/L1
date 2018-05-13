@@ -29,14 +29,16 @@ class Interpreter {
         Assignment: async (token, state) => {
             const path = await this.processToken(token.path, state)
             const value = this.processToken(token.value, state)
-            const exists = has(state, path)
+
+            const silent = token.silent
+            const isVariable = token.variable
             const isReassignemnt = (token.operator.length > 1)
-            const suppress = token.suppress
+            const exists = has(state, path)
 
             const baseValue = {
                 [_m]: {
                     [path]: {
-                        suppress,
+                        silent,
                         source: token._source
                     }
                 }
