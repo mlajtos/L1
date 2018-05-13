@@ -10,8 +10,8 @@ export default class PropertyWrapper extends PureComponent {
     }
     render() {
 
-        const name = this.props.name || "???"
-        const literal = this.props.literal || ""
+        const name = this.props.name || ""
+        const symbol = this.props.symbol || ""
         const type = this.props.type || ""
 
         return (
@@ -20,8 +20,8 @@ export default class PropertyWrapper extends PureComponent {
                     <div className="cell name">
                         <Code>{name}</Code>
                     </div>
-                    <div className="cell literal">
-                        <Code>{literal}</Code>
+                    <div className="cell symbol">
+                        <Code>{symbol}</Code>
                     </div>
                 </div>
                 <div className="content">

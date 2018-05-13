@@ -167,7 +167,6 @@ class Scope {
     }
 
     Gradient = (f) => {
-        console.log(f)
         return tf.grad(f)
     }
     StochasticGradientDescent = async ({ learningRate = tf.scalar(1), iterations = tf.scalar(10) }) => {
@@ -178,7 +177,6 @@ class Scope {
         const minimize = optimizer.minimize.bind(optimizer)
 
         const optimize = async (lossFn) => {
-            console.log(lossFn)
             const losses = []
             for (let i = 0; i < iterations; i++) {
                 const loss = await lossFn.call()

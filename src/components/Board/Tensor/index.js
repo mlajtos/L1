@@ -4,27 +4,38 @@ import * as tf from "@tensorflow/tfjs"
 import { isFunction } from "lodash"
 import numeral from "numeral"
 
+import ScalarVis from "../Scalar"
 import Code from "../Code"
 import PropertyWrapper from "../PropertyWrapper"
 
 import "./style.sass"
 
-export default class Tensor extends PureComponent {
+export default class Tensor extends PureComponent {
     render() {
         const data = this.props.data
-        const isTensor = (data instanceof tf.Tensor)
+        const isVariable = (data instanceof tf.Variable)
+        const isScalar = (data.rank === 0)
+        const symbol = (isVariable ? "~" : "") + "[]"
 
-        if (!isTensor) {
-            return null
-        }
+        const Component = isScalar ? ScalarVis : GenericTensor
 
         return (
-            <PropertyWrapper {...this.props} type="tensor">
-                <div className="tensor-content">
-                    <TensorCanvas key="canvas" data={data} />
-                    <TensorStatistics key="stats" data={data} />
-                </div>
+            <PropertyWrapper {...this.props} type="tensor" symbol={symbol}>
+                <Component data={data} />
             </PropertyWrapper>
+        )
+    }
+}
+
+class GenericTensor extends PureComponent {
+    render() {
+        const data = this.props.data
+
+        return (
+            <div className="tensor-content">
+                <TensorCanvas key="canvas" data={data} />
+                <TensorStatistics key="stats" data={data} />
+            </div>
         )
     }
 }
