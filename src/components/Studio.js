@@ -18,7 +18,7 @@ export default class Studio extends PureComponent {
     }
     // worker = new Worker()
     async componentDidMount() {
-        const code = await this.loadFromGallery("7_edge_detection")
+        const code = await this.loadFromGallery("22_polynomial_regression")
         this.setState({ code })
 
         // this.worker.addEventListener("message", (event) => {
