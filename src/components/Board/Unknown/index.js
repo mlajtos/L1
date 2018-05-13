@@ -6,12 +6,12 @@ import "./style.sass"
 
 const Unknown = (props) => (
     <PropertyWrapper {...props} type="unknown">
-        <div className="WestWorldQuote">
+        {/* <div className="WestWorldQuote">
             Doesn't look like anything to me.
             <pre>
                 {JSON.stringify(props.data)}
             </pre>
-        </div>
+        </div> */}
     </PropertyWrapper>
 )
 

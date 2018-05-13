@@ -12,9 +12,17 @@
     grid-column-end: -1
 
 .property.unknown
-    $opacity: 0.2
-    $color1: rgba(yellow, $opacity)
-    $color2: rgba(black, $opacity)
+    $opacity: 0.5
+    $color1: rgba(darkgray, $opacity)
+    $color2: rgba(lightgray, $opacity)
     mix-blend-mode: normal
     background: repeating-linear-gradient(135deg, $color1, $color1 20px, $color2 20px, $color2 40px)
     background-size: 56px 56px
+    animation: danger linear 2s infinite
+
+
+@keyframes danger
+    0%
+        background-position: 0 0
+    100%
+        background-position: 56px 0
