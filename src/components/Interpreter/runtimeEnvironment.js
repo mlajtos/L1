@@ -169,20 +169,29 @@ class Scope {
     Gradient = (f) => {
         return tf.grad(f)
     }
-    StochasticGradientDescent = async ({ learningRate = tf.scalar(1), iterations = tf.scalar(10) }) => {
+    StochasticGradientDescent = async ({
+            learningRate = tf.scalar(1),
+            maxIterations = tf.scalar(10),
+            maxTime = tf.scalar(1)
+        }) => {
         learningRate = this.ConvertToNative(await learningRate)
-        iterations = this.ConvertToNative(await iterations)
+        maxIterations = this.ConvertToNative(await maxIterations)
+        maxTime = this.ConvertToNative(await maxTime)
 
         const optimizer = tf.train.sgd(learningRate)
         const minimize = optimizer.minimize.bind(optimizer)
 
         const optimize = async (lossFn) => {
             const losses = []
-            for (let i = 0; i < iterations; i++) {
+            for (let i = 0; i < maxIterations; i++) {
+                const t0 = performance.now()
                 const loss = await lossFn.call()
                 // console.log(loss)
                 const cost = minimize((() => loss), true)
                 losses.push(this.RankUp(loss))
+                const t1 = performance.now()
+
+                console.log(t1-t0)
                 await tf.nextFrame()
             }
             return tf.concat(losses)
