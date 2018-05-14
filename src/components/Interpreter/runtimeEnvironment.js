@@ -14,9 +14,10 @@ class Scope {
     }
 
     Tensor = tf.tensor
-    Variable = tf.variable
-    Assign = ({ tensor, value }) => {
-        tensor.assign(value)
+    Variable = async (tensor) => tf.variable(await tensor)
+    Assign = async ({ tensor, value }) => {
+        tensor = await tensor
+        tensor.assign(await value)
         return tensor
     }
     Shape = (tensor) => tf.tensor(tensor.shape)
@@ -24,18 +25,16 @@ class Scope {
     Size = (tensor) => tf.scalar(tensor.size)
 
     Mean = async ({ tensor, axis = tf.scalar(0) }) => {
-        tensor = await tensor
-        axis = this.ConvertToNative(await axis)
-        return tf.mean(tensor, axis)
+        axis = await this.ConvertToNative(await axis)
+        return tf.mean(await tensor, await axis)
     }
     Sum = async ({ tensor, axis = tf.scalar(0) }) => {
-        tensor = await tensor
-        axis = this.ConvertToNative(await axis)
-        return tf.sum(tensor, axis)
+        axis = await this.ConvertToNative(await axis)
+        return tf.sum(await tensor, await axis)
     }
-    Min = ({ tensor, axis = tf.scalar(0) }) => {
-        axis = this.ConvertToNative(axis)
-        return tf.min(tensor, axis)
+    Min = async ({ tensor, axis = tf.scalar(0) }) => {
+        axis = await this.ConvertToNative(await axis)
+        return tf.min(await tensor, await axis)
     }
 
     /*
@@ -50,49 +49,50 @@ class Scope {
     */
 
     // Shape shifters
-    Reshape = ({ tensor, shape }) => {
-        shape = this.ConvertToNative(shape)
-        return tf.reshape(tensor, shape)
+    Reshape = async ({ tensor, shape }) => {
+        shape = tf.tensor([tensor.shape])
+        shape = await this.ConvertToNative(await shape)
+        return tf.reshape(await tensor, await shape)
     }
-    Squeeze = ({ tensor, axis }) => {
-        axis = this.ConvertToNative(axis)
-        return tf.squeeze(tensor, axis)
+    Squeeze = async ({ tensor, axis }) => {
+        axis = await this.ConvertToNative(await axis)
+        return tf.squeeze(await tensor, await axis)
     }
-    SqueezeAll = (tensor) => {
-        return tf.squeeze(tensor)
+    SqueezeAll = async (tensor) => {
+        return tf.squeeze(await tensor)
     }
-    Transpose = (tensor) => {
-        return tf.transpose(tensor)
+    Transpose = async (tensor) => {
+        return tf.transpose(await tensor)
     }
-    ExpandDimension = ({ tensor, axis = tf.scalar(0) }) => {
-        axis = this.ConvertToNative(axis)
-        return tf.expandDims(tensor, axis)
+    ExpandDimension = async ({ tensor, axis = tf.scalar(0) }) => {
+        axis = await this.ConvertToNative(await axis)
+        return tf.expandDims(await tensor, await axis)
     }
-    RankUp = (tensor) => {
-        return tf.expandDims(tensor, 0)
+    RankUp = async (tensor) => {
+        return tf.expandDims(await tensor, 0)
     }
-    ResizeBilinear = ({ tensor, shape }) => {
-        shape = shape || this.Shape(tensor)
-        shape = this.ConvertToNative(shape)
-        return tf.image.resizeBilinear(tensor, shape)
+    ResizeBilinear = async ({ tensor, shape }) => {
+        shape = shape || this.Shape(await tensor)
+        shape = await this.ConvertToNative(await shape)
+        return tf.image.resizeBilinear(await tensor, await shape)
     }
-    MaxPool = ({ tensor, filterSize = tf.scalar(1), strides = tf.scalar(1) }) => {
-        filterSize = this.ConvertToNative(filterSize)
-        strides = this.ConvertToNative(strides)
-        return tf.maxPool(tensor, filterSize, strides, "same")
+    MaxPool = async ({ tensor, filterSize = tf.scalar(1), strides = tf.scalar(1) }) => {
+        filterSize = await this.ConvertToNative(await filterSize)
+        strides = await this.ConvertToNative(strides)
+        return tf.maxPool(await tensor, await filterSize, await strides, "same")
     }
-    Convolution2D = ({ tensor, filter, strides = tf.scalar(1) }) => {
-        strides = this.ConvertToNative(strides)
-        return tf.conv2d(tensor, filter, strides, "same")
+    Convolution2D = async ({ tensor, filter, strides = tf.scalar(1) }) => {
+        strides = this.ConvertToNative(await strides)
+        return tf.conv2d(await tensor, await filter, await strides, "same")
     }
-    Tile = ({ tensor, reps }) => {
-        reps = this.ConvertToNative(reps)
-        return tf.tile(tensor, reps)
+    Tile = async ({ tensor, reps }) => {
+        reps = await this.ConvertToNative(await reps)
+        return tf.tile(await tensor, await reps)
     }
-    Slice = ({ tensor, begin, size }) => {
-        begin = this.ConvertToNative(begin)
-        size = this.ConvertToNative(size)
-        return tf.slice(tensor, begin, size)
+    Slice = async ({ tensor, begin, size }) => {
+        begin = this.ConvertToNative(await begin)
+        size = this.ConvertToNative(await size)
+        return tf.slice(await tensor, await begin, await size)
     }
 
     // Arithmetics
@@ -110,7 +110,7 @@ class Scope {
     Sign = tf.sign
     Floor = tf.floor
     Ceiling = tf.ceil
-    Round = tf.round
+    Round = async (tensor) => tf.round(await tensor)
     Absolute = tf.abs
     Logarithm = tf.log
 
@@ -130,10 +130,10 @@ class Scope {
     Softplus = tf.softplus
 
     // Generators
-    RandomNormal = ({ shape = tf.tensor([1]), mean = tf.scalar(0), stdDev = tf.scalar(1) }) => {
-        shape = this.ConvertToNative(shape)
-        mean = this.ConvertToNative(mean)
-        stdDev = this.ConvertToNative(stdDev)
+    RandomNormal = async ({ shape = tf.tensor([1]), mean = tf.scalar(0), stdDev = tf.scalar(1) }) => {
+        shape = await this.ConvertToNative(shape)
+        mean = await this.ConvertToNative(mean)
+        stdDev = await this.ConvertToNative(stdDev)
         return tf.randomNormal(shape, mean, stdDev)
     }
     RandomUniform = ({ shape, min = tf.scalar(0), max = tf.scalar(1), dtype }) => {
@@ -148,8 +148,8 @@ class Scope {
         num = this.ConvertToNative(num)
         return tf.linspace(start, stop, num)
     }
-    Iota = (value) => {
-        value = this.ConvertToNative(value)
+    Iota = async (value) => {
+        value = await this.ConvertToNative(value)
         return tf.linspace(0, value, value)
     }
     Ones = (shape) => {
@@ -172,29 +172,38 @@ class Scope {
     StochasticGradientDescent = async ({
             learningRate = tf.scalar(1),
             maxIterations = tf.scalar(10),
-            maxTime = tf.scalar(1)
+            maxTime = tf.scalar(1000)
         }) => {
-        learningRate = this.ConvertToNative(await learningRate)
-        maxIterations = this.ConvertToNative(await maxIterations)
-        maxTime = this.ConvertToNative(await maxTime)
+        learningRate = await this.ConvertToNative(await learningRate)
+        maxIterations = await this.ConvertToNative(await maxIterations)
+        maxTime = await this.ConvertToNative(await maxTime)
 
         const optimizer = tf.train.sgd(learningRate)
         const minimize = optimizer.minimize.bind(optimizer)
 
         const optimize = async (lossFn) => {
             const losses = []
+            const t0 = performance.now()
             for (let i = 0; i < maxIterations; i++) {
-                const t0 = performance.now()
-                const loss = await lossFn.call()
+                const u0 = performance.now()
+                const loss = await (await lossFn).call()
                 // console.log(loss)
                 const cost = minimize((() => loss), true)
-                losses.push(this.RankUp(loss))
-                const t1 = performance.now()
+                losses.push(await this.RankUp(await loss))
+                const u1 = performance.now()
 
-                console.log(t1-t0)
+                const timePerIteration = u1 - u0
+                const totalTime = u1 - t0
+
+                console.log("timePerIteration", timePerIteration)
+                console.log("totalTime", totalTime)
+
+                if (totalTime > maxTime) {
+                    break;
+                }
                 await tf.nextFrame()
             }
-            return tf.concat(losses)
+            return tf.concat(await Promise.all(losses))
         }
 
         return optimize
@@ -205,14 +214,15 @@ Flow = ({ f, count = 1 }) => {
     return flow(Array.from({ length: count }, (v, i) => f))
 }
 
-ConvertToNative = (tensor) => {
+ConvertToNative = async (tensor) => {
+    tensor = await tensor
     const isTensor = (tensor instanceof tf.Tensor)
     if (!isTensor) {
         throw new Error(`Only tensors can be converted to native type.`)
         console.log(tensor)
         return
     }
-    const data = tensor.dataSync()
+    const data = await tensor.data()
     if (tensor.rank === 0 && tensor.size === 1) {
         return data[0]
     }
