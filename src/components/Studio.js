@@ -16,17 +16,12 @@ export default class Studio extends PureComponent {
         issues: [],
         computedValues: null
     }
-    // worker = new Worker()
+
     async componentDidMount() {
         const code = await this.loadFromGallery("22_polynomial_regression")
         this.setState({ code })
-
-        // this.worker.addEventListener("message", (event) => {
-        //     console.log("Message from worker", event)
-        // })
     }
     codeChanged = async (code, editor) => {
-        // this.worker.postMessage({ code })
         this.setState(await Evaluator.evaluate(code))
     }
     loadFromGallery = async id => {
