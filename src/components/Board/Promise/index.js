@@ -13,46 +13,41 @@ export default class Promise extends PureComponent {
         data: null,
         resolved: false
     }
-
-    componentDidMount() {
-        if (isPromise(this.props.data)) {
-            this.props.data.then(data => {
+    _mounted = false
+    
+    resolve() {
+        this.props.data.then(data => {
+            if (this._mounted) {
                 this.setState({
                     data,
                     resolved: true
                 })
-            })
-        }
+            }
+        })
+    }
+
+    componentDidMount() {
+        this._mounted = true
+        this.resolve()
+    }
+
+    componentWillUnmount() {
+        this._mounted = false
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.data !== this.props.data) {
-            if (isPromise(this.props.data)) {
-                this.setState({
-                    resolved: false
-                })
-                this.props.data.then(data => {
-                    this.setState({
-                        data,
-                        resolved: true
-                    })
-                })
-            }
+            this.setState({
+                resolved: false
+            })
+            this.resolve()
         }
     }
 
     render() {
-        let data
-
-        if (!(isPromise(this.props.data))) {
-            data = this.props.data
-        } else {
-            data = this.state.data
-        }
-
         return (
             <div className={"promise " + (this.state.resolved ? "resolved" : "unresolved")}>
-                <ObjectProperty {...this.props} data={data} />
+                <ObjectProperty {...this.props} data={this.state.data} />
             </div>
         )
     }

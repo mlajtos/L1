@@ -178,7 +178,6 @@ class TensorStatistics extends PureComponent {
         computing: false
     }
     static getDerivedStateFromProps(nextProps, prevState) {
-        // console.log("getDerivedStateFromProps", nextProps.data === prevState.data ? "same" : "diff")
         if (nextProps.data === prevState.data) {
             return null
         }
@@ -192,20 +191,27 @@ class TensorStatistics extends PureComponent {
     }
     componentDidMount() {
         this.updateStats()
+        this._mounted = true
+    }
+    componentWillUnmount() {
+        this._mounted = false
     }
     componentDidUpdate(prevProps, prevState) {
-        // console.log("componentDidUpdate")
         if (prevState.data !== this.state.data) {
             this.updateStats()
         }
     }
     async updateStats() {
-        this.setState({
-            min: await this.state.data.min().data(),
-            max: await this.state.data.max().data(),
-            mean: await this.state.data.mean().data(),
+        const updatedState = {
+            min: (await this.props.data.min().data())[0],
+            max: (await this.props.data.max().data())[0],
+            mean: (await this.props.data.mean().data())[0],
             computing: false
-        })
+        }
+        
+        if (this._mounted) {
+            this.setState(updatedState)
+        }
     }
     render() {
         return (

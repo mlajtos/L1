@@ -8,7 +8,6 @@ monaco.editor.defineTheme("moniel", theme)
 
 export default class ColorizedCode extends PureComponent {
     state = {
-        value: this.props.children,
         colorizedValue: null,
         mounted: false
     }
@@ -20,18 +19,18 @@ export default class ColorizedCode extends PureComponent {
         }
     }
     componentDidUpdate() {
-        this.colorize(this.state.value)
+        this.colorize(this.props.children)
     }
     componentDidMount() {
         this._mounted = true
-        this.colorize(this.state.value)
+        this.colorize(this.props.children)
     }
     componentWillUnmount() {
         this._mounted = false
     }
     render() {
         if (!this.state.colorizedValue) {
-            return <div>{this.state.value}</div>
+            return <div>{this.props.children}</div>
         } else {
             return <div dangerouslySetInnerHTML={{__html: this.state.colorizedValue}} />
         }
