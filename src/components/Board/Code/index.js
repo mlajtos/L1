@@ -6,7 +6,7 @@ monaco.languages.register(language)
 monaco.languages.setMonarchTokensProvider("moniel", provider)
 monaco.editor.defineTheme("moniel", theme)
 
-export default class ColorizedCode extends PureComponent {
+export default class Code extends PureComponent {
     state = {
         colorizedValue: null,
         mounted: false
