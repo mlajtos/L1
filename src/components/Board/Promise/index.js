@@ -1,12 +1,8 @@
 import React, { PureComponent } from "react"
-import * as tf from "@tensorflow/tfjs"
 
 import ObjectProperty from "../ObjectProperty"
-import PropertyWrapper from "../PropertyWrapper"
 
 import "./style.sass"
-
-const isPromise = (value) => (value.toString() === "[object Promise]")
 
 export default class Promise extends PureComponent {
     state = {
