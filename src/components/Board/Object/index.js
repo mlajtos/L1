@@ -10,7 +10,6 @@ const _m = Symbol.for("meta")
 export default class ObjectVis extends PureComponent {
     render() {
         const { data } = this.props
-        // console.log("ObjectVis", data)
 
         const props = Object.entries(data)
             .filter(([key]) => !data[_m][key].silent)
@@ -28,7 +27,7 @@ export default class ObjectVis extends PureComponent {
             })
 
         return (
-            <PropertyWrapper {...this.props} type="object">
+            <PropertyWrapper {...this.props} type="object" symbol="{}">
                 <div className="properties">
                     {props}
                 </div>

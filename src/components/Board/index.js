@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react"
-import * as tf from "@tensorflow/tfjs"
 
 import Object from "./Object"
 
@@ -13,7 +12,7 @@ export default class Board extends PureComponent {
         
         return (
             <div className="board">
-                <Object data={this.props.data} />
+                <Object data={this.props.data} name="Visualization" />
             </div>
         )
     }
