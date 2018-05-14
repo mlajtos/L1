@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react"
 import * as tf from "@tensorflow/tfjs"
-import { isObject, isFunction } from "lodash"
+import { isObject, isFunction, stubTrue } from "lodash"
 
 import TensorVis from "../Tensor"
 import ScalarVis from "../Scalar"
@@ -9,28 +9,21 @@ import UnknownVis from "../Unknown"
 import PromiseVis from "../Promise"
 import ObjectVis from "../Object"
 
+const isUndefined = (value) => !value
 const isPromise = (value) => (value.toString() === "[object Promise]")
+const isTensor = (value) => value instanceof tf.Tensor
+const isScope = (value) => (isObject(value) && !isPromise(value))
 
 export default class ObjectProperty extends PureComponent {
-    valueToVis = value => {
-        if (!value) {
-            return UnknownVis
-        } else
-        if (value instanceof tf.Tensor) {
-            return TensorVis
-        } else
-        if (isFunction(value)) {
-            return FunctionVis
-        } else
-        if (isObject(value) && !isPromise(value)) {
-            return ObjectVis
-        } else
-        if (isPromise(value)) {
-            return PromiseVis
-        } else {
-            return UnknownVis
-        }
-    }
+    visualizations = [
+        [isUndefined,   UnknownVis  ],
+        [isTensor,      TensorVis   ],
+        [isFunction,    FunctionVis ],
+        [isScope,       ObjectVis   ],
+        [isPromise,     PromiseVis  ],
+        [stubTrue,      UnknownVis  ],
+    ]
+    valueToVis = value => this.visualizations.find(([cond, result]) => cond(value))[1] 
     render() {
         const Component = this.valueToVis(this.props.data)
         return (
