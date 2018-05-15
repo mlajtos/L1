@@ -10,15 +10,17 @@ export default class Stats extends PureComponent {
         min: 0,
         max: 0,
         mean: 0,
-        computing: false
+        computing: false,
+        revisionId: 0
     }
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.data === prevState.data) {
+        if (nextProps.data === prevState.data && nextProps.revisionId === prevState.revisionId) {
             return null
         }
 
         const newState = {
             data: nextProps.data,
+            revisionId: nextProps.revisionId,
             computing: true
         }
 
@@ -32,7 +34,7 @@ export default class Stats extends PureComponent {
         this._mounted = false
     }
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.data !== this.state.data) {
+        if (prevState.data !== this.state.data || prevState.revisionId !== this.state.revisionId) {
             this.updateStats()
         }
     }

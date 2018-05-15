@@ -5,19 +5,16 @@ import { flow, get, hasIn } from "lodash-es"
 class Variable extends tf.Variable {
     _mutationObservers = []
     assign(newValue) {
-        this.notify()
         super.assign(newValue)
+        this.notify()
     }
     subscribe(fn) {
-        console.log("Subsribing... ", fn)
         this._mutationObservers.push(fn)
     }
     unsubscribe(fn) {
-        console.log("Unsubsribing... ", fn)
         this._mutationObservers = this._mutationObservers.filter(mo => mo !== fn)
     }
     notify() {
-        console.log("Mutating variable id=", this.id)
         this._mutationObservers.forEach(mo => mo.call())
     }
 }

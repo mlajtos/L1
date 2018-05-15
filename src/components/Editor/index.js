@@ -41,6 +41,8 @@ export default class Editor extends PureComponent {
             lineDecorationsWidth: 0,
             wordWrap: "bounded",
             wrappingIndent: "indent",
+            autoIndent: true,
+            formatOnType: true, 
             minimap: {
                 enabled: false
             },

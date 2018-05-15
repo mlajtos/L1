@@ -1,0 +1,38 @@
+Data: {
+    _xs: Transpose RankUp (1 + Iota 100)
+    ys: (x => x^2 + x + 3) RandomNormal {
+        shape: [20 20]
+    }
+}
+
+Model: {
+    $a:: RandomNormal {
+        shape: [20 20]
+    }
+
+    _predict: x => a
+    _loss: predictions => labels =>
+        Sum {
+            tensor: Mean { # this is awful, I know
+                tensor: (predictions - labels)^2
+                axis: [0]
+            }
+        }
+    _step: x => y => (loss (predict x)) y
+    _test: {
+        p: predict Data.xs
+        l: (loss p) Data.ys
+    }
+}
+
+Optimizer: {
+    config: {
+        learningRate: 0.3
+        maxIterations: 1000
+        maxTime: 10000
+    }
+    _optimize: StochasticGradientDescent config
+    _loss: a => (Model.step Data.xs) Data.ys
+    stats: optimize loss
+    mu: Round (Transpose RankUp ((Iota 10) / 10) @ RankUp stats)
+}

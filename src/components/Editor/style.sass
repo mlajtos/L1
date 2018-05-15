@@ -46,13 +46,17 @@ canvas.decorationsOverviewRuler
 .margin-view-overlays
     position: relative !important
 
+    .line-numbers
+        color: #6f6f6f !important
+
     &:after
         content: ""
         position: absolute
         top: 0
         bottom: 0
-        right: 10px
+        right: 11px
         left: 0
         box-sizing: border-box
         border-right: 1px solid lightgray
         background-color: hsla(0, 0%, 50%, 0.05)
+        pointer-events: none

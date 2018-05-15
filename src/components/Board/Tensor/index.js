@@ -12,34 +12,60 @@ import Stats from "./Stats"
 import "./style.sass"
 
 export default class Tensor extends PureComponent {
+    state = {
+        isVariable: false,
+        data: null,
+        revisionId: 0
+    }
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.data !== prevState.data) {
+            const isVariable = (nextProps.data instanceof tf.Variable)
+            const symbol = (isVariable ? "~" : "") + "[]"
+            return  {
+                data: nextProps.data,
+                isVariable,
+                symbol,
+                revisionId: 0
+            }
+        }
+
+        return null
+    }
     componentDidMount() {
-        const { data } = this.props
-        const isVariable = (data instanceof tf.Variable)
-        if (isVariable) {
-            data.subscribe(this.update)
+        if (this.state.isVariable) {
+            this.state.data.subscribe(this.update)
+        }
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.data !== this.props.data) {
+            if (prevProps.data instanceof tf.Variable) {
+                prevProps.data.unsubscribe(this.update)
+            }
+            if (this.state.isVariable) {
+                this.state.data.subscribe(this.update)
+            }
         }
     }
     componentWillUnmount() {
-        const { data } = this.props
-        const isVariable = (data instanceof tf.Variable)
-        if (isVariable) {
-            data.unsubscribe(this.update)
+        if (this.state.isVariable) {
+            this.state.data.unsubscribe(this.update)
         }
     }
     update = () => {
-        console.log("Rerendering...")
-        this.forceUpdate()
+        this.setState({
+            revisionId: this.state.revisionId + 1
+        })
     }
     render() {
-        const { data } = this.props
-        const isScalar = (data.rank === 0)
-        const isVariable = (data instanceof tf.Variable)
-        const symbol = (isVariable ? "~" : "") + "[]"
+        if (!this.state.data) {
+            return null
+        }
+        const isScalar = (this.state.data.rank === 0)
         const Component = isScalar ? ScalarVis : GenericTensor
 
         return (
-            <PropertyWrapper {...this.props} type="tensor" symbol={symbol}>
-                <Component data={data} />
+            <PropertyWrapper {...this.props} type="tensor" symbol={this.state.symbol}>
+                <Component data={this.state.data} revisionId={this.state.revisionId} />
             </PropertyWrapper>
         )
     }
@@ -51,8 +77,8 @@ class GenericTensor extends PureComponent {
 
         return (
             <div className="tensor-content">
-                <TensorCanvas key="canvas" data={data} />
-                <Stats key="stats" data={data} />
+                <TensorCanvas key="canvas" data={data} revisionId={this.props.revisionId} />
+                <Stats key="stats" data={data} revisionId={this.props.revisionId} />
             </div>
         )
     }
