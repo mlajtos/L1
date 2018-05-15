@@ -71,7 +71,7 @@ module.exports = {
       background: "#fff",
       title: "L1"
     }),
-    //new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin()
   ],
   devtool: "eval-source-map",
   devServer: {

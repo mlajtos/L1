@@ -1,6 +1,26 @@
-import * as tf from "@tensorflow/tfjs"
+import * as tf from "@tensorflow/tfjs-core"
 //import * as mnist from "mnist"
-import { flow, get, hasIn } from "lodash"
+import { flow, get, hasIn } from "lodash-es"
+
+class Variable extends tf.Variable {
+    _mutationObservers = []
+    assign(newValue) {
+        this.notify()
+        super.assign(newValue)
+    }
+    subscribe(fn) {
+        console.log("Subsribing... ", fn)
+        this._mutationObservers.push(fn)
+    }
+    unsubscribe(fn) {
+        console.log("Unsubsribing... ", fn)
+        this._mutationObservers = this._mutationObservers.filter(mo => mo !== fn)
+    }
+    notify() {
+        console.log("Mutating variable id=", this.id)
+        this._mutationObservers.forEach(mo => mo.call())
+    }
+}
 
 class Scope {
     [Symbol.for("meta")] = {}
@@ -14,7 +34,7 @@ class Scope {
     }
 
     Tensor = tf.tensor
-    Variable = async (tensor) => tf.variable(await tensor)
+    Variable = async (tensor) => new Variable(await tensor)
     Assign = async ({ tensor, value }) => {
         tensor = await tensor
         tensor.assign(await value)

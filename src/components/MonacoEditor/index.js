@@ -46,7 +46,7 @@ import 'monaco-editor/esm/vs/editor/contrib/wordOperations/wordOperations.js';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 
 // (2) Desired languages:
-import 'monaco-editor/esm/vs/language/typescript/monaco.contribution';
+// import 'monaco-editor/esm/vs/language/typescript/monaco.contribution';
 // import 'monaco-editor/esm/vs/language/css/monaco.contribution';
 import 'monaco-editor/esm/vs/language/json/monaco.contribution';
 // import 'monaco-editor/esm/vs/language/html/monaco.contribution';

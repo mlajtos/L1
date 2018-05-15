@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react"
-import * as tf from "@tensorflow/tfjs"
 
 import "normalize.css"
 import "./style.sass"

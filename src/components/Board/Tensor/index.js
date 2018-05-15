@@ -1,22 +1,40 @@
 import React, { PureComponent } from "react"
-import * as tf from "@tensorflow/tfjs"
+import * as tf from "@tensorflow/tfjs-core"
 
-import { isFunction } from "lodash"
+import { isFunction } from "lodash-es"
 import numeral from "numeral"
 
 import ScalarVis from "../Scalar"
-import Code from "../Code"
 import PropertyWrapper from "../PropertyWrapper"
+
+import Stats from "./Stats"
 
 import "./style.sass"
 
 export default class Tensor extends PureComponent {
-    render() {
-        const data = this.props.data
+    componentDidMount() {
+        const { data } = this.props
         const isVariable = (data instanceof tf.Variable)
+        if (isVariable) {
+            data.subscribe(this.update)
+        }
+    }
+    componentWillUnmount() {
+        const { data } = this.props
+        const isVariable = (data instanceof tf.Variable)
+        if (isVariable) {
+            data.unsubscribe(this.update)
+        }
+    }
+    update = () => {
+        console.log("Rerendering...")
+        this.forceUpdate()
+    }
+    render() {
+        const { data } = this.props
         const isScalar = (data.rank === 0)
+        const isVariable = (data instanceof tf.Variable)
         const symbol = (isVariable ? "~" : "") + "[]"
-
         const Component = isScalar ? ScalarVis : GenericTensor
 
         return (
@@ -34,7 +52,7 @@ class GenericTensor extends PureComponent {
         return (
             <div className="tensor-content">
                 <TensorCanvas key="canvas" data={data} />
-                <TensorStatistics key="stats" data={data} />
+                <Stats key="stats" data={data} />
             </div>
         )
     }
@@ -133,17 +151,6 @@ class TensorCanvas extends PureComponent {
     }
 }
 
-const Field = ({ name, children }) => (
-    <div className="field">
-        <div className="label">
-            <Code>{name}</Code>
-        </div>
-        <div className="value">
-            <Code>{children}</Code>
-        </div>
-    </div>
-)
-
 export const formatNumber = (number) => {
     try{
         return numeral(number).format("0,0.[00]").replace(/,/g, "_")
@@ -167,78 +174,4 @@ const normalizeTensor = async (tensor) => {
     const b = tf.scalar(1)
     const normalized = await scaleFeatures(r, a, b)
     return await scaleFeatures(normalized, tf.scalar(0), tf.scalar(255))
-}
-
-class TensorStatistics extends PureComponent {
-    state = {
-        data: null,
-        min: 0,
-        max: 0,
-        mean: 0,
-        computing: false
-    }
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.data === prevState.data) {
-            return null
-        }
-
-        const newState = {
-            data: nextProps.data,
-            computing: true
-        }
-
-        return newState
-    }
-    componentDidMount() {
-        this.updateStats()
-        this._mounted = true
-    }
-    componentWillUnmount() {
-        this._mounted = false
-    }
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.data !== this.state.data) {
-            this.updateStats()
-        }
-    }
-    async updateStats() {
-        const updatedState = {
-            min: (await this.props.data.min().data())[0],
-            max: (await this.props.data.max().data())[0],
-            mean: (await this.props.data.mean().data())[0],
-            computing: false
-        }
-        
-        if (this._mounted) {
-            this.setState(updatedState)
-        }
-    }
-    render() {
-        return (
-            <div className="info">
-                <Field name="Shape">
-                    {"[" + this.state.data.shape.map(formatNumber).join(" ") + "]"}
-                </Field>
-                <Field name="Size">
-                    {formatNumber(this.state.data.size)}
-                </Field>
-                <Field name="Rank">
-                    {formatNumber(this.state.data.rank)}
-                </Field>
-                <Field name="Mean">
-                    {formatNumber(+this.state.mean)}
-                </Field>
-                <Field name="Range">
-                    {formatNumber(this.state.max - this.state.min)}
-                </Field>
-                <Field name="Min">
-                    {formatNumber(+this.state.min)}
-                </Field>
-                <Field name="Max">
-                    {formatNumber(+this.state.max)}
-                </Field>
-                { this.state.computing ? "Computing..." : null}
-            </div>
-        )
-    }
 }

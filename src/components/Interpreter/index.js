@@ -1,6 +1,6 @@
 import runtimeEnvironment from "./runtimeEnvironment"
-import * as tf from "@tensorflow/tfjs"
-import { isPlainObject, isFunction, has, hasIn, set, get, merge } from "lodash"
+import * as tf from "@tensorflow/tfjs-core"
+import { isPlainObject, isFunction, has, hasIn, set, get, merge } from "lodash-es"
 
 import { OPERATORS } from "./operators"
 

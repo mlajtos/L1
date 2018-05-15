@@ -1,12 +1,12 @@
 import React, { PureComponent } from "react"
 import ReactDOM from "react-dom"
+import { isFunction } from "lodash-es"
 import FontFaceObserver from "fontfaceobserver"
 
 import "./style.sass"
 
 // TODO: simplify this
 import { monaco, language, provider, theme } from "../MonacoEditor"
-import { isFunction } from "lodash"
 monaco.languages.register(language)
 monaco.languages.setMonarchTokensProvider("moniel", provider)
 monaco.editor.defineTheme("moniel", theme)
@@ -36,14 +36,16 @@ export default class Editor extends PureComponent {
             tabSize: ("tabSize" in this.props) ? this.props.tabSize : 4,
             readOnly: ("readOnly" in this.props) ? this.props.readOnly : false,
             glyphMargin: true,
-            lineNumbers: false,
+            // lineNumbers: false,
+            lineNumbersMinChars: 2,
+            lineDecorationsWidth: 0,
             wordWrap: "bounded",
             wrappingIndent: "indent",
             minimap: {
                 enabled: false
             },
             scrollbar: {
-                useShadows: false,
+                useShadows: true,
                 verticalScrollbarSize: 5,
                 horizontalScrollbarSize: 5
             }
@@ -139,7 +141,7 @@ export default class Editor extends PureComponent {
     }
     render() {
         return (
-            <div style={{ flex: 1 }}>
+            <div className="editor-container">
                 <div style={{ width: "100%", height: "100%" }} ref={this._mount} />
             </div>
         )

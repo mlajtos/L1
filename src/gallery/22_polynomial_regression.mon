@@ -4,7 +4,7 @@ Data: {
 }
 
 Model: {
-    b: 1
+    $b: 1
     $c:: 1
 
     _predict: x => x * b + c
@@ -24,13 +24,11 @@ Model: {
 
 Optimizer: {
     optimize: StochasticGradientDescent {
-        learningRate: 0.0134
-        maxIterations: 10
-        maxTime: 1000
+        learningRate: 0.03
+        maxIterations: 1000
+        maxTime: 5000
     }
     _loss: a => (Model.step Data.xs) Data.ys
     stats: optimize loss
     mu: Round (Transpose RankUp ((Iota 10) / 10) @ RankUp stats)
 }
-mu: '1
-mu2: '1

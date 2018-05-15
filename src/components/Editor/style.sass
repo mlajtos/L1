@@ -1,6 +1,12 @@
+.editor-container
+    flex: 1
+    border: 1px solid lightgray
+    border-radius: 5px
+    overflow: hidden
+    
 .message
     color: hsl(0, 52%, 22%)
-    border-radius: 20px 0 0 20px
+    // border-radius: 20px 0 0 20px
     padding: 0.35em 1em 0.35em 1em
     font-size: smaller
     position: absolute
@@ -17,27 +23,36 @@
     &.warning
         background-color: hsla(55, 100%, 50%, 0.15)
 .glyphDecoration
-    display: block
-    left: unset !important
-    right: 0
-    border-radius: 10px 0 0 10px
-    padding: 0 5px
+    width: 100% !important
     &.error
         background-color: rgba(255, 0, 0, 0.15)
         &:after
-            //content: "🚫"
-            content: "🐞"
+            content: "🚫"
+            //content: "🐞"
     &.warning
         background-color: hsla(55, 100%, 50%, 0.15)
         &:after
             content: "⚠️"
     &:after
         font-size: small
-        display: block
-        text-align: center
+        margin-left: 0.3em
         text-shadow: 0 0 0px #000000ad
 
 canvas.decorationsOverviewRuler
     display: none
 .vs .monaco-scrollable-element > .scrollbar > .slider
     border-radius: 10px
+
+.margin-view-overlays
+    position: relative !important
+
+    &:after
+        content: ""
+        position: absolute
+        top: 0
+        bottom: 0
+        right: 10px
+        left: 0
+        box-sizing: border-box
+        border-right: 1px solid lightgray
+        background-color: hsla(0, 0%, 50%, 0.05)

@@ -23,7 +23,7 @@
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-layers/-/tfjs-layers-0.5.3.tgz#0b45624ba8bcbd8e904f68344f16cf6358c695af"
 
-"@tensorflow/tfjs@*":
+"@tensorflow/tfjs@0.10.3":
   version "0.10.3"
   resolved "https://registry.yarnpkg.com/@tensorflow/tfjs/-/tfjs-0.10.3.tgz#29d44e57d53492532829c768958151fb8893b2ab"
   dependencies:
@@ -4380,6 +4380,10 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
+lodash-es@^4.17.10:
+  version "4.17.10"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.10.tgz#62cd7104cdf5dd87f235a837f0ede0e8e5117e05"
+
 lodash.assign@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
@@ -4766,9 +4770,9 @@ mnist@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/mnist/-/mnist-1.1.0.tgz#b83efc6af88d8db53b196665acdb50cf524bd2ba"
 
-monaco-editor@^0.12:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.12.0.tgz#cd8621017526b57746245104d764bbf52ad42283"
+monaco-editor@^0.13:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.13.0.tgz#9166218bd1620ed2261ad77363985299c3e26cb7"
 
 move-concurrently@^1.0.1:
   version "1.0.1"

@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react"
-import * as tf from "@tensorflow/tfjs"
-import { isObject, isFunction, stubTrue } from "lodash"
+import * as tf from "@tensorflow/tfjs-core"
+import { isObject, isFunction, stubTrue } from "lodash-es"
 
 import TensorVis from "../Tensor"
 import ScalarVis from "../Scalar"

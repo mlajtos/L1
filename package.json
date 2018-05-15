@@ -10,13 +10,13 @@
     "serve": "http-server dist/"
   },
   "dependencies": {
-    "@tensorflow/tfjs": "*",
+    "@tensorflow/tfjs": "0.10.3",
     "buffer": "^5.1.0",
     "firacode": "https://github.com/tonsky/FiraCode",
     "fontfaceobserver": "^2.0.13",
-    "lodash": "^4.17.10",
+    "lodash-es": "^4.17.10",
     "mnist": "^1.1.0",
-    "monaco-editor": "^0.12",
+    "monaco-editor": "^0.13",
     "normalize.css": "^8.0.0",
     "numeral": "^2.0.6",
     "ohm-js": "^0.14.0",
