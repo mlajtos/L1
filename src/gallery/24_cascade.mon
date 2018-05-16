@@ -1,0 +1,5 @@
+count: 10
+Cascade: (Flow {
+    fn: a => {::a}
+    ::count
+}) {}
