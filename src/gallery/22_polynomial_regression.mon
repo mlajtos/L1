@@ -1,33 +1,34 @@
-Data: {
-    xs: Transpose RankUp (1 + Iota 100)
+_Data: {
+    xs: Transpose RankUp (1 + Iota 1000)
     ys: xs + 5
 }
 
 Model: {
-    $b: 1
-    $c:: 1
+    b: 1
+    $c: 1
 
     _predict: x => x * b + c
-    _loss: predictions => labels =>
+    _loss: labels => predictions =>
         Sum {
             tensor: Mean { # this is awful, I know
                 tensor: (predictions - labels)^2
                 axis: [0]
             }
         }
-    _step: x => y => (loss (predict x)) y
-    _test: {
+    _step: y => x => (loss y) (predict x)
+    test: {
         p: predict Data.xs
         l: (loss p) Data.ys
     }
 }
 
 Optimizer: {
-    optimize: StochasticGradientDescent {
+    config: {
         learningRate: 0.03
         maxIterations: 1000
-        maxTime: 5000
+        maxTime: 2000
     }
+    _optimize: StochasticGradientDescent config
     _loss: a => (Model.step Data.xs) Data.ys
     stats: optimize loss
     mu: Round (Transpose RankUp ((Iota 10) / 10) @ RankUp stats)
