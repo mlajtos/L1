@@ -27,12 +27,13 @@ class Interpreter {
         },
         // ripe for refactoring
         Assignment: async (token, state) => {
+
             const path = await this.processToken(token.path, state)
             const value = this.processToken(token.value, state)
 
-            const silent = token.silent
-            const isVariable = token.variable
-            const isReassignemnt = (token.operator.length > 1)
+            const silent = token.silent || false
+            const isVariable = token.variable || false
+
             const exists = has(state, path)
 
             const baseValue = {
@@ -46,23 +47,19 @@ class Interpreter {
 
             if (exists) {
                 const oldValue = await get(state, path)
-                const isVariable = oldValue instanceof tf.Variable
-                if (isVariable) {
-                    if (isReassignemnt) {
-                        const fn = getFunction("Assign")
-                        const newValue = call(fn, {
-                            tensor: oldValue,
-                            value
-                        })
-                        return set(baseValue, path, newValue)
-                    } else {
-                        throw Error(`Use "::"`)
-                    }
+                const valueIsVariable = oldValue instanceof tf.Variable
+                if (valueIsVariable) {
+                    const fn = getFunction("Assign")
+                    const newValue = call(fn, {
+                        tensor: oldValue,
+                        value
+                    })
+                    return set(baseValue, path, newValue)
                 } else {
-                    throw Error(`Only variables can be reassigned.`)
+                    throw Error(`Only variables can be reassigned. Use $${path.join(".")}`)
                 }
             } else {
-                if (isReassignemnt) {
+                if (isVariable) {
                     const fn = getFunction("Variable")
                     const newValue = call(fn, value)
                     return set(baseValue, path, newValue)

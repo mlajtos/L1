@@ -9,20 +9,35 @@ const semantics = {
                 value: data.eval()
             }
         },
-        Assignment: function(f1, f2, p, o, v, __) {
+        Assignment_normal: function(f1, f2, p, o, v, __) {
             const silent = (f1.sourceString === "_")
             const variable = (f2.sourceString === "$")
             const path = p.eval()
             const value = v.eval()
-            const operator = o.sourceString
             return {
                 ...includeSource(this.source),
                 type: "Assignment",
-                operator,
                 path,
                 value,
                 silent,
                 variable
+            }
+        },
+        Assignment_import: function(_, p, __) {
+            const path = p.eval()
+            return {
+                ...includeSource(this.source),
+                type: "Assignment",
+                path: {
+                    ...includeSource(this.source),
+                    type: "Path",
+                    value: [path.value.slice(-1).pop()]
+                },
+                value: {
+                    ...includeSource(this.source),
+                    type: "Reference",
+                    value: path
+                }
             }
         },
         FunctionApplication: function(fn, arg) {
