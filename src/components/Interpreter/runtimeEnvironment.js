@@ -226,9 +226,11 @@ class Scope {
         return optimize
     }
 
-Flow = ({ f, count = 1 }) => {
-    count = this.ConvertToNative(count)
-    return flow(Array.from({ length: count }, (v, i) => f))
+Flow = async ({ fn = async a => a, count = tf.scalar(1) }) => {
+    fn = await fn
+    count = await this.ConvertToNative(count)
+    console.log(fn, count)
+    return flow(Array.from({ length: count }, (v, i) => fn))
 }
 
 ConvertToNative = async (tensor) => {
