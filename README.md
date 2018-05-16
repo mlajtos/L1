@@ -222,3 +222,4 @@ a: Fn {
 [Continuations by example](http://matt.might.net/articles/programming-with-continuations--exceptions-backtracking-search-threads-generators-coroutines/)
 [CPS in JS by example](http://matt.might.net/articles/by-example-continuation-passing-style/)
 [EinSum](https://rockt.github.io/2018/04/30/einsum#fn.2)
+[Firebase Cloud Fns](https://www.youtube.com/watch?v=prlK_QL_qOA)
