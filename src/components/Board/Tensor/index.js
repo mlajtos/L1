@@ -20,7 +20,7 @@ export default class Tensor extends PureComponent {
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.data !== prevState.data) {
             const isVariable = (nextProps.data instanceof tf.Variable)
-            const symbol = (isVariable ? "~" : "") + "[]"
+            const symbol = (isVariable ? "$" : "") + "[]"
             return  {
                 data: nextProps.data,
                 isVariable,
