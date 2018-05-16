@@ -141,14 +141,8 @@ class Interpreter {
             return `Unrecognized token: ${token.type}, rest: ${token}`
         }
     }
-    // interpret = (ast) => {
-    //     return new Promise(resolve => {
-    //         const result = this.interpretSync(ast)
-    //         resolve(result)
-    //     })
-    // }
-    interpret = async (ast) => {
-        const state = Object.create(runtimeEnvironment)
+    interpret = async (ast, env = {}) => {
+        const state = Object.assign(Object.create(runtimeEnvironment), env)
         this.issues = []
         const result = await this.processToken(ast, state)
         return {
@@ -220,19 +214,13 @@ const operatorToFunction = (operator, arity) => {
 
 // TODO: memoize maybe?
 const call = async (fn, arg) => {
-    // console.log("Call", fn, arg)
-    if (arg instanceof Promise) {
-        // console.log("Waiting for argument before call.")
-        arg = await arg
-    }
-    if (fn instanceof Promise) {
-        // console.log("Waiting for function before call.")
-        fn = await fn
-    }
+    fn = await fn
+    arg = await arg
+
     if (!isFunction(fn)) {
-        // console.log(fn, arg)
         throw new Error(`${fn} is not a function.`)
     }
+
     return fn(arg)
 }
 
