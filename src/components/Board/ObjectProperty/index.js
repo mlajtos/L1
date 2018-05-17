@@ -23,7 +23,7 @@ export default class ObjectProperty extends PureComponent {
         [isPromise,     PromiseVis  ],
         [stubTrue,      UnknownVis  ],
     ]
-    valueToVis = value => this.visualizations.find(([cond, result]) => cond(value))[1] 
+    valueToVis = value => this.visualizations.find(([cond, result]) => cond(value))[1]
     render() {
         const Component = this.valueToVis(this.props.data)
         return (
