@@ -11,14 +11,14 @@ Model: {
     _loss: labels => predictions =>
         Sum {
             tensor: Mean { # this is awful, I know
-                tensor: (predictions - labels)^2
+                tensor: (labels - predictions)^2
                 axis: [0]
             }
         }
     _step: y => x => (loss y) (predict x)
     test: {
         p: predict Data.xs
-        l: (loss p) Data.ys
+        l: (loss Data.ys) p 
     }
 }
 
@@ -29,7 +29,6 @@ Optimizer: {
         maxTime: 2000
     }
     _optimize: StochasticGradientDescent config
-    _loss: a => (Model.step Data.xs) Data.ys
-    stats: optimize loss
+    stats: optimize (a => (Model.step Data.ys) Data.xs)
     mu: Round (Transpose RankUp ((Iota 10) / 10) @ RankUp stats)
 }
