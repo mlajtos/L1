@@ -95,17 +95,33 @@ const language = {
 
 monaco.languages.register(language)
 
+const languageConfiguration = {
+    comments: {
+        lineComment: ";"
+    }
+}
+
+monaco.languages.setLanguageConfiguration("moniel", languageConfiguration)
+
 const provider = {
+    brackets: [
+        ["{", "}", "delimiter.curly"],
+        ["[", "]", "delimiter.square"],
+        ["(", ")", "delimiter.parenthesis"],
+        ["<", ">", "delimiter.angle"]
+    ],
+
     tokenizer: {
         root: [
             [/-?[0-9_]+(\.[0-9_]*)?/, "number"],
-            [/[a-z_$-][\w$]*/, "identifier"],
+            [/\p{Ll}(\p{Ll}|\p{Lu}|[-_])*/u, "identifier"],
+            [/\p{Lu}(\p{Ll}|\p{Lu}|[-_])*/u, "type.identifier"],
             [/(=>|->|:|\+|-|\*|\/|\^|@|%|\.|×|@|%|÷|∇)/, "operator"],
-            [/[A-Z][\w\$]*/, "type.identifier"],
             [/[{}()\[\]]/, "@brackets"],
             [/[;|].*$/, "comment"]
         ]
     }
+
 }
 
 monaco.languages.setMonarchTokensProvider("moniel", provider)
