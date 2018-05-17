@@ -110,7 +110,7 @@ class TensorCanvas extends PureComponent {
         canvas.width = imageData.width
         canvas.height = imageData.height
 
-        context.putImageData(imageData, 0, 0)
+        window.requestAnimationFrame(() => context.putImageData(imageData, 0, 0))
     }
     _createImageData0D = async (tensor, context) => {
         const imageData = context.createImageData(1, 1)
