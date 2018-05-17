@@ -1,0 +1,5 @@
+_RankDown: a => (ExpandDimension { axis: Rank a }) a
+
+a: [1 2, 3 4]
+b: RankUp a
+c: RankDown a

@@ -82,8 +82,15 @@ class Scope {
         return tf.transpose(await tensor)
     }
     ExpandDimension = async ({ tensor, axis = tf.scalar(0) }) => {
-        axis = await this.ConvertToNative(await axis)
-        return tf.expandDims(await tensor, await axis)
+        const axis_n = await this.ConvertToNative(await axis)
+
+        if (tensor) {
+            tensor = await tensor
+            return tf.expandDims(tensor, axis_n)
+        }
+
+        //return async (tensor) => tf.expandDims(tensor, axis)
+        return async (tensor) => this.ExpandDimension({ tensor, axis })
     }
     RankUp = async (tensor) => {
         return tf.expandDims(await tensor, 0)
