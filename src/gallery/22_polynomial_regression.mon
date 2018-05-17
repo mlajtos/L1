@@ -10,7 +10,7 @@ Model: {
     _predict: x => x * b + c
     _loss: labels => predictions =>
         Sum {
-            tensor: Mean { # this is awful, I know
+            tensor: Mean { ; this is awful, I know
                 tensor: (labels - predictions)^2
                 axis: [0]
             }
