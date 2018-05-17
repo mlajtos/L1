@@ -113,9 +113,9 @@ const provider = {
 
     tokenizer: {
         root: [
-            [/-?[0-9_]+(\.[0-9_]*)?/, "number"],
-            [/\p{Ll}(\p{Ll}|\p{Lu}|[-_])*/u, "identifier"],
-            [/\p{Lu}(\p{Ll}|\p{Lu}|[-_])*/u, "type.identifier"],
+            [/-?[0-9][0-9_]*(\.[0-9_]*)?/, "number"],
+            [/\p{Lu}(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo}|[-_])*/u, "type.identifier"],
+            [/(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo}|[-_])+/u, "identifier"],
             [/(=>|->|:|\+|-|\*|\/|\^|@|%|\.|×|@|%|÷|∇)/, "operator"],
             [/[{}()\[\]]/, "@brackets"],
             [/[;|].*$/, "comment"]
