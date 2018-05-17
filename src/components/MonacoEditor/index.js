@@ -103,7 +103,7 @@ const provider = {
             [/[a-z_$-][\w$]*/, "identifier"],
             [/[A-Z][\w\$]*/, "type.identifier"],
             [/[{}()\[\]]/, "@brackets"],
-            [/#.*$/, "comment"]
+            [/[;|].*$/, "comment"]
         ]
     }
 }

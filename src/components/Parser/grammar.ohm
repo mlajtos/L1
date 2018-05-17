@@ -6,7 +6,7 @@ Moniel {
         = Assignment*
 
     Assignment
-        = "_"? "$"? Path ":" Value ("\n"|","|";")? -- normal
+        = "_"? "$"? Path ":" Value ("\n"|",")? -- normal
         | "::" Path ("\n"|","|";")? -- import
         
     Function
@@ -76,7 +76,7 @@ Moniel {
 
     // TODO: Comment that will comment out the rest of the program.
     space
-        += comment
-    comment
-        = "#" (~"\n" any)* "\n"?
+        += lineComment
+    lineComment
+        = ((";"|"|") (~"\n" any)*) "\n"?
 }
