@@ -81,17 +81,37 @@ class Scope {
     Transpose = async (tensor) => {
         return tf.transpose(await tensor)
     }
-    ExpandDimension = async ({ tensor, axis = tf.scalar(0) }) => {
-        const axis_n = await this.ConvertToNative(await axis)
-
-        if (tensor) {
-            tensor = await tensor
-            return tf.expandDims(tensor, axis_n)
+    ExpandDimension = async (args) => {
+        if (!args) {
+            return this.ExpandDimension
         }
 
-        //return async (tensor) => tf.expandDims(tensor, axis)
-        return async (tensor) => this.ExpandDimension({ tensor, axis })
+        if (args.axis) {
+            const axis = await args.axis
+            const axis_n = await this.ConvertToNative(axis)
+
+            if (args.tensor) {
+                const tensor = await args.tensor
+                return tf.expandDims(tensor, axis_n)
+            }
+
+            return async (tensor) => this.ExpandDimension({ tensor, axis })
+        }
+
+        throw new Error(`Expected axis parameter.`)
+        
     }
+    // ExpandDimension = async ({ tensor, axis = tf.scalar(0) }) => {
+    //     const axis_n = await this.ConvertToNative(await axis)
+
+    //     if (tensor) {
+    //         tensor = await tensor
+    //         return tf.expandDims(tensor, axis_n)
+    //     }
+
+    //     //return async (tensor) => tf.expandDims(tensor, axis)
+    //     return async (tensor) => this.ExpandDimension({ tensor, axis })
+    // }
     RankUp = async (tensor) => {
         return tf.expandDims(await tensor, 0)
     }
@@ -206,27 +226,30 @@ class Scope {
         const minimize = optimizer.minimize.bind(optimizer)
 
         const optimize = async (lossFn) => {
+            lossFn = await lossFn
             const losses = []
+            const mu = new Variable(tf.tensor1d([]))
             const t0 = performance.now()
             for (let i = 0; i < maxIterations; i++) {
                 const u0 = performance.now()
-                const loss = await (await lossFn).call()
-                // console.log(loss)
+                const loss = await lossFn.call()
                 const cost = minimize((() => loss), true)
                 losses.push(await this.RankUp(await loss))
+                //mu.assign(tf.concat(await Promise.all(losses)))
                 const u1 = performance.now()
 
                 const timePerIteration = u1 - u0
                 const totalTime = u1 - t0
 
-                console.log("timePerIteration", timePerIteration)
-                console.log("totalTime", totalTime)
+                //console.log("timePerIteration", timePerIteration)
+                //console.log("totalTime", totalTime)
 
                 if (totalTime > maxTime) {
                     break;
                 }
                 await tf.nextFrame()
             }
+            //return mu
             return tf.concat(await Promise.all(losses))
         }
 
