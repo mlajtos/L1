@@ -2,7 +2,7 @@
     "env": {
         "development": {
             "presets": [
-                ["env", {
+                ["@babel/env", {
                     "targets": {
                         "browsers": [
                             ">1%",
@@ -11,16 +11,18 @@
                         ]
                     },
                     "modules": false,
-                    "useBuiltIns": true
+                    "useBuiltIns": "entry"
                 }],
-                "react",
-                "stage-2"
+                "@babel/react"
             ],
             "plugins": [
-                ["transform-runtime", {
+                ["@babel/plugin-proposal-unicode-property-regex", { "useUnicodeFlag": false }],
+                ["@babel/plugin-transform-runtime", {
                     "polyfill": false,
                     "regenerator": true
-                  }]
+                }],
+                ["@babel/plugin-proposal-class-properties"],
+                ["@babel/plugin-syntax-dynamic-import"]
             ]
         }
     }
