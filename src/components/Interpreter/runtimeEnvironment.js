@@ -194,7 +194,7 @@ class Scope {
     }
     Iota = async (value) => {
         value = await this.ConvertToNative(value)
-        return tf.linspace(0, value, value)
+        return tf.linspace(1, value, value)
     }
     Ones = (shape) => {
         shape = this.ConvertToNative(shape)
