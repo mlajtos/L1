@@ -6,10 +6,20 @@ import { OPERATORS } from "./operators"
 
 const _m = Symbol.for("meta")
 
-async function asyncForEach(array, callback) {
+const forEach_async = async (array, callback) => {
     for (let index = 0; index < array.length; index++) {
         await callback(array[index], index, array)
     }
+}
+
+const get_async = async (object, path, defaultValue) => {
+    let index = 0
+    const length = path.length
+  
+    while (object != null && index < length) {
+      object = await object[path[index++]]
+    }
+    return (index && index == length) ? object : defaultValue
 }
 
 class Interpreter {
@@ -18,7 +28,8 @@ class Interpreter {
         Program: async (token, state) => {
             // tf.tidy somewhere here
             let stateAcc = Object.create(state)
-            const assignments = await asyncForEach(token.value, async (assignment) => {
+            const assignments = await forEach_async(token.value, async (assignment) => {
+                // is it possible to do merging without mutation?
                 const stateDelta = await this.processToken(assignment, stateAcc)
                 stateAcc = merge(stateAcc, stateDelta)
                 stateAcc[_m] = merge({}, stateAcc[_m], stateDelta[_m])
@@ -29,13 +40,13 @@ class Interpreter {
         Assignment: async (token, state) => {
 
             const path = await this.processToken(token.path, state)
-            const value = this.processToken(token.value, state)
+            const value = this.processToken(token.value, state) // do not await value
 
             const silent = token.silent || false
             const isVariable = token.variable || false
 
             const exists = has(state, path)
-
+            
             const baseValue = {
                 [_m]: {
                     [path]: {
@@ -44,8 +55,9 @@ class Interpreter {
                     }
                 }
             }
-
+            
             if (exists) {
+                console.log(`${path.join(".")} exists in`, state)
                 const oldValue = await get(state, path)
                 const valueIsVariable = oldValue instanceof tf.Variable
                 if (valueIsVariable) {
@@ -64,26 +76,19 @@ class Interpreter {
                     const newValue = call(fn, value)
                     return set(baseValue, path, newValue)
                 } else {
-                    return set(baseValue, path, value)
-                    return set(baseValue, path, value)
+                    // when checking value of ref
+                    //      if flag or same as provided value
+                    //          use state.__proto__ instead for lookup
+                    const mu = set(baseValue, path, value)
+                    return mu
                 }
             }
 
             throw Error(`This will never happen.`)
         },
         Reference: async (token, state) => {
-            const get = async (object, path) => {
-                let index = 0
-                const length = path.length
-              
-                while (object != null && index < length) {
-                  object = await object[path[index++]]
-                }
-                return (index && index == length) ? object : undefined
-            }
-
             const path = await this.processToken(token.value, state)
-            const value = await get(state, path, null)
+            const value = await get_async(state, path, null)
             // console.log("Reference",path, value, state)
             if (!value) {
                 console.log(Object.keys(state).join(", "))
@@ -151,6 +156,7 @@ class Interpreter {
         }
     }
     reportIssue({ source, message, severity = "error" }) {
+        // TODO: async issues
         this.issues.push({
             ...source,
             message,
@@ -213,6 +219,8 @@ const operatorToFunction = (operator, arity) => {
 const call = async (fn, arg) => {
     fn = await fn
     arg = await arg
+
+    // TODO: fn should consider only ownProps of arg
 
     if (!isFunction(fn)) {
         throw new Error(`${fn} is not a function.`)
