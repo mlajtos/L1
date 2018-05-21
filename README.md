@@ -3,9 +3,10 @@
 ## Comments
 
 ```L1
-# This is a comment
+; This is a comment
 ```
 
+0. Everything after a semicolon is a comment.
 1. There are only single-line comments.
 2. There WON'T be multi-line comments. Sorry.
 
@@ -15,24 +16,21 @@
 a: 0
 ```
 
-0. Yes, a colon. It's a name-value pair.
-1. Names start with a lowercase letter.
-2. Compound names can be in ```camelCase```, ```snake_case```, ```kebab-case```, or ```füčk3d_Úp-CäšE```. I don't care.
-3. Proper names are YOUR responsibility.
+0. Yes, a colon. It's a name–value pair, a prop(erty).
+2. Names can be in `camelCase`, `PascalCase`, `python_case`, `kebab-case`, `UPPERCASE`, `lowercase` or `Füčk3d_Úp-_cäšE-ಠ_ಠ`. I don't care.
+3. Choosing good names is YOUR responsibility.
 4. Assigned values cannot be reassigned and they are immutable. Period.
 5. Any attempt to reassign will be reported to the authorities. No exceptions.
 
 ### Reassignment
 
 ```L1
-x:: 23
-x:: 47
+$x: 23
+x: 47
 ```
 
-0. Yes, a double colon.
-1. These are variables.
-2. Variables are mutable.
-3. Please don't misuse them.
+0. `$` means it is a variable, therefore it can be changed.
+1. Please don't misuse them.
 
 ## Numbers
 
@@ -60,17 +58,17 @@ matrix2: [
 ```
 
 1. Only scalars, vectors and matrices.
-2. If you want to write 11-dimensional tensor by hand, you have a problem, please seek help.
+2. If you want to write 11-dimensional tensor by hand, you have a problem. Please seek help immediately.
 
 ## Operators
 
 ```L1
-a: 1 + 2               # 3
-b: 2 - 1               # 1
-c: 1 + 2 * 2           # 1 + 4
-d: 2 * 3 / 6           # 1
-e: 3 * 2 ^ 2 + 1       # 3 * 4 + 1
-f: (3 * 2) ^ (2 + 1)   # 6^3
+a: 1 + 2               ; 3
+b: 2 - 1               ; 1
+c: 1 + 2 * 2           ; 1 + 4
+d: 2 * 3 / 6           ; 1
+e: 3 * 2 ^ 2 + 1       ; 3 * 4 + 1
+f: (3 * 2) ^ (2 + 1)   ; 6^3
 ```
 
 1. Natural order of operations. You know this!
@@ -78,25 +76,29 @@ f: (3 * 2) ^ (2 + 1)   # 6^3
 4. There are some fancy operators.
 
 ```L1
-a: [1 2 3] × 3   # [1 2 3] * [3 3 3]
-b: [3 6 9] ÷ 3   # [3 6 9] / [3 3 3]
-c: [1 2 3] % 2   # [1 2 3] % [2 2 2]
+a: [1 2 3] × 3   ; [1 2 3] * [3 3 3]
+b: [3 6 9] ÷ 3   ; [3 6 9] / [3 3 3]
+c: [1 2 3] % 2   ; [1 2 3] % [2 2 2]
 
-# matrix multiplication
-d: [1 2, 3 4] @ [1 2, 3 4]   # [7 10, 15 22]
+; matrix multiplication
+d: [1 2, 3 4] @ [1 2, 3 4]   ; [7 10, 15 22]
 ```
 
 ## Function Application
 
 ```L1
-a: Fn 23
+a: Fn 23                    ; Fn(23)
+b: Fn2 Fn1 47               ; Fn2(Fn1(47))
+c: (higher-order-fn Fn) 47
 ```
 
-1. Function name starts with an uppercase letter.
-2. There is only one argument to the function.
-3. Function that does not take an argument is not a function.
+1. There is always only one argument.
+2. Argument does not have to be in parenthesis.
+3. Use parenthesis to group expressions together.
 
 ### Pipeline
+
+TODO
 
 ```L1
 a: [1 2 3] -> Sum { tensor: $, axis: 0 }
@@ -112,64 +114,33 @@ object: {
 }
 ```
 
-1. Objects hold name-value pairs.
-2. Objects are immutable.
-3. If you need to mutate an object, create a new one.
+1. Objects hold name–value pairs, prop(ertie)s.
+2. Objects are immutable. (Unless `$`.)
+3. Child object can refer to parent props directly.
+4. Parent object can refer to child props with `.` (dot) notation.
 
 ```L1
-obj1: {
-    a: 1
-    b: 2
-}
-obj2: {
-    ...obj1   # copy obj1 here
-    c: 3      # add new
-}
-```
-
-```L1
-obj1: {
-    a: 1
-    b: 2
-}
-obj2: {
-    ...obj1   # copy obj1 here
-    b:: 23    # overwrite
-}
-```
-
-```L1
-obj1: {
+obj: {
     x: 1
-    a: {
-        b: x + 1
+    y: {
+        a: x + 1
     }
 }
-a: obj.a.b
-
-# a: 2
+a: obj.y.a  ; a: 2
 ```
 
 ```L1
 a: {
-    x: 1
+    x: 2
     value: x * 3
 }.value
-```
-
-```L1
-a: 23
-obj: {
-    a
-    b: 47
-}
 ```
 
 ## Functions
 
 ```L1
 Fn: x => x^2
-a: Fn 3
+a: Fn 3     ; a: 9
 
 # a: 9
 ```
@@ -185,26 +156,21 @@ Fn: x => {
 }
 a: Fn 3
 
-# a: {
-#     linear: 3
-#     quadratic: 9
-#     cubic: 27
-# }
+; a: {
+;     linear: 3
+;     quadratic: 9
+;     cubic: 27
+; }
 ```
 
 ```L1
-Fn: { x y } => x + y
-a: Fn {
-    x: 1
-    y: 2
-}
-
-# a: 3
+Fn: x => y => x + y
+a: (Fn 2) 3
 ```
 
 ```L1
-Fn: { x y } => {
-    z: x + y
+Fn: a => {
+    z: a.x + a.y
     value: z^2
 }.value
 
@@ -212,8 +178,6 @@ a: Fn {
     x: 1
     y: 2
 }
-
-# a: 9
 ```
 
 # Links
