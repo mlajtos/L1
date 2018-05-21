@@ -40,7 +40,7 @@ export default class ObjectVis extends PureComponent {
             })
 
         return (
-            <PropertyWrapper {...this.props} type="object" symbol="{}">
+            <PropertyWrapper type="object" symbol="{}" {...this.props}>
                 <div className="properties">
                     {props}
                 </div>

@@ -1,14 +1,13 @@
 .panel
-    flex: 1
-    display: flex
-    flex-direction: column
-    &.hidden
-        flex: 0
-        .panel-header
-            text-orientation: upright
-            writing-mode: vertical-lr
-            text-transform: uppercase
+    display: grid
+    overflow-y: scroll
+    overflow-x: hidden
 
-    .panel-content
-        flex: 1
-        display: flex
+    > .header
+        display: none
+
+    &.property
+        will-change: transform
+        &:hover
+            background-color: transparent !important
+            border-color: lightgray !important
