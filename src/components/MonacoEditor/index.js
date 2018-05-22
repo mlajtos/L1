@@ -115,7 +115,7 @@ const provider = {
         root: [
             [/-?[0-9][0-9_]*(\.[0-9_]*)?/, "number"],
             [/\p{Lu}(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo}|[-_0-9])*/u, "type.identifier"],
-            [/(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo}|[-_0-9])+/u, "identifier"],
+            [/(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo})(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo}|[-_0-9])*/u, "identifier"],
             [/(=>|->|:|\+|-|\*|\/|\^|@|%|\.|×|@|%|÷|∇)/, "operator"],
             [/[{}()\[\]]/, "@brackets"],
             [/[;|].*$/, "comment"]
