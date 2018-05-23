@@ -22,7 +22,7 @@ Moniel {
         | Multiplication -- fallthrough
         | "-" Multiplication -- negative
     Multiplication
-        = (Multiplication ("*"|"×"|"/"|"÷"|"%"|"@") Exponentiation) -- binary
+        = (Multiplication ("*"|"×"|"/"|"÷"|"%"|"@"|"⊗") Exponentiation) -- binary
         | Exponentiation -- fallthrough
         | "/" Multiplication  -- reciprocal
     Exponentiation
