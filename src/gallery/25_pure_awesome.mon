@@ -4,7 +4,7 @@ mu: {
         value: (transform a)
         postcheck: (postcondition value)
         returnValue: postcheck ? value : a
-    }
+    }.returnValue
     precondition: a => (0 <= a) && (a < 100)
     transform: a => (a + 1)
     postcondition: a => (a <= 100)
