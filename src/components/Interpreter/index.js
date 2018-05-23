@@ -4,7 +4,12 @@ import { isPlainObject, isFunction, has, hasIn, set, get, merge } from "lodash-e
 
 import { OPERATORS } from "./operators"
 
-const _m = Symbol.for("meta")
+const SYMBOLS = {
+    meta: Symbol.for("meta"),
+    dispatch: "dispatch"//Symbol.for("dispatch")
+}
+
+const _m = SYMBOLS.meta
 
 const forEach_async = async (array, callback) => {
     for (let index = 0; index < array.length; index++) {
@@ -108,6 +113,7 @@ class Interpreter {
         },
         FunctionApplication: async (token, state) => {
             if (!token.argument) {
+                // when does this happen?
                 const value = await this.processToken(token.function, state)
                 return value
             }
@@ -215,18 +221,28 @@ const operatorToFunction = (operator, arity) => {
     return fn
 }
 
+// Object.prototype.hasOwnPropertySymbol = function(symbol) {
+//     return (symbol in Object.getOwnPropertySymbols())
+// }
 // TODO: memoize maybe?
 const call = async (fn, arg) => {
     fn = await fn
     arg = await arg
 
     // TODO: fn should consider only ownProps of arg
+    // TODO: how to inject dynamic scope?
 
-    if (!isFunction(fn)) {
-        throw new Error(`${fn} is not a function.`)
+    if (isFunction(fn)) {
+        return fn(arg)
     }
 
-    return fn(arg)
+    const hasDispatch = fn.hasOwnProperty(SYMBOLS.dispatch)
+
+    if (hasDispatch) {
+        return call(fn[SYMBOLS.dispatch], arg)
+    }
+
+    throw new Error(`${fn} is not callable.`)
 }
 
 export default new Interpreter
