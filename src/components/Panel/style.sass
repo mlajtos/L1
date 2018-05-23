@@ -2,6 +2,16 @@
     display: grid
     overflow-y: scroll
     overflow-x: hidden
+    position: relative
+
+    &.scrolled:after
+        content: ""
+        position: absolute
+        width: 100%
+        height: 6px
+        border-radius: 5px
+        box-shadow: #ddd 0 6px 6px -6px inset
+        pointer-events: none
 
     > .header
         display: none
