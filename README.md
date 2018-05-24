@@ -8,7 +8,7 @@
 
 0. Everything after a semicolon is a comment.
 1. There are only single-line comments.
-2. There WON'T be multi-line comments. Sorry.
+2. There **won't** be multi-line comments. Sorry.
 
 ## Assignment
 
@@ -44,6 +44,7 @@ e: 1_000
 
 1. There are no "types". It's just a numeric value.
 2. If your numbers are too big or too small (or they aren't numbers at all), it is YOUR problem.
+3. Use underscores for clarity.
 
 ### Tensors
 
@@ -59,6 +60,7 @@ matrix2: [
 
 1. Only scalars, vectors and matrices.
 2. If you want to write 11-dimensional tensor by hand, you have a problem. Please seek help immediately.
+3. Of course you can reshape any tensor however you like.
 
 ## Operators
 
@@ -81,7 +83,7 @@ b: [3 6 9] ÷ 3   ; [3 6 9] / [3 3 3]
 c: [1 2 3] % 2   ; [1 2 3] % [2 2 2]
 
 ; matrix multiplication
-d: [1 2, 3 4] @ [1 2, 3 4]   ; [7 10, 15 22]
+d: [1 2, 3 4] ⊗ [1 2, 3 4]   ; [1 2, 3 4] @ [1 2, 3 4]
 ```
 
 ## Function Application
@@ -98,12 +100,16 @@ c: (higher-order-fn Fn) 47
 
 ### Pipeline
 
-TODO
-
 ```L1
-a: [1 2 3] -> Sum { tensor: $, axis: 0 }
-a: [1 2 3] -> Sum { axis: 0 }
-``` 
+a: 23 -> Fn1 -> Fn2     ; Fn2 Fn 23
+b: [1 2, 3 4] -> (Sum { axis: 0 })
+c: [1 2, 3 4]
+    -> (Product { axis: 1 })
+    -> Sum
+```
+
+1. Pipeline is function application, but with reverse order.
+2. Pipeline can turn nested expression into a linear one.
 
 ## Objects
 
@@ -117,7 +123,7 @@ object: {
 1. Objects hold name–value pairs, prop(ertie)s.
 2. Objects are immutable. (Unless `$`.)
 3. Child object can refer to parent props directly.
-4. Parent object can refer to child props with `.` (dot) notation.
+4. Dot `.` operator  works.
 
 ```L1
 obj: {
@@ -140,9 +146,7 @@ a: {
 
 ```L1
 Fn: x => x^2
-a: Fn 3     ; a: 9
-
-# a: 9
+a: Fn 3
 ```
 
 1. There is only one argument.
@@ -166,6 +170,9 @@ a: Fn 3
 ```L1
 Fn: x => y => x + y
 a: (Fn 2) 3
+b: 3 -> (2 -> Fn)
+c: 3 -> (Fn 2)
+d: (2 -> Fn) 3
 ```
 
 ```L1
@@ -178,6 +185,18 @@ a: Fn {
     x: 1
     y: 2
 }
+```
+
+```L1
+Flip: s => {
+    h: s.a
+    a: s.h
+}
+
+mu: { h: 0, a: 1 }
+    -> Flip
+    -> Flip
+    -> Flip
 ```
 
 # Links
