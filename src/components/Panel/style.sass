@@ -4,14 +4,20 @@
     overflow-x: hidden
     position: relative
 
-    &.scrolled:after
+    &:after
         content: ""
         position: absolute
-        width: 100%
+        width: calc(100% - 2px)
+        left: 1px
         height: 6px
         border-radius: 5px
         box-shadow: #ddd 0 6px 6px -6px inset
         pointer-events: none
+        opacity: 0
+        transition: opacity 0.2s
+
+    &.scrolled:after
+        opacity: 1
 
     > .header
         display: none

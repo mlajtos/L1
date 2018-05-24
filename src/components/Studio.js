@@ -30,10 +30,10 @@ export default class Studio extends PureComponent {
     render() {
         return (
             <div className="studio">
-                <Panel name="Visualization" hidden={false}>
+                <Panel scrollable={true}>
                     <Board data={this.state.computedValues} />
                 </Panel>
-                <Panel name="Code">
+                <Panel>
                     <Editor
                         content={this.state.code}
                         language="moniel"
