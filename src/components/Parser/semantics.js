@@ -51,6 +51,16 @@ const semantics = {
                 argument
             }
         },
+        Pipeline_binary: function (arg, _, fn) {
+            let argument = arg.eval()
+            return {
+                ...includeSource(this.source),
+                type: "FunctionApplication",
+                direction: "forward",
+                function: fn.eval(),
+                argument
+            }
+        },
         Path: function(mu) {
             return {
                 type: "Path",

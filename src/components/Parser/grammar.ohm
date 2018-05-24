@@ -30,6 +30,10 @@ Moniel {
         | Access -- fallthrough
     Access
         = Access "." Path -- binary
+        | Pipeline -- fallthrough
+        
+    Pipeline
+    	= Pipeline "->" (~Assignment FunctionApplication) -- binary
         | FunctionApplication -- fallthrough
         
     FunctionApplication
