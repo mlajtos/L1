@@ -18,7 +18,7 @@ a: 0
 
 0. Yes, a colon. It's a name–value pair, a prop(erty).
 2. Names can be in `camelCase`, `PascalCase`, `python_case`, `kebab-case`, `UPPERCASE`, `lowercase` or `Füčk3d_Úp-_cäšE-ಠ_ಠ`. I don't care.
-3. Choosing good names is YOUR responsibility.
+3. Choosing good names is **your** responsibility.
 4. Assigned values cannot be reassigned and they are immutable. Period.
 5. Any attempt to reassign will be reported to the authorities. No exceptions.
 
