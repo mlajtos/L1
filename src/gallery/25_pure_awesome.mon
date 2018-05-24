@@ -1,7 +1,7 @@
 mu: {
     dispatch: a => {
         precheck: (precondition a)
-        value: (transform a)
+        value: precheck ? (transform a) : a
         postcheck: (postcondition value)
         returnValue: postcheck ? value : a
     }.returnValue
