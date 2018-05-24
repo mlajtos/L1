@@ -114,10 +114,11 @@ c: [1 2, 3 4]
 ## Objects
 
 ```L1
-object: {
+obj1: {
     a: 1
     b: 2
 }
+obj2: { a: 1, b: 2}
 ```
 
 1. Objects hold name–value pairs, prop(ertie)s.
