@@ -102,9 +102,9 @@ c: (higher-order-fn Fn) 47
 
 ```L1
 a: 23 -> Fn             ; Fn 23
-a: 23 -> Fn1 -> Fn2     ; Fn2 Fn1 23
-b: [1 2, 3 4] -> (Sum { axis: 0 })
-c: [1 2, 3 4]
+b: 23 -> Fn1 -> Fn2     ; Fn2 Fn1 23
+c: [1 2, 3 4] -> (Sum { axis: 0 })
+d: [1 2, 3 4]
     -> (Product { axis: 1 })
     -> Sum
 ```
