@@ -49,7 +49,9 @@ export default class Editor extends PureComponent {
             scrollbar: {
                 useShadows: true,
                 verticalScrollbarSize: 5,
-                horizontalScrollbarSize: 5
+                vertical: "visible",
+                horizontalScrollbarSize: 5,
+                horizontal: "hidden"
             }
         }
         this.editor = monaco.editor.create(this.container, config)

@@ -4,6 +4,17 @@
     overflow-x: hidden
     position: relative
 
+    &::-webkit-scrollbar
+        width: 5px
+    &::-webkit-scrollbar-thumb
+        border-radius: 10px
+        background-color: rgba(100, 100, 100, .4)
+        &:hover
+            background-color: rgba(100, 100, 100, .7)
+        &:active
+            background-color: rgba(0, 0, 0, .6)
+
+
     &:after
         content: ""
         position: absolute
