@@ -117,7 +117,7 @@ const provider = {
             [/\p{Lu}(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo}|[-_0-9])*/u, "type.identifier"],
             [/(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo})(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo}|[-_0-9])*/u, "identifier"],
             [/[{}()\[\]]/, "@brackets"],
-            [/[;|].*$/, "comment"],
+            [/[;].*$/, "comment"],
             [/(\p{Po}|\p{Sm}|[\^\-])/u, "operator"]
         ]
     }

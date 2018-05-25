@@ -33,7 +33,7 @@ Moniel {
         | Pipeline -- fallthrough
         
     Pipeline
-    	= Pipeline "->" (~Assignment FunctionApplication) -- binary
+        = Pipeline ("->"|"//"|"|>"|"|") (~Assignment FunctionApplication) -- binary
         | FunctionApplication -- fallthrough
         
     FunctionApplication
@@ -82,5 +82,5 @@ Moniel {
     space
         += lineComment
     lineComment
-        = ((";"|"|") (~"\n" any)*) "\n"?
+        = ((";") (~"\n" any)*) "\n"?
 }

@@ -9,12 +9,10 @@ Model: {
 
     _predict: x => x * b + c
     _loss: labels => predictions =>
-        Sum {
-            tensor: Mean { ; this is awful, I know
-                tensor: (labels - predictions)^2
-                axis: [0]
-            }
-        }
+        (labels - predictions)^2
+            -> Mean { axis: 0 }
+            -> Sum
+
     _step: y => x => (loss y) (predict x)
     test: {
         p: predict Data.xs
