@@ -101,6 +101,7 @@ c: (higher-order-fn Fn) 47
 ### Pipeline
 
 ```L1
+a: 23 -> Fn             ; Fn 23
 a: 23 -> Fn1 -> Fn2     ; Fn2 Fn1 23
 b: [1 2, 3 4] -> (Sum { axis: 0 })
 c: [1 2, 3 4]
@@ -108,8 +109,9 @@ c: [1 2, 3 4]
     -> Sum
 ```
 
-1. Pipeline is function application, but with reverse order.
+1. Pipeline is a function application, but with the reverse order.
 2. Pipeline can turn nested expression into a linear one.
+3. It can be written as `->`, `//` (Mathematica), `|` (Unix pipe), or `|>` (F# and others)
 
 ## Objects
 
