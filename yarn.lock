@@ -657,6 +657,12 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
 
+"@reactivex/rxjs@^6.2.0":
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/@reactivex/rxjs/-/rxjs-6.2.0.tgz#45b2d7b9181c9425900c68857d9442d79a670596"
+  dependencies:
+    tslib "^1.9.0"
+
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.0.tgz#ecdf48d532c58ea477acfcab80348424f8d0662f"
