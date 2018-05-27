@@ -5,11 +5,7 @@ import FontFaceObserver from "fontfaceobserver"
 
 import "./style.sass"
 
-// TODO: simplify this
-import { monaco, language, provider, theme } from "../MonacoEditor"
-monaco.languages.register(language)
-monaco.languages.setMonarchTokensProvider("moniel", provider)
-monaco.editor.defineTheme("moniel", theme)
+import monaco from "../MonacoEditor"
 
 export default class Editor extends PureComponent {
     container = null
@@ -29,7 +25,7 @@ export default class Editor extends PureComponent {
         const config = {
             value: this.props.content,
             language: this.props.language,
-            theme: "moniel",
+            theme: "L1",
             fontFamily: "Fira Code",
             fontSize: 16,
             fontLigatures: true,
@@ -46,6 +42,7 @@ export default class Editor extends PureComponent {
             minimap: {
                 enabled: false
             },
+            scrollBeyondLastLine: false,
             scrollbar: {
                 useShadows: true,
                 verticalScrollbarSize: 5,

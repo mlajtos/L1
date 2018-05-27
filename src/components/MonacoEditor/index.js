@@ -89,8 +89,10 @@ import 'monaco-editor/esm/vs/language/json/monaco.contribution';
 // import 'monaco-editor/esm/vs/basic-languages/xml/xml.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/yaml/yaml.contribution.js';
 
+const languageName = "L1"
+
 const language = {
-    id: "moniel"
+    id: languageName
 }
 
 monaco.languages.register(language)
@@ -101,7 +103,7 @@ const languageConfiguration = {
     }
 }
 
-monaco.languages.setLanguageConfiguration("moniel", languageConfiguration)
+monaco.languages.setLanguageConfiguration(languageName, languageConfiguration)
 
 const provider = {
     brackets: [
@@ -123,7 +125,7 @@ const provider = {
     }
 }
 
-monaco.languages.setMonarchTokensProvider("moniel", provider)
+monaco.languages.setMonarchTokensProvider(languageName, provider)
 
 const theme = {
     base: "vs",
@@ -137,7 +139,7 @@ const theme = {
     ]
 }
 
-monaco.editor.defineTheme("moniel", theme)
+monaco.editor.defineTheme(languageName, theme)
 
 // Register a completion item provider for the new language
 // monaco.languages.registerCompletionItemProvider('mySpecialLanguage', {
@@ -171,4 +173,4 @@ monaco.editor.defineTheme("moniel", theme)
 // 	}
 // });
 
-export { monaco, language, provider, theme }
+export default monaco

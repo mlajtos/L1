@@ -1,10 +1,8 @@
 import React, { PureComponent } from "react"
 
-// TODO: simplify this
-import { monaco, language, provider, theme } from "../../MonacoEditor"
-monaco.languages.register(language)
-monaco.languages.setMonarchTokensProvider("moniel", provider)
-monaco.editor.defineTheme("moniel", theme)
+import monaco from "../../MonacoEditor"
+
+import "./style.sass"
 
 export default class Code extends PureComponent {
     state = {
@@ -13,7 +11,7 @@ export default class Code extends PureComponent {
     }
     colorize = async (value) => {
         const stringValue = "" + value
-        const colorizedValue = await monaco.editor.colorize(stringValue, "moniel")
+        const colorizedValue = await monaco.editor.colorize(stringValue, this.props.language || "L1")
         if (this._mounted) {
             this.setState({ colorizedValue })
         }
@@ -30,9 +28,9 @@ export default class Code extends PureComponent {
     }
     render() {
         if (!this.state.colorizedValue) {
-            return <div>{this.props.children}</div>
+            return <div className="codeHighlight">{this.props.children}</div>
         } else {
-            return <div dangerouslySetInnerHTML={{__html: this.state.colorizedValue}} />
+            return <div className="codeHighlight" dangerouslySetInnerHTML={{__html: this.state.colorizedValue}} />
         }
     }
 

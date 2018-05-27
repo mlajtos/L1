@@ -36,8 +36,8 @@ export default class Studio extends PureComponent {
                 <Panel>
                     <Editor
                         content={this.state.code}
-                        language="moniel"
-                        theme="moniel"
+                        language="L1"
+                        theme="L1"
                         onChange={this.codeChanged}
                         issues={this.state.issues}
                         onExecute={this.codeChanged.bind(this, this.state.code)}
