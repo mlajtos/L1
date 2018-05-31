@@ -16,7 +16,12 @@ Moniel {
         = Expression
         
     Expression (an expression)
-        = Addition
+        = Pipeline
+        
+    Pipeline
+    	= Pipeline "->" (~Assignment Addition) -- binary
+        | Addition -- fallthrough
+        
     Addition
         = (Addition ("+"|"-") Multiplication) -- binary
         | Multiplication -- fallthrough
@@ -30,11 +35,9 @@ Moniel {
         | Access -- fallthrough
     Access
         = Access "." Path -- binary
-        | Pipeline -- fallthrough
-        
-    Pipeline
-        = Pipeline ("->"|"//"|"|>"|"|") (~Assignment FunctionApplication) -- binary
         | FunctionApplication -- fallthrough
+        
+
         
     FunctionApplication
         = PrimitiveExpression (~Assignment FunctionApplication)?

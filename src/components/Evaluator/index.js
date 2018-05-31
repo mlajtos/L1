@@ -1,22 +1,19 @@
 import Parser from "../Parser"
 import Interpreter from "../Interpreter"
+import { Subject } from "rxjs"
 
 class Evaluator {
-    evaluate = async (code, env = {}) => {
-        const parsingResult = await Parser.parse(code)
+    evaluate = async (code, env = {}, issues) => {
+        const parsingResult = await Parser.parse(code, issues)
         const ast = parsingResult.result || null
         const parsingError =  parsingResult.error || null
-        const interpretingResult = ast ? await Interpreter.interpret(ast, env) : null
+        const interpretingResult = ast ? await Interpreter.interpret(ast, env, issues) : null
         const computedValues = interpretingResult ? interpretingResult.success.result || [] : null
-    
-        const parsingIssues = parsingResult.issues
-        const interpretingIssues = interpretingResult ? interpretingResult.success.issues : []
-    
+
         return {
             code,
             ast,
-            computedValues,
-            issues: [...parsingIssues, ...interpretingIssues]
+            computedValues
         }
     }
 }

@@ -32,7 +32,7 @@ import 'monaco-editor/esm/vs/editor/contrib/referenceSearch/referenceSearch.js';
 import 'monaco-editor/esm/vs/editor/contrib/rename/rename.js';
 import 'monaco-editor/esm/vs/editor/contrib/smartSelect/smartSelect.js';
 // import 'monaco-editor/esm/vs/editor/contrib/snippet/snippetController2.js';
-// import 'monaco-editor/esm/vs/editor/contrib/suggest/suggestController.js';
+import 'monaco-editor/esm/vs/editor/contrib/suggest/suggestController.js';
 import 'monaco-editor/esm/vs/editor/contrib/toggleTabFocusMode/toggleTabFocusMode.js';
 import 'monaco-editor/esm/vs/editor/contrib/wordHighlighter/wordHighlighter.js';
 import 'monaco-editor/esm/vs/editor/contrib/wordOperations/wordOperations.js';
@@ -44,6 +44,22 @@ import 'monaco-editor/esm/vs/editor/contrib/wordOperations/wordOperations.js';
 // import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand.js';
 // import 'monaco-editor/esm/vs/editor/standalone/browser/toggleHighContrast/toggleHighContrast.js';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
+
+// import { MarkdownRenderer } from 'monaco-editor/esm/vs/editor/contrib/markdown/markdownRenderer';
+// import { renderMarkdown } from 'monaco-editor/esm/vs/base/browser/htmlContentRenderer.js';
+// const mu = new MarkdownRenderer(editor, modeService, openerService);
+// const mu = new MarkdownRenderer()
+// console.log(mu.render("#title"))
+
+// console.log(renderMarkdown({
+//     value: `
+// # title
+
+// \`\`\`javascript
+// const a = 23
+// \`\`\`
+//     `
+// }))
 
 // (2) Desired languages:
 // import 'monaco-editor/esm/vs/language/typescript/monaco.contribution';
@@ -65,7 +81,7 @@ import 'monaco-editor/esm/vs/language/json/monaco.contribution';
 // import 'monaco-editor/esm/vs/basic-languages/java/java.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/less/less.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/lua/lua.contribution.js';
-// import 'monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution.js';
+import 'monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/msdax/msdax.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/mysql/mysql.contribution.js';
 // import 'monaco-editor/esm/vs/basic-languages/objective-c/objective-c.contribution.js';
@@ -141,36 +157,35 @@ const theme = {
 
 monaco.editor.defineTheme(languageName, theme)
 
-// Register a completion item provider for the new language
-// monaco.languages.registerCompletionItemProvider('mySpecialLanguage', {
-// 	provideCompletionItems: () => {
-// 		return [
-// 			{
-// 				label: 'simpleText',
-// 				kind: monaco.languages.CompletionItemKind.Text
-// 			}, {
-// 				label: 'testing',
-// 				kind: monaco.languages.CompletionItemKind.Keyword,
-// 				insertText: {
-// 					value: 'testing(${1:condition})'
-// 				}
-// 			},
-// 			{
-// 				label: 'ifelse',
-// 				kind: monaco.languages.CompletionItemKind.Snippet,
-// 				insertText: {
-// 					value: [
-// 						'if (${1:condition}) {',
-// 						'\t$0',
-// 						'} else {',
-// 						'\t',
-// 						'}'
-// 					].join('\n')
-// 				},
-// 				documentation: 'If-Else Statement'
-// 			}
-// 		]
-// 	}
-// });
+monaco.languages.registerCompletionItemProvider(languageName, {
+    provideCompletionItems: () => {
+        return [
+            {
+                label: 'simpleText',
+                kind: monaco.languages.CompletionItemKind.Text
+            }, {
+                label: 'testing',
+                kind: monaco.languages.CompletionItemKind.Keyword,
+                insertText: {
+                    value: 'testing(${1:condition})'
+                }
+            },
+            {
+                label: 'ifelse',
+                kind: monaco.languages.CompletionItemKind.Snippet,
+                insertText: {
+                    value: [
+                        'if (${1:condition}) {',
+                        '\t$0',
+                        '} else {',
+                        '\t',
+                        '}'
+                    ].join('\n')
+                },
+                documentation: 'If-Else Statement'
+            }
+        ]
+    }
+});
 
 export default monaco

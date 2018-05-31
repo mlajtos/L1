@@ -8,15 +8,18 @@ import FunctionVis from "../Function"
 import UnknownVis from "../Unknown"
 import PromiseVis from "../Promise"
 import ObjectVis from "../Object"
+import ErrorVis from "../Error"
 
 const isUndefined = (value) => !value
 const isPromise = (value) => (value.toString() === "[object Promise]")
 const isTensor = (value) => value instanceof tf.Tensor
 const isScope = (value) => (isObject(value) && !isPromise(value))
+const isError = (value) => value instanceof Error
 
 export default class ObjectProperty extends PureComponent {
     visualizations = [
         [isUndefined,   UnknownVis  ],
+        [isError,       ErrorVis    ],
         [isTensor,      TensorVis   ],
         [isFunction,    FunctionVis ],
         [isScope,       ObjectVis   ],

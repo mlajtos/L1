@@ -6,12 +6,15 @@ import FontFaceObserver from "fontfaceobserver"
 import "./style.sass"
 
 import monaco from "../MonacoEditor"
+import { Subject } from "rxjs"
 
 export default class Editor extends PureComponent {
     container = null
     editor = null
     decorations = []
     viewZones = []
+    issues = new Subject
+    issuesSubscription = null
     _mount = async (el) => {
         this.container = el
         if (this.container) {
@@ -59,7 +62,7 @@ export default class Editor extends PureComponent {
             const fn = this.props.onChange || undefined
             if (isFunction(fn)) {
                 const code = this.editor.getValue()
-                fn(code)
+                fn.apply(null, [code, this.editor, this.issues])
             }
         })
         this.editor.addAction({
@@ -71,30 +74,24 @@ export default class Editor extends PureComponent {
             run: (editor) => {
                 const fn = this.props.onExecute || undefined
                 if (isFunction(fn)) {
-                    fn.apply(null, [editor])
+                    fn.apply(null, [editor, this.issues])
                 }
                 return null;
             }
         });
     }
-    setDecorations(issues) {
-        if (!issues) {
-            return
-        }
+    setDecorationForIssue(issue) {
 
-        // max one error, otherwise it is confusing
-        issues = issues.filter((v, i) => i == 0)
-
-        const markers = issues.map(issue => ({
+        const marker = {
             startLineNumber: issue.startLineNumber,
             startColumn: issue.startColumn,
             endLineNumber: issue.endLineNumber,
             endColumn: issue.endColumn,
             message: issue.message,
             severity: severityTable[issue.severity]
-        }))
+        }
 
-        const lineDecorations = issues.map(issue => ({
+        const lineDecoration = {
             range: new monaco.Range(issue.startLineNumber, issue.startColumn, issue.startLineNumber,issue. startColumn),
             options: {
                 isWholeLine: true,
@@ -102,27 +99,32 @@ export default class Editor extends PureComponent {
                 glyphMarginClassName: `glyphDecoration ${issue.severity}`,
                 glyphMarginHoverMessage: issue.message
             }
-        }))
+        }
 
         this.editor.changeViewZones(changeAccessor => {
-            this.viewZones.forEach(zone => {
-                changeAccessor.removeZone(zone)
-            })
-            this.viewZones = issues.map(issue => {
+            changeAccessor.removeZone(this.viewZone)
+
+            this.viewZone = (() => {
                 const domNode = document.createElement("div")
                 this.renderIssue(issue, domNode)
-                const viewZoneId = changeAccessor.addZone({
+
+                return changeAccessor.addZone({
                     afterLineNumber: issue.startLineNumber,
                     afterColumn: 0,
                     heightInLines: 0,
-                    domNode: domNode
+                    domNode
                 })
-                return viewZoneId
-            })
+            })()
         })
 
-        this.decorations = this.editor.deltaDecorations(this.decorations, lineDecorations);
-        monaco.editor.setModelMarkers(this.editor.getModel(), "test", markers)
+        this.decoration = this.editor.deltaDecorations([this.decoration], [lineDecoration]);
+        monaco.editor.setModelMarkers(this.editor.getModel(), "test", [marker])
+    }
+    componentDidMount() {
+        // if (!this.props.issues) {
+        //     return
+        // }
+        this.issuesSubscription = this.issues.subscribe(issue => this.setDecorationForIssue(issue))
     }
     componentWillReceiveProps(props) {
         // This is bad. Only editor should be able to change the content.
@@ -134,7 +136,11 @@ export default class Editor extends PureComponent {
         // }
 
         if (props.issues !== this.props.issues) {
-            this.setDecorations(props.issues)
+            console.log("Subscribing to new issues")
+            if (this.issuesSubscription) {
+                this.issuesSubscription.unsubscribe()
+            }
+            this.issuesSubscription = props.issues.subscribe(issue => this.setDecorations([issue]))
         }
     }
     renderIssue(issue, element) {

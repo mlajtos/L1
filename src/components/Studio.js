@@ -8,20 +8,25 @@ import Evaluator from "./Evaluator"
 import Board from "./Board"
 import Panel from "./Panel"
 
+import Code from "./Board/Code"
+import readme from "../../README.md"
+import { Subject } from "rxjs";
+
 export default class Studio extends PureComponent {
     state = {
         code: "",
         ast: null,
-        issues: [],
         computedValues: null
     }
+
+    issues = null
 
     async componentDidMount() {
         const code = await this.loadFromGallery("22_polynomial_regression")
         this.setState({ code })
     }
-    codeChanged = async (code, editor) => {
-        this.setState(await Evaluator.evaluate(code))
+    codeChanged = async (code, editor, issues) => {
+        this.setState(await Evaluator.evaluate(code, {}, issues))
     }
     loadFromGallery = async id => {
         const module = await import(`../gallery/${id}.mon`)
@@ -39,9 +44,14 @@ export default class Studio extends PureComponent {
                         language="L1"
                         theme="L1"
                         onChange={this.codeChanged}
-                        issues={this.state.issues}
+                        issues={this.issues}
                         onExecute={this.codeChanged.bind(this, this.state.code)}
                     />
+                </Panel>
+                <Panel>
+                    <Code language="markdown">
+                        {readme}
+                    </Code>
                 </Panel>
                 {/* <Panel name="AST" hidden={true}>
                     <Editor

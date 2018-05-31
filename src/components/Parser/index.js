@@ -9,30 +9,31 @@ class Parser {
         this.grammar = ohm.grammar(grammar)
         this.semantics = this.grammar.createSemantics().addOperation(semantics.operation, semantics.actions)
     }
-    parse = (code) => {
+    parse = (code, issues) => {
         return new Promise(resolve => {
-            const result = this.parseSync(code)
+            const result = this.parseSync(code, issues)
             resolve(result)
         })
     }
-    parseSync = (code) => { 
+    parseSync = (code, issues) => { 
         const match = this.grammar.match(code)
         const success = match.succeeded()
         if (success) {
             const semanticMatch = this.semantics(match)
             const result = semanticMatch[semantics.operation].call(semanticMatch)
             return {
-                result,
-                issues: []
+                result
             }
         } else {
+            const issue = {
+                ...convertToLineNumberAndColumn(code, match.getRightmostFailurePosition()),
+                message: "Expected " + match.getExpectedText(),
+                severity: "error"
+            }
+            issues.next(issue)
+
             return {
-                result: null,
-                issues: [{
-                    ...convertToLineNumberAndColumn(code, match.getRightmostFailurePosition()),
-                    message: "Expected " + match.getExpectedText(),
-                    severity: "error"
-                }]
+                result: null
             }
         }
     }

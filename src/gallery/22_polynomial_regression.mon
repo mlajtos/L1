@@ -11,12 +11,13 @@ Model: {
     _loss: labels => predictions =>
         (labels - predictions)^2
             -> Mean { axis: 0 }
-            -> Sum
+            -> Sum { axis: 0 }
 
     _step: y => x => (loss y) (predict x)
     test: {
         p: predict Data.xs
-        l: (loss Data.ys) p 
+        l: (loss Data.ys) p
+        s: (step Data.ys) Data.xs
     }
 }
 

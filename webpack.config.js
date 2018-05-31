@@ -33,7 +33,7 @@ module.exports = {
         loader: "file-loader?limit=100000"
       },
       {
-        test: /\.(mon|ohm)$/,
+        test: /\.(mon|ohm|md)$/,
         loader: "raw-loader"
       },
       {

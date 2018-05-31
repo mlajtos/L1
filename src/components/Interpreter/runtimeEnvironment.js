@@ -41,13 +41,39 @@ class Scope {
     Rank = (tensor) => tf.scalar(tensor.rank)
     Size = (tensor) => tf.scalar(tensor.size)
 
-    Mean = async ({ tensor, axis = tf.scalar(0) }) => {
-        axis = await this.ConvertToNative(await axis)
-        return tf.mean(await tensor, await axis)
+    Mean = async (args) => {
+        if (!args) { // Mean ?
+            return this.Mean
+        }
+
+        if (args.axis) {
+            const axis = await args.axis
+            const axis_n = await this.ConvertToNative(axis)
+
+            if (args.tensor) {
+                const tensor = await args.tensor
+                return tf.mean(tensor, axis_n)
+            }
+
+            return async (tensor) => this.Mean({ tensor, axis })
+        }
     }
-    Sum = async ({ tensor, axis = tf.scalar(0) }) => {
-        axis = await this.ConvertToNative(await axis)
-        return tf.sum(await tensor, await axis)
+    Sum = async (args) => {
+        if (!args) { // Sum ?
+            return this.Sum
+        }
+
+        if (args.axis) {
+            const axis = await args.axis
+            const axis_n = await this.ConvertToNative(axis)
+
+            if (args.tensor) {
+                const tensor = await args.tensor
+                return tf.sum(tensor, axis_n)
+            }
+
+            return async (tensor) => this.Sum({ tensor, axis })
+        }
     }
     Min = async ({ tensor, axis = tf.scalar(0) }) => {
         axis = await this.ConvertToNative(await axis)
@@ -82,7 +108,8 @@ class Scope {
         return tf.transpose(await tensor)
     }
     ExpandDimension = async (args) => {
-        if (!args) {
+        console.log("Expand dimension:", args)
+        if (!args) { // ExpandDimension ?
             return this.ExpandDimension
         }
 
@@ -175,6 +202,7 @@ class Scope {
 
     // Generators
     RandomNormal = async ({ shape = tf.tensor([1]), mean = tf.scalar(0), stdDev = tf.scalar(1) }) => {
+        console.log(shape)
         shape = await this.ConvertToNative(shape)
         mean = await this.ConvertToNative(mean)
         stdDev = await this.ConvertToNative(stdDev)

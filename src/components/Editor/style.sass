@@ -5,15 +5,26 @@
     overflow: hidden
     
 .message
-    color: hsl(0, 52%, 22%)
-    // border-radius: 20px 0 0 20px
-    padding: 0.35em 1em 0.35em 1em
+    color: #791515
+    padding: 0 0.5em 0 0.9em
     font-size: smaller
+    line-height: 24px
     position: absolute
-    right: 0em
-    bottom: 0
+    overflow: hidden
+    text-overflow: ellipsis
+    right: 0
+    top: -1.8em
+    white-space: nowrap
+    max-width: 35% // should be set externaly to width of the remaining space on line
+    z-index: 1
+    transition: all 0.3s
+
+    &:hover
+        white-space: initial
+        border-radius: 0
+
     &.error
-        background-color: rgba(210, 30, 30, 0.18)
+        background-color: hsla(4, 77%, 85%, 1)
     &.warning
         background-color: hsla(41, 79%, 85%, 1)
 

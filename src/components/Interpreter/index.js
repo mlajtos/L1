@@ -1,6 +1,7 @@
 import runtimeEnvironment from "./runtimeEnvironment"
 import * as tf from "@tensorflow/tfjs-core"
-import { isPlainObject, isFunction, has, hasIn, set, get, merge } from "lodash-es"
+import { isPlainObject, isFunction, has, hasIn, set, get, merge, isObject } from "lodash-es"
+import { Subject } from "rxjs"
 
 import { OPERATORS } from "./operators"
 
@@ -8,8 +9,6 @@ const SYMBOLS = {
     meta: Symbol.for("meta"),
     dispatch: "dispatch"//Symbol.for("dispatch")
 }
-
-const _m = SYMBOLS.meta
 
 const forEach_async = async (array, callback) => {
     for (let index = 0; index < array.length; index++) {
@@ -28,7 +27,7 @@ const get_async = async (object, path, defaultValue) => {
 }
 
 class Interpreter {
-    issues = []
+    issues = new Subject()
     tokenActions = {
         Program: async (token, state) => {
             // tf.tidy somewhere here
@@ -37,6 +36,7 @@ class Interpreter {
                 // is it possible to do merging without mutation?
                 const stateDelta = await this.processToken(assignment, stateAcc)
                 stateAcc = merge(stateAcc, stateDelta)
+                const _m = SYMBOLS.meta
                 stateAcc[_m] = merge({}, stateAcc[_m], stateDelta[_m])
             })
             return stateAcc
@@ -53,7 +53,7 @@ class Interpreter {
             const exists = has(state, path)
             
             const baseValue = {
-                [_m]: {
+                [SYMBOLS.meta]: {
                     [path]: {
                         silent,
                         source: token._source
@@ -149,25 +149,24 @@ class Interpreter {
             return `Unrecognized token: ${token.type}, rest: ${token}`
         }
     }
-    interpret = async (ast, env = {}) => {
+    interpret = async (ast, env = {}, issues) => {
         const state = Object.assign(Object.create(runtimeEnvironment), env)
-        this.issues = []
+        this.issues = issues
         const result = await this.processToken(ast, state)
         return {
             success: {
                 result,
-                issues: [...this.issues],
                 state
             }
         }
     }
     reportIssue({ source, message, severity = "error" }) {
-        // TODO: async issues
-        this.issues.push({
+        const issue = {
             ...source,
             message,
             severity
-        })
+        }
+        this.issues.next(issue)
     }
     processToken = async (token, state) => {
         if (!state) {
@@ -180,12 +179,15 @@ class Interpreter {
             result = await fn(token, state)
         } catch (e) {
             if (token._source) {
-                this.reportIssue({
+                const issue = {
+                    // [SYMBOLS.meta]: {},
                     source: token._source,
                     message: e.message,
                     severity: e.severity
-                })
+                }
+                this.reportIssue(issue)
                 console.error(e)
+                return new Error(e.message)
             } else {
                 console.error(e)
             }
@@ -236,10 +238,12 @@ const call = async (fn, arg) => {
         return fn(arg)
     }
 
-    const hasDispatch = fn.hasOwnProperty(SYMBOLS.dispatch)
+    if (isObject(fn)) {
+        const hasDispatch = fn.hasOwnProperty(SYMBOLS.dispatch)
 
-    if (hasDispatch) {
-        return call(fn[SYMBOLS.dispatch], arg)
+        if (hasDispatch) {
+            return call(fn[SYMBOLS.dispatch], arg)
+        }
     }
 
     throw new Error(`${fn} is not callable.`)

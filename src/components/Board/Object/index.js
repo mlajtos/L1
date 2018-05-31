@@ -27,7 +27,7 @@ export default class ObjectVis extends PureComponent {
         const props = Object.betterEntries(data)
             .filter(isSilent)
             .map(([value, key, props]) => {
-                const _meta = props[_m][key]
+                const _meta = (props[_m] && props[_m][key]) ? props[_m][key] : null
 
                 return (
                     <ObjectProperty {...{
