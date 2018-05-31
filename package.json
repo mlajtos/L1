@@ -10,7 +10,6 @@
     "serve": "http-server dist/"
   },
   "dependencies": {
-    "@reactivex/rxjs": "^6.2.0",
     "@tensorflow/tfjs": "^0.11.2",
     "buffer": "^5.1.0",
     "firacode": "https://github.com/tonsky/FiraCode",
@@ -23,7 +22,8 @@
     "ohm-js": "*",
     "ramda": "^0.25.0",
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "rxjs": "^6.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.47",
