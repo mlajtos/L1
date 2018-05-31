@@ -202,6 +202,60 @@ mu: { h: 0, a: 1 }
     -> Flip
 ```
 
+# FAQ
+
+## What does this code do?
+
+### Self-dependent bind
+
+```L1
+mu: a => a + 1
+test: {
+    mu: mu 46
+    ; mu is in conflict
+    ; this creates self-dependent bind, which is useless and unwanted
+    ; what we want:
+    mu: ^mu 46
+}
+```
+
+### 
+```L1
+Counter: {
+    i: 0
+    increaseBy: x => {
+        i: i + x
+    }
+}
+
+test: Counter.increaseBy 7
+; test == { i: 7 }
+; Counter.data == 0
+```
+
+# TODO
+
+* chyby nech sa zobrazujú v editore, nie v konzole
+* korešpondencia medzi kódom a vizualizáciou
+    * focus
+        * keď ukážem na vizualizáciu, tak mi ukáže ktorý kód to vyprodukoval
+        * keď som v kóde, tak kurzor mi určuje čo bude focusnuté vo vizualizácií
+* router
+   * http://mlajtos.github.com/L1/~ii1jcLg-eIQ
+* ? výraz
+   * keď aplikujem fn na ?, tak sa mi zobrazí dokumentácia ako výsledok
+        * ```
+            mu: {
+                #doc: "Muuuu"
+            }
+        ```
+   * keď skúsim zavolať {} ?, tak čo? :)
+   * keď priradím ?, tak čo?
+* pri Reference keď neexistuje Promise, tak vytvoriť a resolvnúť keď bude dostupnýz výpočtu
+
+ ## Crazy
+
+
 # Links
 * [Haskell syntax](https://www.haskell.org/onlinereport/exps.html)
 * [Iterations in PEG](http://www.dalnefre.com/wp/2011/05/parsing-expression-grammars-part-4/)
