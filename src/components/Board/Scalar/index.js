@@ -15,6 +15,7 @@ export default class ScalarVis extends PureComponent {
         }
     }
     onKeyDown = (e) => {
+        console.log(e)
         let delta = 1
 
         if (e.key === "ArrowUp") {
@@ -37,13 +38,15 @@ export default class ScalarVis extends PureComponent {
             delta *= 0.1
         }
 
+        const newValue = this.state.numericValue + delta
+
         this.setState({
-            numericValue: this.state.numericValue + delta
+            numericValue: newValue
         })
     }
     render() {
         return (
-            <div className="scalar" tabIndex="0" onKeyDown={this.onKeyDown}>
+            <div className="property scalar-input" tabIndex="0" onKeyDown={this.onKeyDown}>
                 <Code>
                     {formatNumber(this.state.numericValue)}
                 </Code>

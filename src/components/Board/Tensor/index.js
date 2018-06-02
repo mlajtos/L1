@@ -64,7 +64,7 @@ export default class Tensor extends PureComponent {
         const Component = isScalar ? ScalarVis : GenericTensor
 
         return (
-            <PropertyWrapper {...this.props} type="tensor" symbol={this.state.symbol}>
+            <PropertyWrapper {...this.props} type={"tensor " + (isScalar ? "scalar" : "")} symbol={this.state.symbol}>
                 <Component data={this.state.data} revisionId={this.state.revisionId} />
             </PropertyWrapper>
         )
