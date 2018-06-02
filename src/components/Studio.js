@@ -48,11 +48,11 @@ export default class Studio extends PureComponent {
                         onExecute={this.codeChanged.bind(this, this.state.code)}
                     />
                 </Panel>
-                <Panel>
+                {/* <Panel>
                     <Code language="markdown">
                         {readme}
                     </Code>
-                </Panel>
+                </Panel> */}
                 {/* <Panel name="AST" hidden={true}>
                     <Editor
                         content={JSON.stringify(this.state.ast, null, 2)}
