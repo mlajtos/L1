@@ -5,12 +5,13 @@
     overflow: hidden
     
 .message
+    font-family: "Fira Code"
     color: #791515
-    padding: 0 0.5em 0 0.9em
+    padding: 0 0.5em 0 0.5em
     font-size: smaller
     line-height: 24px
     position: absolute
-    overflow: hidden
+    // overflow: hidden
     text-overflow: ellipsis
     right: 0
     top: -1.8em
@@ -18,10 +19,30 @@
     max-width: 35% // should be set externaly to width of the remaining space on line
     z-index: 1
     transition: all 0.3s
+    display: flex
+
+    &:before
+        content: ""
+        width: 17px
+        height: 17px
+        position: absolute
+        left: 0
+        background: linear-gradient(45deg, #f6bfbb, #f6bfbb, #f6bfbb, transparent, transparent)
+        transform: rotate(45deg)
+        transform-origin: top left
+        border-radius: 0 0 0 3px
+
+    span
+        width: 100%
+        flex: 1
+        text-overflow: ellipsis
+        overflow: hidden
+        margin-left: 0.1em
+        z-index: 1
 
     &:hover
         white-space: initial
-        border-radius: 0
+        border-radius: 0 0 5px 5px
 
     &.error
         background-color: hsla(4, 77%, 85%, 1)

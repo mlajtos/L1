@@ -45,7 +45,7 @@ export default class Editor extends PureComponent {
             minimap: {
                 enabled: false
             },
-            scrollBeyondLastLine: false,
+            scrollBeyondLastLine: true, // good when there is multiline error message on last line
             scrollbar: {
                 useShadows: true,
                 verticalScrollbarSize: 5,
@@ -62,6 +62,7 @@ export default class Editor extends PureComponent {
             const fn = this.props.onChange || undefined
             if (isFunction(fn)) {
                 const code = this.editor.getValue()
+                this.issues.next(null)
                 fn.apply(null, [code, this.editor, this.issues])
             }
         })
@@ -80,7 +81,19 @@ export default class Editor extends PureComponent {
             }
         });
     }
+    removeDecoration() {
+        this.editor.changeViewZones(changeAccessor => {
+            changeAccessor.removeZone(this.viewZone)
+        })
+        this.decoration = this.editor.deltaDecorations([this.decoration], [])
+        monaco.editor.setModelMarkers(this.editor.getModel(), "test", [])
+    }
     setDecorationForIssue(issue) {
+
+        if (issue === null) {
+            this.removeDecoration()
+            return
+        }
 
         const marker = {
             startLineNumber: issue.startLineNumber,
@@ -110,14 +123,14 @@ export default class Editor extends PureComponent {
 
                 return changeAccessor.addZone({
                     afterLineNumber: issue.startLineNumber,
-                    afterColumn: 0,
+                    // afterColumn: 0,
                     heightInLines: 0,
                     domNode
                 })
             })()
         })
 
-        this.decoration = this.editor.deltaDecorations([this.decoration], [lineDecoration]);
+        this.decoration = this.editor.deltaDecorations([this.decoration], [lineDecoration])
         monaco.editor.setModelMarkers(this.editor.getModel(), "test", [marker])
     }
     componentDidMount() {
@@ -156,7 +169,7 @@ export default class Editor extends PureComponent {
 }
 
 const Issue = (props) => (
-    <div className={`message ${props.severity}`}>{props.message}</div>
+    <div className={`message ${props.severity}`}><span>{props.message}</span></div>
 )
 
 const severityTable = {
