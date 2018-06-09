@@ -2,10 +2,13 @@ import React, { PureComponent } from "react"
 
 import ObjectProperty from "../ObjectProperty"
 import PropertyWrapper from "../PropertyWrapper"
+import Markdown from "../Markdown"
+import { SYMBOLS } from "../../Interpreter/symbols"
 
 import "./style.sass"
 
-const _m = Symbol.for("meta")
+const _m = SYMBOLS.meta
+const _doc = SYMBOLS.doc
 
 /*
     `Object.betterEntries(obj)` returns array of triplets [value, key, obj],
@@ -42,6 +45,7 @@ export default class ObjectVis extends PureComponent {
         return (
             <PropertyWrapper type="object" symbol="{}" {...this.props}>
                 <div className="properties">
+                    {data[_doc] ? <Markdown>{data[_doc]}</Markdown> : null}
                     {props}
                 </div>
             </PropertyWrapper>
