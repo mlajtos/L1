@@ -45,21 +45,8 @@ import 'monaco-editor/esm/vs/editor/contrib/wordOperations/wordOperations.js';
 // import 'monaco-editor/esm/vs/editor/standalone/browser/toggleHighContrast/toggleHighContrast.js';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 
-// import { MarkdownRenderer } from 'monaco-editor/esm/vs/editor/contrib/markdown/markdownRenderer';
-// import { renderMarkdown } from 'monaco-editor/esm/vs/base/browser/htmlContentRenderer.js';
-// const mu = new MarkdownRenderer(editor, modeService, openerService);
-// const mu = new MarkdownRenderer()
-// console.log(mu.render("#title"))
-
-// console.log(renderMarkdown({
-//     value: `
-// # title
-
-// \`\`\`javascript
-// const a = 23
-// \`\`\`
-//     `
-// }))
+import { renderMarkdown as rm } from 'monaco-editor/esm/vs/base/browser/htmlContentRenderer.js';
+export const renderMarkdown = rm
 
 // (2) Desired languages:
 // import 'monaco-editor/esm/vs/language/typescript/monaco.contribution';
@@ -160,16 +147,11 @@ monaco.editor.defineTheme(languageName, theme)
 monaco.languages.registerCompletionItemProvider(languageName, {
     provideCompletionItems: () => {
         return [
-            {
-                label: 'simpleText',
-                kind: monaco.languages.CompletionItemKind.Text
-            }, {
-                label: 'testing',
-                kind: monaco.languages.CompletionItemKind.Keyword,
-                insertText: {
-                    value: 'testing(${1:condition})'
-                }
-            },
+            ...(["RankUp", "Transpose", "RandomNormal", "RandomUniform"].map(label => ({
+                label,
+                kind: monaco.languages.CompletionItemKind.Function,
+                documentation: "mu"
+            }))),
             {
                 label: 'ifelse',
                 kind: monaco.languages.CompletionItemKind.Snippet,
