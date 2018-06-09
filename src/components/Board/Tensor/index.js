@@ -25,7 +25,7 @@ export default class Tensor extends PureComponent {
                 data: nextProps.data,
                 isVariable,
                 symbol,
-                revisionId: 0
+                revisionId: prevState.revisionId
             }
         }
 
