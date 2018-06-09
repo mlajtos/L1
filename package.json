@@ -4,6 +4,10 @@
   "description": "L1: Tensor Studio",
   "main": "index.js",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mlajtos/L1.git"
+  },
   "scripts": {
     "dev": "webpack-dev-server --content-base dist/ --mode development",
     "build": "webpack-cli --mode production --progress",
