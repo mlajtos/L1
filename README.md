@@ -264,3 +264,4 @@ test: Counter.increaseBy 7
 * [EinSum](https://rockt.github.io/2018/04/30/einsum#fn.2)
 * [Firebase Cloud Fns](https://www.youtube.com/watch?v=prlK_QL_qOA)
 * [Something New](https://github.com/d-cook/SomethingNew)
+* [RxJS for mere mortal](https://stackoverflow.com/a/45227115)
