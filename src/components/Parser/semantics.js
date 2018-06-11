@@ -5,6 +5,7 @@ const semantics = {
     actions: {
         Program: function(data) {
             return {
+                ...includeSource(this.source),
                 type: "Program",
                 value: data.eval()
             }
@@ -63,6 +64,7 @@ const semantics = {
         },
         Path: function(mu) {
             return {
+                ...includeSource(this.source),
                 type: "Path",
                 value: mu.eval()
             }
