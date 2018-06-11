@@ -5,13 +5,13 @@ import monaco, { renderMarkdown } from "../../MonacoEditor"
 import { MarkdownRenderer } from 'monaco-editor/esm/vs/editor/contrib/markdown/markdownRenderer';
 import { StaticServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices';
 
-console.log(StaticServices)
-const renderer = new MarkdownRenderer(monaco.editor.create(document.createElement("div")), StaticServices.modeService.get())
-const el = renderer.render({
-    value: "# L1\n```L1\na: 23```"
-}).element
+// console.log(StaticServices)
+// const renderer = new MarkdownRenderer(monaco.editor.create(document.createElement("div")), StaticServices.modeService.get())
+// const el = renderer.render({
+//     value: "# L1\n```L1\na: 23```"
+// }).element
 
-console.log(el, el.innerHTML)
+// console.log(el, el.innerHTML)
 
 import "./style.sass"
 
