@@ -1,15 +1,16 @@
 import React, { PureComponent } from "react"
 
 import Object from "./Object"
+import ObjectPropery from "./ObjectProperty"
 
 export default class Board extends PureComponent {
     render() {
-        if (!this.props.data) {
-            return null
-        }
+        // if (!this.props.data) {
+        //     return null
+        // }
         
         return (
-            <Object data={this.props.data} type={"panel"} />
+            <ObjectPropery data={this.props.data} type={"panel"} />
         )
     }
 }
