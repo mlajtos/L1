@@ -1,193 +1,44 @@
-import runtimeEnvironment from "./runtimeEnvironment"
+import { combineLatest, of, interval } from "rxjs"
+import { map, mergeMap, flatMap, tap, publishReplay, share, shareReplay } from "rxjs/operators"
+import { get } from "lodash-es"
 import * as tf from "@tensorflow/tfjs-core"
-import { isPlainObject, isFunction, has, hasIn, set, get, merge, isObject } from "lodash-es"
-import { Subject, Observable, combineLatest, of } from "rxjs"
-import { map } from "rxjs/operators"
+window.tf = tf
 
-import { operatorToFunction } from "./operators"
-import { SYMBOLS } from "./symbols"
+import Symbols from "./symbols"
 
-import { forEach_async, get_async, combineLatestObj } from "./utils"
+import Mouse from "./modules/Mouse"
 
 class Interpreter {
-    issues = new Subject()
-    tokenActions = {
-        Program: async (token, state) => {
-            // tf.tidy somewhere here
-            let stateAcc = Object.create(state)
-            const assignments = await forEach_async(token.value, async (assignment) => {
-                // is it possible to do merging without mutation?
-                const stateDelta = await this.processToken(assignment, stateAcc)
-                stateAcc = merge(stateAcc, stateDelta)
-                const _m = SYMBOLS.meta
-                stateAcc[_m] = merge({}, stateAcc[_m], stateDelta[_m])
-            })
-            return stateAcc
-        },
-        // ripe for refactoring
-        Assignment: async (token, state) => {
+    issues = null
 
-            const path = await this.processToken(token.path, state)
-            const value = this.processToken(token.value, state) // do not await value
+    rootEnv = {
+        [Symbols.doc]: `Hello.`,
 
-            const silent = token.silent || false
-            const isVariable = token.variable || false
+        empty: {},
+        false: false,
+        true: true,
 
-            const exists = has(state, path)
-            
-            const baseValue = {
-                [SYMBOLS.meta]: {
-                    [path]: {
-                        silent,
-                        source: token._source
-                    }
-                }
-            }
-            
-            if (exists) {
-                console.log(`${path.join(".")} exists in`, state)
-                const oldValue = await get(state, path)
-                const valueIsVariable = oldValue instanceof tf.Variable
-                if (valueIsVariable) {
-                    const fn = getFunction("Assign")
-                    const newValue = call(fn, {
-                        tensor: oldValue,
-                        value
-                    })
-                    return set(baseValue, path, newValue)
-                } else {
-                    throw Error(`Only variables can be reassigned. Use $${path.join(".")}`)
-                }
-            } else {
-                if (isVariable) {
-                    const fn = getFunction("Variable")
-                    const newValue = call(fn, value)
-                    return set(baseValue, path, newValue)
-                } else {
-                    // when checking value of ref
-                    //      if flag or same as provided value
-                    //          use state.__proto__ instead for lookup
-                    const mu = set(baseValue, path, value)
-                    return mu
-                }
-            }
+        "+": tf.add,
+        "-": tf.sub,
+        "*": tf.mul,
+        "×": tf.mul,
+        "/": tf.div,
+        "÷": tf.div,
+        "^": tf.pow,
+        "%": tf.mod,
+        "@": tf.matMul,
+        "⊗": tf.matMul,
 
-            throw Error(`This will never happen.`)
-        },
-        Reference: async (token, state) => {
-            const path = await this.processToken(token.value, state)
-            const value = await get_async(state, path, null)
-            // console.log("Reference",path, value, state)
-            if (!value) {
-                console.log(Object.keys(state).join(", "))
-                throw new Error(`No value for "${path.join(".")}".`)
-            }
-            return value
-        },
-        Path: async (token, state) => {
-            return token.value
-        },
-        Function: async (token, state) => {
-            const fn = async (arg) => {
-                const boundEnv = Object.create(Object.assign(Object.create(state), { [token.argument]: arg }))
-                return await this.processToken(token.value, boundEnv)
-            }
-            return fn
-        },
-        FunctionApplication: async (token, state) => {
-            // <fuckup>
-            // when there is no argument for function === only one value (reference)
-            // this is a wart at the grammar level
-            if (!token.argument) {
-                let value = await this.processToken(token.function, state)
-                if (!(value instanceof Observable)) {
-                    value = of(value)
-                }
-                return value
-            }
-            // </fuckup>
-
-            let fn = await this.processToken(token.function, state)
-            let value = await this.processToken(token.argument, state)
-
-            if (!(fn instanceof Observable)) {
-                fn = of(fn)
-            }
-
-            if (!(value instanceof Observable)) {
-                value = of(value)
-            }
-
-            const result = combineLatest(fn, value).pipe(map(async (v) => {
-                return await call(await v[0], await v[1])
-            }))
-            console.log(result)
-            return result
-            
-            // const result = value.pipe(map(async (v) => await call(fn, await v)))
-            // return call(fn, value)
-        },
-        BinaryOperation: async (token, state) => {
-            let a = await this.processToken(token.left, state)
-            let b = await this.processToken(token.right, state)
-            let fn = operatorToFunction(token.operator, 2)
-
-            if (!(fn instanceof Observable)) {
-                fn = of(fn)
-            }
-
-            if (!(a instanceof Observable)) {
-                a = of(a)
-            }
-
-            if (!(b instanceof Observable)) {
-                b = of(b)
-            }
-
-            console.log(fn, a, b)
-
-            const observable = combineLatest(fn, a, b).pipe(map(async (v) => await call(v[0], {
-                a: await v[1],
-                b: await v[2]
-            })))
-
-            return observable
-            // return call(fn, { a, b })
-
-
-        },
-        UnaryOperation: async (token, state) => {
-            let value = await this.processToken(token.value, state)
-            let fn = operatorToFunction(token.operator, 1)
-            if (!(value instanceof Observable)) {
-                value = of(value)
-            }
-            const observable = value.pipe(map(async (v) => await call(fn, await v)))
-            return observable
-
-            // return call(fn, value)
-        },
-        Tensor: async (token, state) => {
-            const value = await this.processToken(token.value, state)
-            const fn = getFunction("Tensor")
-            return call(fn, value)
-        },
-        TensorLiteral: async (token, state) => {
-            return token.value
-        },
-        Object: async (token, state) => {
-            const result = await this.processToken(token.value, Object.create(state))
-            return result
-        },
-        __unknown__: async (token, state) => {
-            console.log(token)
-            return `Unrecognized token: ${token.type}, rest: ${token}`
-        }
+        Mouse
     }
-    interpret = async (ast, env = {}, issues) => {
-        const state = Object.assign(Object.create(runtimeEnvironment), env)
+
+    interpret = (ast, env = {}, issues) => {
         this.issues = issues
-        const result = await this.processToken(ast, state)
+
+        const state = of(Object.assign(Object.create(this.rootEnv), env))
+        const result = this.processToken(ast, state)
+        console.log("Interpreting result:", result)
+
         return {
             success: {
                 result,
@@ -195,6 +46,31 @@ class Interpreter {
             }
         }
     }
+
+    processToken = (token, state) => {
+        console.log(token)
+        if (!state) { console.error("No state to operate on!") }
+
+        const fn = this.tokenActions[token.type] || this.tokenActions.__unknown__
+        let result
+        try {
+            result = fn(token, state)
+        } catch (e) {
+            const issue = {
+                source: token._source || null,
+                message: e.message,
+                severity: e.severity
+            }
+
+            this.reportIssue(issue)
+            console.error(e)
+
+            result = null
+        }
+
+        return result
+    }
+
     reportIssue({ source, message, severity = "error" }) {
         const issue = {
             ...source,
@@ -203,76 +79,150 @@ class Interpreter {
         }
         this.issues.next(issue)
     }
-    processToken = async (token, state) => {
-        if (!state) {
-            console.error("No state to operate on!")
-        }
-        // console.log(token)
-        const fn = this.tokenActions[token.type] || this.tokenActions.__unknown__
-        let result
-        try {
-            result = await fn(token, state)
-        } catch (e) {
-            if (token._source) {
-                const issue = {
-                    // [SYMBOLS.meta]: {},
-                    source: token._source,
-                    message: e.message,
-                    severity: e.severity
-                }
-                this.reportIssue(issue)
-                console.error(e)
-                throw new Error(e.message)
-                // return new Error(e.message)
+
+    tokenActions = {
+        Program: (token, state) => {
+            let stateAcc = state.pipe(
+                tap(
+                    (state) => {
+                        console.groupCollapsed("State")
+                        console.log("Create new state from:", state)
+                    }
+                ),
+                map(
+                    (state) => Object.create(state)
+                ),
+                shareReplay(),
+                tap(
+                    (state) => {
+                        console.log("New state:", (state))
+                        console.groupEnd()
+                    }
+                )
+            )
+
+            token.value.forEach(token => {
+                const stateDelta = this.processToken(token, stateAcc)
+                stateAcc = combineLatest(stateAcc, stateDelta).pipe(
+                    tap(
+                        ([state, stateDelta]) => {
+                            console.groupCollapsed("State merge")
+                            console.log("Going to merge state and stateDelta", state, stateDelta)
+                        }
+                    ),
+                    map(
+                        ([state, stateDelta]) => {
+                            return Object.assign({}, state, stateDelta)
+                        }
+                    ),
+                    tap(
+                        (state) => {
+                            console.log("New merged state", state)
+                            console.groupEnd()
+                        }
+                    ),
+                    shareReplay(),
+                )
+            })
+
+            return stateAcc
+        },
+        Assignment: (token, state) => {
+            const path = this.processToken(token.path, state)
+            const value = this.processToken(token.value, state)
+
+            return combineLatest(path, value).pipe(
+                tap(
+                    ([path, value]) => {
+                        console.groupCollapsed("Assignment")
+                        console.log("Creating state delta", path, value)
+                    }
+                ),
+                map(
+                    ([path, value]) => ({
+                        [path]: value
+                    })
+                ),
+                tap(
+                    (stateDelta) => {
+                        console.log("New state delta", stateDelta)
+                        console.groupEnd()
+                    }
+                )
+            )
+        },
+        Path: (token, state) => of(token.value),
+        FunctionApplication: (token, state) => {
+            let value
+
+            if (token.argument) {
+                const fn = this.processToken(token.function, state)
+                const arg = this.processToken(token.argument, state)
             } else {
-                console.error(e)
+                const arg = this.processToken(token.function, state)
+                value = arg
             }
 
-            result = null
+            return value
+        },
+        Reference: (token, state) => {
+            const path = this.processToken(token.value, state)
+            return combineLatest(path, state).pipe(
+                map(
+                    ([path, state]) => {
+                        return get(state, path)
+                    }
+                )
+            )
+        },
+        Function: (token, state) => {
+
+        },
+        BinaryOperation: (token, state) => {
+            const left = this.processToken(token.left, state)
+            const right = this.processToken(token.right, state)
+            const fn = of(this.rootEnv[token.operator])
+
+            return combineLatest(fn, left, right).pipe(
+                tap(
+                    ([fn, left, right]) => {
+                        console.groupCollapsed("Binary operation")
+                        console.log("Applying binary operation")
+                        console.log("Operation", fn)
+                        console.log("Left argument", left)
+                        console.log("Right argument", right)
+                    }
+                ),
+                map(
+                    ([fn, left, right]) => {
+                        return fn(left, right)
+                    }
+                ),
+                tap(
+                    (result) => {
+                        console.log("Result from binary operation:", result)
+                        console.groupEnd()
+                    }
+                ),
+            )
+        },
+        UnaryOperation: (token, state) => {
+
+        },
+        Tensor: (token, state) => {
+            const value = this.processToken(token.value, state)
+            return of(tf.tensor(value))
+        },
+        TensorLiteral: (token, state) => token.value,
+        Object: (token, state) => {
+            const result = this.processToken(token.value, state)
+            return result
+        },
+        __unknown__: (token, state) => {
+            throw new Error(`Unrecognized token: ${token.type}, rest: ${token}`)
         }
-
-        return result
-    }
-}
-
-// This is basically a reference with top-down name resolution.
-export const getFunction = (path, state = runtimeEnvironment) => {
-    const passThrough = arg => arg
-    const fn = get(state, path, null)
-    if (!fn) {
-        throw ({
-            message: `Function "${name}"?`,
-            severity: "error"
-        })
-    }
-    return fn || passThrough
-}
-
-/*
-**TODO**:
-    - memoize maybe?
-    - fn should consider only ownProps of arg
-    - how to inject dynamic scope?
-*/
-const call = async (fn, arg) => {
-    console.log("call", fn, arg)
-    fn = await fn
-    arg = await arg
-
-    if (isFunction(fn)) {
-        return fn(arg)
     }
 
-    if (isObject(fn)) {
-        const isCallable = fn.hasOwnProperty(SYMBOLS.call)
-
-        if (isCallable) {
-            return call(fn[SYMBOLS.call], arg)
-        }
-    }
-
-    console.log(fn)
-    throw new Error(`${fn} is not callable.`)
 }
 
 export default new Interpreter

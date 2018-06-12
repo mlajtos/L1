@@ -1,14 +1,16 @@
 import React, { PureComponent } from "react"
 
+import { get, has } from "lodash-es"
+
 import ObjectProperty from "../ObjectProperty"
 import PropertyWrapper from "../PropertyWrapper"
 import Markdown from "../Markdown"
-import { SYMBOLS } from "../../Interpreter/symbols"
+import Symbols from "../../Interpreter/symbols"
 
 import "./style.sass"
 
-const _m = SYMBOLS.meta
-const _doc = SYMBOLS.doc
+const _m = Symbols.meta
+const _doc = Symbols.doc
 
 /*
     `Object.betterEntries(obj)` returns array of triplets [value, key, obj],
@@ -21,6 +23,7 @@ Object.betterEntries = (obj) => {
     return entries.map(([key, value]) => [value, key, obj])
 }
 
+// use _.get
 const isSilent = ([value, key, props]) => !(props[_m] && props[_m][key] && props[_m][key].silent)
 
 export default class ObjectVis extends PureComponent {
@@ -30,6 +33,7 @@ export default class ObjectVis extends PureComponent {
         const props = Object.betterEntries(data)
             .filter(isSilent)
             .map(([value, key, props]) => {
+                // use _.get
                 const _meta = (props[_m] && props[_m][key]) ? props[_m][key] : null
 
                 return (
@@ -42,10 +46,13 @@ export default class ObjectVis extends PureComponent {
                 )
             })
 
+        const hasDoc = data.hasOwnProperty(Symbols.doc)
+        const doc = hasDoc ? <Markdown>{data[_doc]}</Markdown> : null
+
         return (
             <PropertyWrapper type="object" symbol="{}" {...this.props}>
                 <div className="properties">
-                    {data[_doc] ? <Markdown>{data[_doc]}</Markdown> : null}
+                    {doc}
                     {props}
                 </div>
             </PropertyWrapper>
