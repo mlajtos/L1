@@ -78,6 +78,7 @@ const semantics = {
         },
         Object: function(_, data, __) {
             return {
+                ...includeSource(this.source),
                 type: "Object",
                 value: data.eval()
             }
