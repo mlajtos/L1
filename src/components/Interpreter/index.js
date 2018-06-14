@@ -1,5 +1,5 @@
 import { combineLatest, of, interval } from "rxjs"
-import { map, mergeMap, flatMap, tap, publishReplay, share, shareReplay } from "rxjs/operators"
+import { map, mergeMap, flatMap, tap, publishReplay, share, shareReplay, catchError } from "rxjs/operators"
 import { get } from "lodash-es"
 import * as tf from "@tensorflow/tfjs-core"
 window.tf = tf
@@ -168,9 +168,37 @@ class Interpreter {
         Reference: (token, state) => {
             const path = this.processToken(token.value, state)
             return combineLatest(path, state).pipe(
+                tap(
+                    ([path, state]) => {
+                        console.groupCollapsed("Reference")
+                        console.log("Getting a value from reference")
+                        console.log("Path", path)
+                        console.log("State", state)
+                    }
+                ),
                 map(
                     ([path, state]) => {
-                        return get(state, path)
+                        const value = get(state, path)
+                        if (value === undefined) {
+                            throw new Error(`No value for ${path.join(".")}`)
+                        }
+                        return value
+                    }
+                ),
+                catchError(e => {
+                    const issue = {
+                        source: token._source || null,
+                        message: e.message,
+                        severity: "error"
+                    }
+        
+                    this.reportIssue(issue)
+                    return of(e)
+                }),
+                tap(
+                    (value) => {
+                        console.log("Value", value)
+                        console.groupEnd()
                     }
                 )
             )
@@ -198,6 +226,16 @@ class Interpreter {
                         return fn(left, right)
                     }
                 ),
+                catchError(e => {
+                    const issue = {
+                        source: token._source || null,
+                        message: e.message,
+                        severity: "error"
+                    }
+        
+                    this.reportIssue(issue)
+                    return of(e)
+                }),
                 tap(
                     (result) => {
                         console.log("Result from binary operation:", result)
