@@ -1,12 +1,18 @@
 import { combineLatest, of, interval } from "rxjs"
 import { map, mergeMap, flatMap, tap, publishReplay, share, shareReplay, catchError } from "rxjs/operators"
-import { get } from "lodash-es"
+import { get, isFunction, isObject } from "lodash-es"
 import * as tf from "@tensorflow/tfjs-core"
 window.tf = tf
 
 import Symbols from "./symbols"
 
 import Mouse from "./modules/Mouse"
+import Shape from "./modules/Shape"
+import Size from "./modules/Size"
+import Rank from "./modules/Rank"
+import Mean from "./modules/Mean"
+import Min from "./modules/Min"
+import Max from "./modules/Max"
 
 class Interpreter {
     issues = null
@@ -17,6 +23,13 @@ class Interpreter {
         empty: {},
         false: false,
         true: true,
+
+        Shape,
+        Size,
+        Rank,
+        Mean,
+        Min,
+        Max,
 
         "+": tf.add,
         "-": tf.sub,
@@ -112,7 +125,7 @@ class Interpreter {
                     ),
                     map(
                         ([state, stateDelta]) => {
-                            return Object.assign({}, state, stateDelta)
+                            return Object.assign(state, stateDelta)
                         }
                     ),
                     tap(
@@ -158,6 +171,24 @@ class Interpreter {
             if (token.argument) {
                 const fn = this.processToken(token.function, state)
                 const arg = this.processToken(token.argument, state)
+                return combineLatest(fn, arg).pipe(
+                    tap(
+                        ([fn, arg]) => {
+                            console.groupCollapsed("Function Application")
+                            console.log("Function", fn)
+                            console.log("Argument", arg)
+                        }
+                    ),
+                    map(
+                        ([fn, arg]) => call(fn, arg)
+                    ),
+                    tap(
+                        (value) => {
+                            console.log("Value", value)
+                            console.groupEnd()
+                        }
+                    )
+                )
             } else {
                 const arg = this.processToken(token.function, state)
                 value = arg
@@ -223,7 +254,7 @@ class Interpreter {
                 ),
                 map(
                     ([fn, left, right]) => {
-                        return fn(left, right)
+                        return call(fn, left, right)
                     }
                 ),
                 catchError(e => {
@@ -261,6 +292,23 @@ class Interpreter {
         }
     }
 
+}
+
+const call = (fn, arg) => {
+
+    if (isFunction(fn)) {
+        return fn(arg)
+    }
+
+    if (isObject(fn)) {
+        const isCallable = fn.hasOwnProperty(Symbols.call)
+
+        if (isCallable) {
+            return call(fn[Symbols.call], arg)
+        }
+    }
+
+    throw new Error(`${fn} is not callable.`)
 }
 
 export default new Interpreter
