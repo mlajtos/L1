@@ -235,7 +235,33 @@ class Interpreter {
             )
         },
         Function: (token, state) => {
+            return state.pipe(
+                tap(
+                    (state) => {
+                        console.groupCollapsed("Function")
+                        console.log("State", state)
+                        console.log("Argument", token.argument)
+                    }
+                ),
+                map(
+                    (state) => {
+                        const fn = (arg) => {
+                            const boundEnv = Object.assign(Object.create(state), {
+                                [token.argument]: arg
+                            })
+                            return this.processToken(token.value, of(boundEnv))
+                        }
 
+                        return fn
+                    }
+                ),
+                tap(
+                    (fn) => {
+                        console.log("Function", fn)
+                        console.groupEnd()
+                    }
+                )
+            )
         },
         BinaryOperation: (token, state) => {
             const left = this.processToken(token.left, state)
