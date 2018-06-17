@@ -7,7 +7,7 @@ import "./style.sass"
 export default class Observable extends PureComponent {
     state = {
         data: null,
-        value: null
+        value: undefined
     }
     _mounted = false
     onNext = (value) => this.setState({ value })
