@@ -215,19 +215,6 @@ mu: { h: 0, a: 1 }
 
 ## What does this code do?
 
-### Self-dependent bind
-
-```L1
-mu: a => a + 1
-test: {
-    mu: mu 46
-    ; mu is in conflict
-    ; this creates self-dependent bind, which is useless and unwanted
-    ; what we want:
-    mu: ^mu 46
-}
-```
-
 ### 
 ```L1
 Counter: {
