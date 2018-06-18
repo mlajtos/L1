@@ -1,6 +1,6 @@
 import { combineLatest, of, interval } from "rxjs"
 import { map, mergeMap, flatMap, tap, publishReplay, share, shareReplay, catchError } from "rxjs/operators"
-import { get, isFunction, isObject } from "lodash-es"
+import { get, isFunction, isObject, set } from "lodash-es"
 import * as tf from "@tensorflow/tfjs-core"
 window.tf = tf
 
@@ -152,9 +152,11 @@ class Interpreter {
                     }
                 ),
                 map(
-                    ([path, value]) => ({
-                        [path]: value
-                    })
+                    ([path, value]) => {
+                        const obj = {}
+                        set(obj, path, value)
+                        return obj
+                    }
                 ),
                 tap(
                     (stateDelta) => {
