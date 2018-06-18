@@ -71,6 +71,7 @@ const semantics = {
         },
         Function: function(argument, _, value) {
             return {
+                ...includeSource(this.source),
                 type: "Function",
                 argument: argument.eval(),
                 value: value.eval()
