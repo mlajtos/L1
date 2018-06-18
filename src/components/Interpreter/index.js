@@ -166,12 +166,6 @@ class Interpreter {
         },
         Path: (token, state) => of(token.value),
         FunctionApplication: (token, state) => {
-            let value
-
-            if (!token.function) {
-                return this.processToken(token.argument, state)
-            }
-
             const fn = this.processToken(token.function, state)
             const arg = this.processToken(token.argument, state)
 
