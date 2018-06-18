@@ -168,33 +168,41 @@ class Interpreter {
         FunctionApplication: (token, state) => {
             let value
 
-            if (token.argument) {
-                const fn = this.processToken(token.function, state)
-                const arg = this.processToken(token.argument, state)
-                return combineLatest(fn, arg).pipe(
-                    tap(
-                        ([fn, arg]) => {
-                            console.groupCollapsed("Function Application")
-                            console.log("Function", fn)
-                            console.log("Argument", arg)
-                        }
-                    ),
-                    map(
-                        ([fn, arg]) => call(fn, arg)
-                    ),
-                    tap(
-                        (value) => {
-                            console.log("Value", value)
-                            console.groupEnd()
-                        }
-                    )
-                )
-            } else {
-                const arg = this.processToken(token.function, state)
-                value = arg
+            if (!token.function) {
+                return this.processToken(token.argument, state)
             }
 
-            return value
+            const fn = this.processToken(token.function, state)
+            const arg = this.processToken(token.argument, state)
+
+            return combineLatest(fn, arg).pipe(
+                tap(
+                    ([fn, arg]) => {
+                        console.groupCollapsed("Function Application")
+                        console.log("Function", fn)
+                        console.log("Argument", arg)
+                    }
+                ),
+                map(
+                    ([fn, arg]) => call(fn, arg)
+                ),
+                catchError(e => {
+                    const issue = {
+                        source: token._source || null,
+                        message: e.message,
+                        severity: "error"
+                    }
+        
+                    this.reportIssue(issue)
+                    return of(e)
+                }),
+                tap(
+                    (value) => {
+                        console.log("Value", value)
+                        console.groupEnd()
+                    }
+                )
+            )
         },
         Reference: (token, state) => {
             const path = this.processToken(token.value, state)

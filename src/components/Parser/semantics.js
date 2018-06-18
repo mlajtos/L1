@@ -1,4 +1,5 @@
 import { convertToLineNumberAndColumn } from "./index"
+import { isEmpty } from "lodash-es"
 
 const semantics = {
     operation: "eval",
@@ -42,14 +43,19 @@ const semantics = {
             }
         },
         FunctionApplication: function(fn, arg) {
-            let argument = arg.eval()
-            argument = argument === [] ? null : argument[0]
+            arg = arg.eval()
+            fn = fn.eval()
+
+            if (isEmpty(arg)) {
+                return fn
+            }
+
             return {
                 ...includeSource(this.source),
                 type: "FunctionApplication",
                 direction: "backward",
-                function: fn.eval(),
-                argument
+                function: fn,
+                argument: arg[0]
             }
         },
         Pipeline_binary: function (arg, _, fn) {
