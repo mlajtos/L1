@@ -2,19 +2,23 @@ import React, { PureComponent } from "react"
 import ReactDOM from "react-dom"
 import { isFunction } from "lodash-es"
 import FontFaceObserver from "fontfaceobserver"
+import { Subject } from "rxjs"
+import { scan } from "rxjs/operators"
 
 import "./style.sass"
 
 import monaco from "../MonacoEditor"
-import { Subject } from "rxjs"
 
 export default class Editor extends PureComponent {
     container = null
     editor = null
+
     decorations = []
     viewZones = []
+    markers = []
+
     issues = new Subject
-    issuesSubscription = null
+
     _mount = async (el) => {
         this.container = el
         if (this.container) {
@@ -75,49 +79,37 @@ export default class Editor extends PureComponent {
             run: (editor) => {
                 const fn = this.props.onExecute || undefined
                 if (isFunction(fn)) {
+                    this.issues.next(null)
                     fn.apply(null, [editor, this.issues])
                 }
                 return null;
             }
         });
     }
-    removeDecoration() {
-        this.editor.changeViewZones(changeAccessor => {
-            changeAccessor.removeZone(this.viewZone)
-        })
-        this.decoration = this.editor.deltaDecorations([this.decoration], [])
-        monaco.editor.setModelMarkers(this.editor.getModel(), "test", [])
-    }
-    setDecorationForIssue(issue) {
-
-        if (issue === null) {
-            this.removeDecoration()
-            return
-        }
-
-        const marker = {
+    setDecorations(issues) {
+        const markers = issues.map(issue => ({
             startLineNumber: issue.startLineNumber,
             startColumn: issue.startColumn,
             endLineNumber: issue.endLineNumber,
             endColumn: issue.endColumn,
             message: issue.message,
             severity: severityTable[issue.severity]
-        }
+        }))
 
-        const lineDecoration = {
-            range: new monaco.Range(issue.startLineNumber, issue.startColumn, issue.startLineNumber,issue. startColumn),
+        const lineDecorations = issues.map(issue => ({
+            range: new monaco.Range(issue.startLineNumber, issue.startColumn, issue.startLineNumber, issue.startColumn),
             options: {
                 isWholeLine: true,
                 className: `inlineDecoration ${issue.severity}`,
                 glyphMarginClassName: `glyphDecoration ${issue.severity}`,
                 glyphMarginHoverMessage: issue.message
             }
-        }
+        }))
 
         this.editor.changeViewZones(changeAccessor => {
-            changeAccessor.removeZone(this.viewZone)
+            this.viewZones.forEach(viewZone => changeAccessor.removeZone(viewZone))
 
-            this.viewZone = (() => {
+            this.viewZones = issues.map(issue => {
                 const domNode = document.createElement("div")
                 this.renderIssue(issue, domNode)
 
@@ -127,34 +119,19 @@ export default class Editor extends PureComponent {
                     heightInLines: 0,
                     domNode
                 })
-            })()
+            })
         })
 
-        this.decoration = this.editor.deltaDecorations([this.decoration], [lineDecoration])
-        monaco.editor.setModelMarkers(this.editor.getModel(), "test", [marker])
+        this.decorations = this.editor.deltaDecorations(this.decorations, lineDecorations)
+        monaco.editor.setModelMarkers(this.editor.getModel(), "test", markers)
     }
     componentDidMount() {
-        // if (!this.props.issues) {
-        //     return
-        // }
-        this.issuesSubscription = this.issues.subscribe(issue => this.setDecorationForIssue(issue))
-    }
-    componentWillReceiveProps(props) {
-        // This is bad. Only editor should be able to change the content.
-        // However interactive board should be able to change it too. Hmm..
-
-        // if (props.content !== this.props.content) {
-        //     console.log("Setting value")
-        //     this.editor.setValue(props.content)
-        // }
-
-        if (props.issues !== this.props.issues) {
-            console.log("Subscribing to new issues")
-            if (this.issuesSubscription) {
-                this.issuesSubscription.unsubscribe()
-            }
-            this.issuesSubscription = props.issues.subscribe(issue => this.setDecorations([issue]))
-        }
+        this.issues.pipe(
+            scan(
+                (acc, curr) => ((curr === null) ? [] : [...acc, curr]),
+                []
+            )
+        ).subscribe(this.setDecorations)
     }
     renderIssue(issue, element) {
         ReactDOM.render(<Issue {...issue} />, element)
