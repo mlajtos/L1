@@ -238,7 +238,6 @@ test: Counter.increaseBy 7
 
 # TODO
 
-* chyby nech sa zobrazujú v editore, nie v konzole
 * korešpondencia medzi kódom a vizualizáciou
     * focus
         * keď ukážem na vizualizáciu, tak mi ukáže ktorý kód to vyprodukoval
@@ -254,7 +253,6 @@ test: Counter.increaseBy 7
         ```
    * keď skúsim zavolať {} ?, tak čo? :)
    * keď priradím ?, tak čo?
-* pri Reference keď neexistuje Promise, tak vytvoriť a resolvnúť keď bude dostupnýz výpočtu
 
  ## Crazy
 
