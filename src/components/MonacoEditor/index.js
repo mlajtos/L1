@@ -144,10 +144,12 @@ const theme = {
 
 monaco.editor.defineTheme(languageName, theme)
 
+const functions = ["Shape", "Rank", "Min", "Max", "RankUp", "Transpose", "RandomNormal", "RandomUniform"]
+
 monaco.languages.registerCompletionItemProvider(languageName, {
     provideCompletionItems: () => {
         return [
-            ...(["RankUp", "Transpose", "RandomNormal", "RandomUniform"].map(label => ({
+            ...(functions.map(label => ({
                 label,
                 kind: monaco.languages.CompletionItemKind.Function,
                 documentation: "mu"
