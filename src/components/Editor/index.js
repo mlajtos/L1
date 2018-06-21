@@ -58,10 +58,13 @@ export default class Editor extends PureComponent {
                 horizontal: "hidden"
             }
         }
+
         this.editor = monaco.editor.create(this.container, config)
+
         window.addEventListener("resize", (e) => {
             this.editor.layout()
         })
+
         this.editor.onDidChangeModelContent((e) => {
             const fn = this.props.onChange || undefined
             if (isFunction(fn)) {
@@ -70,6 +73,7 @@ export default class Editor extends PureComponent {
                 fn.apply(null, [code, this.editor, this.issues])
             }
         })
+
         this.editor.addAction({
             id: "executeCode",
             label: "Execute Code",
@@ -84,27 +88,13 @@ export default class Editor extends PureComponent {
                 }
                 return null;
             }
-        });
-    }
-    setDecorations(issues) {
-        const markers = issues.map(issue => ({
-            startLineNumber: issue.startLineNumber,
-            startColumn: issue.startColumn,
-            endLineNumber: issue.endLineNumber,
-            endColumn: issue.endColumn,
-            message: issue.message,
-            severity: severityTable[issue.severity]
-        }))
+        })
 
-        const lineDecorations = issues.map(issue => ({
-            range: new monaco.Range(issue.startLineNumber, issue.startColumn, issue.startLineNumber, issue.startColumn),
-            options: {
-                isWholeLine: true,
-                className: `inlineDecoration ${issue.severity}`,
-                glyphMarginClassName: `glyphDecoration ${issue.severity}`,
-                glyphMarginHoverMessage: issue.message
-            }
-        }))
+        this.subscribeToIssues()
+    }
+    setDecorations = (issues) => {
+        const markers = issues.map(issueToMarker)
+        const lineDecorations = issues.map(issueToLineDecoration)
 
         this.editor.changeViewZones(changeAccessor => {
             this.viewZones.forEach(viewZone => changeAccessor.removeZone(viewZone))
@@ -125,7 +115,7 @@ export default class Editor extends PureComponent {
         this.decorations = this.editor.deltaDecorations(this.decorations, lineDecorations)
         monaco.editor.setModelMarkers(this.editor.getModel(), "test", markers)
     }
-    componentDidMount() {
+    subscribeToIssues() {
         this.issues.pipe(
             scan(
                 (acc, curr) => ((curr === null) ? [] : [...acc, curr]),
@@ -154,3 +144,27 @@ const severityTable = {
     "warning": monaco.Severity.Warning,
     "info": monaco.Severity.Info
 }
+
+const issueToMarker = (issue) => ({
+    startLineNumber: issue.startLineNumber,
+    startColumn: issue.startColumn,
+    endLineNumber: issue.endLineNumber,
+    endColumn: issue.endColumn,
+    message: issue.message,
+    severity: severityTable[issue.severity]
+})
+
+const issueToLineDecoration = (issue) => ({
+    range: new monaco.Range(
+        issue.startLineNumber,
+        issue.startColumn,
+        issue.startLineNumber,
+        issue.startColumn
+    ),
+    options: {
+        isWholeLine: true,
+        className: `inlineDecoration ${issue.severity}`,
+        glyphMarginClassName: `glyphDecoration ${issue.severity}`,
+        glyphMarginHoverMessage: issue.message
+    }
+})
