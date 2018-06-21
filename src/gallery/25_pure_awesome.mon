@@ -1,5 +1,5 @@
 mu: {
-    dispatch: a => {
+    #call: a => {
         precheck: (precondition a)
         value: precheck ? (transform a) : a
         postcheck: (postcondition value)
