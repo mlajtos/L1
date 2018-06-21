@@ -7,14 +7,18 @@ import "./style.sass"
 export default class Observable extends PureComponent {
     state = {
         data: null,
-        value: undefined
+        value: undefined,
+        error: undefined,
+        completed: false
     }
     _mounted = false
     onNext = (value) => this.setState({ value })
+    onError = (error) => this.setState({ error })
+    onCompleted = () => this.setState({ completed: true })
 
     componentDidMount() {
         this._mounted = true
-        this.subscription = this.props.data.subscribe(this.onNext)
+        this.subscription = this.props.data.subscribe(this.onNext, this.onError, this.onCompleted)
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -30,7 +34,7 @@ export default class Observable extends PureComponent {
     componentDidUpdate = (prevProps, prevState) => {
         if (prevState.data !== this.state.data) {
             this.subscription.unsubscribe()
-            this.subscription = this.state.data.subscribe(this.onNext)
+            this.subscription = this.state.data.subscribe(this.onNext, this.onError, this.onCompleted)
         }
     }
 
@@ -39,11 +43,9 @@ export default class Observable extends PureComponent {
         this.subscription.unsubscribe()
     }
 
-    render() {
-        return (
-            <div className={"observable"}>
-                <ObjectProperty {...this.props} data={this.state.value} />
-            </div>
-        )
-    }
+    render = () => (
+        <div className={"observable " + (this.state.error ? "error" : "")}>
+            <ObjectProperty {...this.props} data={this.state.value} />
+        </div>
+    )
 }
