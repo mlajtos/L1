@@ -1,5 +1,5 @@
 import { combineLatest, of, interval } from "rxjs"
-import { map, mergeMap, flatMap, tap, publishReplay, share, shareReplay, catchError } from "rxjs/operators"
+import { map, mergeMap, flatMap, tap, publishReplay, share, shareReplay, catchError, switchMap } from "rxjs/operators"
 import { get, isFunction, isObject, set } from "lodash-es"
 import * as tf from "@tensorflow/tfjs-core"
 window.tf = tf
@@ -48,9 +48,9 @@ class Interpreter {
     interpret = (ast, env = {}, issues) => {
         this.issues = issues
 
-        const state = of(Object.assign(Object.create(this.rootEnv), env))
+        const state = of(Object.assign(Object.create(this.rootEnv), { self: this.rootEnv }, env))
         const result = this.processToken(ast, state)
-        console.log("Interpreting result:", result)
+        // console.log("Interpreting result:", result)
 
         return {
             success: {
@@ -179,8 +179,12 @@ class Interpreter {
                         console.log("Argument", arg)
                     }
                 ),
-                map(
-                    ([fn, arg]) => call(fn, arg)
+                switchMap(
+                    ([fn, arg]) => {
+                        const result = call(fn, arg)
+                        // console.log("Yo", fn, arg, result)
+                        return result
+                    }
                 ),
                 catchError(e => {
                     const issue = {
