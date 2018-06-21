@@ -10,7 +10,6 @@ import Panel from "./Panel"
 
 import Code from "./Board/Code"
 import readme from "../../README.md"
-import { Subject } from "rxjs";
 
 export default class Studio extends PureComponent {
     state = {
@@ -22,7 +21,7 @@ export default class Studio extends PureComponent {
     issues = null
 
     async componentDidMount() {
-        const code = await this.loadFromGallery("22_polynomial_regression")
+        const code = await this.loadFromGallery("21_closures")
         this.setState({ code })
     }
     codeChanged = async (code, editor, issues) => {
