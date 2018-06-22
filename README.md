@@ -2,7 +2,7 @@
 
 L1: Tensor Studio is a live-programming environment for differentiable tensor computations.
 
-The main design goal for L1 is to provide a bridge for experienced programmers that are transitioning to the field of functional differentiable programming. L1 is NOT meant as a replacement for real-world programming languages (e.g. Python, Scala, etc.) or runtimes (Tensorflow, Caffe, etc.).
+The main design goal for L1 is to provide a bridge for experienced programmers that are transitioning to the field of functional differentiable programming. L1 is NOT meant as a replacement for real-world programming languages (e.g. Python, Scala, etc.) or runtimes (Tensorflow, Caffe, etc.), rather L1 should be perceived as a playground for exploratory programming in the domain.
 
 # Syntax
 
