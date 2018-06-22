@@ -10,5 +10,9 @@ mu: {
     postcondition: a => (a <= 100)
 }
 
-val: 2
-res: mu val
+res0: mu -2
+res1: mu -1
+res2: mu 0
+res3: mu 99
+res4: mu 100
+res5: mu 101
