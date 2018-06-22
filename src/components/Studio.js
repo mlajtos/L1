@@ -28,7 +28,7 @@ export default class Studio extends PureComponent {
         this.setState(await Evaluator.evaluate(code, {}, issues))
     }
     loadFromGallery = async id => {
-        const module = await import(`../gallery/${id}.mon`)
+        const module = await import(`../gallery/${id}.l1`)
         return module.default
     }
     render() {
