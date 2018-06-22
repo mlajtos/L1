@@ -1,9 +1,9 @@
-f: Sigmoid,
+f: Sigmoid
 nthOrderGradient: cfg => Iterate {
-    f: Gradient cfg.f,
+    f: Gradient cfg.f
     count: cfg.n
-},
-grad: nthOrderGradient { f: f, n: 1 },
-interval: (Iota 100 - 50),
-fn: f interval,
+}
+grad: nthOrderGradient { f: f n: 1 }
+interval: (Iota 100 - 50)
+fn: f interval
 gradient: grad interval

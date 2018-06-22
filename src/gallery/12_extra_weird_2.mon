@@ -2,14 +2,14 @@ resolution: 10
 range: 10
 
 a: LinearSpace {
-    start: '-range
-    stop: 'range
-    num: 'resolution
+    start: -range
+    stop: range
+    num: resolution
 }
 
 b: ExpandDimension {
     tensor: a
-    axis: '1
+    axis: 1
 }
 
 c: Transpose b

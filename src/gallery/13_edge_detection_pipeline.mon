@@ -1,4 +1,4 @@
-#  pipeline version
+; pipeline version
 
 Fn: MaxPool { filterSize: 2 strides: 1 }
 e: GetDigit 5

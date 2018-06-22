@@ -1,13 +1,13 @@
-digit: 4,
-samplesToAverage: 1000,
+digit: 4
+samplesToAverage: 1000
 
 averageDigit: d => {
     summed: Iterate {
-        f: a => a + (GetDigit digit),
+        f: a => a + (GetDigit digit)
         count: samplesToAverage
     }
     averageDigit: summed (Zeros [28 28]) / samplesToAverage
-},
+}
 
 mu: averageDigit digit
 gu: mu.averageDigit

@@ -1,5 +1,5 @@
 a: ExpandDimension {
-    tensor: Iota '1000
+    tensor: Iota 1000
 
 } 
 b: Transpose a

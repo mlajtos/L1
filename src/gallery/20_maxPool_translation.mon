@@ -1,20 +1,20 @@
-# MaxPool can do translation
+; MaxPool can do translation
 
-digit: 5,
-iterations: 10,
+digit: 5
+iterations: 10
 
 RankUp: t => ExpandDimension {
-    tensor: t,
+    tensor: t
     axis: 2
-},
+}
 
 iterateMaxPool: Iterate {
         f: a => MaxPool {
-            tensor: -a, # changing the sign every iteration
+            tensor: -a ; changing the sign every iteration
             filterSize: 2
-        },
+        }
         count: iterations
-},
+}
 
-x: RankUp (GetDigit digit),
+x: RankUp (GetDigit digit)
 mu: iterateMaxPool x
