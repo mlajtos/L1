@@ -4,6 +4,7 @@ const Symbols = {
     meta: toSymbol("meta"),
     doc: toSymbol("doc"),
     call: toSymbol("call"),
+    // value: toSymbol("value"),
     true: toSymbol("true"),
     false: toSymbol("false")
 }
