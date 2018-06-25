@@ -1,56 +1,20 @@
-import { combineLatest, of, interval } from "rxjs"
-import { map, mergeMap, flatMap, tap, publishReplay, share, shareReplay, catchError, switchMap } from "rxjs/operators"
-import { get, isFunction, isObject, set } from "lodash-es"
-import * as tf from "@tensorflow/tfjs-core"
-window.tf = tf
+import { combineLatest, of, throwError } from "rxjs"
+import { map, tap, shareReplay, catchError, switchMap } from "rxjs/operators"
+import { get, isFunction, isObject, set, merge, assign } from "lodash-es"
 
 import Symbols from "./symbols"
-
-import Mouse from "./modules/Mouse"
-import Shape from "./modules/Shape"
-import Size from "./modules/Size"
-import Rank from "./modules/Rank"
-import Mean from "./modules/Mean"
-import Min from "./modules/Min"
-import Max from "./modules/Max"
+import RootEnv from "./rootEnvironment"
 
 class Interpreter {
     issues = null
 
-    rootEnv = {
-        [Symbols.doc]: `Hello.`,
-
-        empty: {},
-        false: false,
-        true: true,
-
-        Shape,
-        Size,
-        Rank,
-        Mean,
-        Min,
-        Max,
-
-        "+": binarize(tf.add),
-        "-": binarize(tf.sub),
-        "*": binarize(tf.mul),
-        "×": binarize(tf.mul),
-        "/": binarize(tf.div),
-        "÷": binarize(tf.div),
-        "^": binarize(tf.pow),
-        "%": binarize(tf.mod),
-        "@": binarize(tf.matMul),
-        "⊗": binarize(tf.matMul),
-
-        Mouse
-    }
+    rootEnv = RootEnv
 
     interpret = (ast, env = {}, issues) => {
         this.issues = issues
 
         const state = of(Object.assign(Object.create(this.rootEnv), { self: this.rootEnv }, env))
         const result = this.processToken(ast, state)
-        // console.log("Interpreting result:", result)
 
         return {
             success: {
@@ -93,6 +57,17 @@ class Interpreter {
         this.issues.next(issue)
     }
 
+    catchIssue = (e, token) => {
+        const issue = {
+            source: token._source || null,
+            message: e.message,
+            severity: "error"
+        }
+
+        this.reportIssue(issue)
+        return of(e)
+    }
+
     tokenActions = {
         Program: (token, state) => {
             let stateAcc = state.pipe(
@@ -125,7 +100,12 @@ class Interpreter {
                     ),
                     map(
                         ([state, stateDelta]) => {
-                            return Object.assign(state, stateDelta)
+                            const key = Object.keys(stateDelta)[0]
+                            if (state.hasOwnProperty(key)) {
+                                return merge(state, stateDelta)
+                            } else {
+                                return assign(state, stateDelta)
+                            }
                         }
                     ),
                     tap(
@@ -150,6 +130,9 @@ class Interpreter {
                         console.groupCollapsed("Assignment")
                         console.log("Creating state delta", path, value)
                     }
+                ),
+                catchError(
+                    e => this.catchIssue(e, token)
                 ),
                 map(
                     ([path, value]) => {
@@ -181,21 +164,12 @@ class Interpreter {
                 ),
                 switchMap(
                     ([fn, arg]) => {
-                        const result = call(fn, arg)
-                        // console.log("Yo", fn, arg, result)
-                        return result
+                        return call(fn, arg)
                     }
                 ),
-                catchError(e => {
-                    const issue = {
-                        source: token._source || null,
-                        message: e.message,
-                        severity: "error"
-                    }
-        
-                    this.reportIssue(issue)
-                    return of(e)
-                }),
+                catchError(
+                    e => this.catchIssue(e, token)
+                ),
                 tap(
                     (value) => {
                         console.log("Value", value)
@@ -219,21 +193,15 @@ class Interpreter {
                     ([path, state]) => {
                         const value = get(state, path)
                         if (value === undefined) {
+                            // return throwError(new Error(`No value for ${path.join(".")}`))
                             throw new Error(`No value for ${path.join(".")}`)
                         }
                         return value
                     }
                 ),
-                catchError(e => {
-                    const issue = {
-                        source: token._source || null,
-                        message: e.message,
-                        severity: "error"
-                    }
-        
-                    this.reportIssue(issue)
-                    return of(e)
-                }),
+                catchError(
+                    e => this.catchIssue(e, token)
+                ),
                 tap(
                     (value) => {
                         console.log("Value", value)
@@ -291,16 +259,9 @@ class Interpreter {
                         return call(fn, { a, b })
                     }
                 ),
-                catchError(e => {
-                    const issue = {
-                        source: token._source || null,
-                        message: e.message,
-                        severity: "error"
-                    }
-        
-                    this.reportIssue(issue)
-                    return of(e)
-                }),
+                catchError(
+                    e => this.catchIssue(e, token)
+                ),
                 tap(
                     (result) => {
                         console.log("Result from binary operation:", result)
@@ -310,7 +271,28 @@ class Interpreter {
             )
         },
         UnaryOperation: (token, state) => {
+            const argument = this.processToken(token.argument, state)
+            const fn = of(this.rootEnv[token.operator])
 
+            return combineLatest(fn, argument).pipe(
+                tap(
+                    ([fn, argument]) => {
+                        console.groupCollapsed("Unary operation")
+                        console.log("Applying unary operation")
+                        console.log("Operation", fn)
+                        console.log("Argument", argument)
+                    }
+                ),
+                map(([fn, argument]) => {
+                    call(fn, argument)
+                }),
+                tap(
+                    (result) => {
+                        console.log("Result from unary operation:", result)
+                        console.groupEnd()
+                    }
+                ),
+            )
         },
         Tensor: (token, state) => {
             const value = this.processToken(token.value, state)
@@ -344,7 +326,5 @@ const call = (fn, arg) => {
 
     throw new Error(`${fn} is not callable.`)
 }
-
-const binarize = (fn) => (({ a, b }) => fn(a, b))
 
 export default new Interpreter
