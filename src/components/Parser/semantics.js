@@ -160,7 +160,7 @@ const unaryOperation = (op, value, source) => ({
     ...includeSource(source),
     type: "UnaryOperation",
     operator: op.sourceString,
-    value: value.eval()
+    argument: value.eval()
 })
 
 const binaryOperation = (left, op, right, source) => ({
