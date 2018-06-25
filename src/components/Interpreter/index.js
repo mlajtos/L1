@@ -57,7 +57,7 @@ class Interpreter {
         this.issues.next(issue)
     }
 
-    catchIssue = (e, token) => {
+    catchIssue = (e, token, value) => {
         const issue = {
             source: token._source || null,
             message: e.message,
@@ -65,7 +65,7 @@ class Interpreter {
         }
 
         this.reportIssue(issue)
-        return of(e)
+        return value || of(e)
     }
 
     tokenActions = {
@@ -200,7 +200,7 @@ class Interpreter {
                     }
                 ),
                 catchError(
-                    e => this.catchIssue(e, token)
+                    e => this.catchIssue(e, token, of(undefined))
                 ),
                 tap(
                     (value) => {
