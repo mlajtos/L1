@@ -3,6 +3,9 @@
     border: 1px solid lightgray
     border-radius: 5px
     overflow: hidden
+
+$backgroundColor: #f6bfbb
+$hoverBackgroundColor: darken($backgroundColor, 15%)
     
 .message
     font-family: "Fira Code"
@@ -18,7 +21,6 @@
     white-space: nowrap
     max-width: 35% // should be set externaly to width of the remaining space on line
     z-index: 1
-    transition: all 0.3s
     display: flex
 
     &:before
@@ -27,7 +29,7 @@
         height: 17px
         position: absolute
         left: 0
-        background: linear-gradient(45deg, #f6bfbb, #f6bfbb, #f6bfbb, transparent, transparent)
+        background: linear-gradient(45deg, $backgroundColor, $backgroundColor, $backgroundColor, transparent, transparent)
         transform: rotate(45deg)
         transform-origin: top left
         border-radius: 0 0 0 3px
@@ -43,21 +45,29 @@
     &:hover
         white-space: initial
         border-radius: 0 0 5px 5px
+        z-index: 100
+        &.error
+            background-color: $hoverBackgroundColor
+
+        &:before
+            background: $hoverBackgroundColor
 
     &.error
         background-color: hsla(4, 77%, 85%, 1)
     &.warning
         background-color: hsla(41, 79%, 85%, 1)
 
+$errorBackground: rgb(250, 220, 217)
+
 .inlineDecoration
     &.error
-        background-color: rgba(255, 0, 0, 0.15)
+        background-color: $errorBackground
     &.warning
         background-color: hsla(55, 100%, 50%, 0.15)
 .glyphDecoration
     width: 100% !important
     &.error
-        background-color: rgba(255, 0, 0, 0.15)
+        background-color: $errorBackground
         &:after
             content: "🚫"
             //content: "🐞"
