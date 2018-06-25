@@ -12,8 +12,8 @@ export default class Observable extends PureComponent {
         completed: false
     }
     _mounted = false
-    onNext = (value) => this.setState({ value })
-    onError = (error) => this.setState({ error })
+    onNext = (value) => this.setState({ value, error: undefined })
+    onError = (error) => this.setState({ value: undefined, error })
     onCompleted = () => this.setState({ completed: true })
 
     componentDidMount() {
@@ -45,7 +45,7 @@ export default class Observable extends PureComponent {
 
     render = () => (
         <div className={"observable " + (this.state.error ? "error" : "")}>
-            <ObjectProperty {...this.props} data={this.state.value} />
+            <ObjectProperty {...this.props} data={this.state.error || this.state.value} />
         </div>
     )
 }
