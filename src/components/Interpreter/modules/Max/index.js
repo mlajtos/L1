@@ -3,7 +3,6 @@ import { of } from "rxjs"
 
 import Symbols from "../../symbols"
 
-
 import doc from "./doc.md"
 
 export default {
