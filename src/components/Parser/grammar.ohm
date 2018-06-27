@@ -36,9 +36,7 @@ Moniel {
     Access
         = Access "." Path -- binary
         | FunctionApplication -- fallthrough
-        
 
-        
     FunctionApplication
         = PrimitiveExpression (~Assignment FunctionApplication)?
     
@@ -49,6 +47,8 @@ Moniel {
         | Object
         | Reference -- path
         | Tensor  -- tensor
+        | "(" ")" -- none1
+        | "!" -- none2
         
     Reference
         = Path

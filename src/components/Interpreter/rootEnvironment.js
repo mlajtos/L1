@@ -28,11 +28,36 @@ export default {
     Max,
 
     "+": binarize(tf.add),
-    "-": binarize(tf.sub),
-    "*": binarize(tf.mul),
-    "×": binarize(tf.mul),
-    "/": binarize(tf.div),
-    "÷": binarize(tf.div),
+    "-": ({a, b}) => {
+        if (a === undefined) {
+            return tf.neg(b)
+        }
+        return tf.sub(a, b)
+    },
+    "*": ({a, b}) => {
+        if (a === undefined) {
+            return tf.sign(b)
+        }
+        return tf.mul(a, b)
+    },
+    "×": ({a, b}) => {
+        if (a === undefined) {
+            return tf.sign(b)
+        }
+        return tf.mul(a, b)
+    },
+    "/": ({a, b}) => {
+        if (a === undefined) {
+            return tf.reciprocal(b)
+        }
+        return tf.div(a, b)
+    },
+    "÷": ({a, b}) => {
+        if (a === undefined) {
+            return tf.reciprocal(b)
+        }
+        return tf.div(a, b)
+    },
     "^": binarize(tf.pow),
     "%": binarize(tf.mod),
     "@": binarize(tf.matMul),

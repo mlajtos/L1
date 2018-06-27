@@ -130,6 +130,18 @@ const semantics = {
         Multiplication_reciprocal: function(op, v) { return unaryOperation(op, v, this.source) },
         PrimitiveExpression_magic: function(op, v) { return unaryOperation(op, v, this.source) },
         PrimitiveExpression_paren: function(_, v, __) { return v.eval() },
+        PrimitiveExpression_none1: function(_, __) {
+            return {
+                ...includeSource(this.source),
+                ...None
+            }
+        },
+        PrimitiveExpression_none2: function(_) {
+            return {
+                ...includeSource(this.source),
+                ...None
+            }
+        },
         Reference: function(path) {
             return {
                 ...includeSource(this.source),
@@ -158,14 +170,15 @@ const semantics = {
 
 const unaryOperation = (op, value, source) => ({
     ...includeSource(source),
-    type: "UnaryOperation",
+    type: "Operation",
     operator: op.sourceString,
-    argument: value.eval()
+    left: None,
+    right: value.eval()
 })
 
 const binaryOperation = (left, op, right, source) => ({
     ...includeSource(source),
-    type: "BinaryOperation",
+    type: "Operation",
     operator: op.sourceString,
     left: left.eval(),
     right: right.eval()
@@ -174,5 +187,9 @@ const binaryOperation = (left, op, right, source) => ({
 const includeSource = (source) => ({
     _source: convertToLineNumberAndColumn(source.sourceString, source.startIdx, source.endIdx)
 })
+
+const None = {
+    type: "None"
+}
 
 export default semantics

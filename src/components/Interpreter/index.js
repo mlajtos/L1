@@ -239,7 +239,7 @@ class Interpreter {
                 )
             )
         },
-        BinaryOperation: (token, state) => {
+        Operation: (token, state) => {
             const left = this.processToken(token.left, state)
             const right = this.processToken(token.right, state)
             const fn = of(this.rootEnv[token.operator])
@@ -247,9 +247,8 @@ class Interpreter {
             return combineLatest(fn, left, right).pipe(
                 tap(
                     ([fn, left, right]) => {
-                        console.groupCollapsed("Binary operation")
-                        console.log("Applying binary operation")
-                        console.log("Operation", fn)
+                        console.groupCollapsed("Operation")
+                        console.log("Operator", fn)
                         console.log("Left argument", left)
                         console.log("Right argument", right)
                     }
@@ -264,31 +263,7 @@ class Interpreter {
                 ),
                 tap(
                     (result) => {
-                        console.log("Result from binary operation:", result)
-                        console.groupEnd()
-                    }
-                ),
-            )
-        },
-        UnaryOperation: (token, state) => {
-            const argument = this.processToken(token.argument, state)
-            const fn = of(this.rootEnv[token.operator])
-
-            return combineLatest(fn, argument).pipe(
-                tap(
-                    ([fn, argument]) => {
-                        console.groupCollapsed("Unary operation")
-                        console.log("Applying unary operation")
-                        console.log("Operation", fn)
-                        console.log("Argument", argument)
-                    }
-                ),
-                map(([fn, argument]) => {
-                    call(fn, argument)
-                }),
-                tap(
-                    (result) => {
-                        console.log("Result from unary operation:", result)
+                        console.log("Result from operation:", result)
                         console.groupEnd()
                     }
                 ),
@@ -303,6 +278,7 @@ class Interpreter {
             const result = this.processToken(token.value, state)
             return result
         },
+        None: (token, state) => of(undefined),
         __unknown__: (token, state) => {
             throw new Error(`Unrecognized token: ${token.type}, rest: ${token}`)
         }
