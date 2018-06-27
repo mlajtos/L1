@@ -6,7 +6,7 @@ Moniel {
         = Assignment*
 
     Assignment
-        = "_"? "$"? Path ":" Value ("\n"|",")? -- normal
+        = "_"? "$"? "#"? Path ":" Value ("\n"|",")? -- normal
         | "::" Path ("\n"|","|";")? -- import
         
     Function
