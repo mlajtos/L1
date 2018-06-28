@@ -226,8 +226,7 @@ iife2: (a => a + 1) 22
 
 # FAQ
 
-
-## What does this code do?
+## How to 
 
 ### 
 ```L1
@@ -242,27 +241,6 @@ test: Counter.increaseBy 7
 ; test == { i: 7 }
 ; Counter.data == 0
 ```
-
-# TODO
-
-* korešpondencia medzi kódom a vizualizáciou
-    * focus
-        * keď ukážem na vizualizáciu, tak mi ukáže ktorý kód to vyprodukoval
-        * keď som v kóde, tak kurzor mi určuje čo bude focusnuté vo vizualizácií
-* router
-   * http://mlajtos.github.com/L1/~ii1jcLg-eIQ
-* ? výraz
-   * keď aplikujem fn na ?, tak sa mi zobrazí dokumentácia ako výsledok
-        * ```
-            mu: {
-                #doc: "Muuuu"
-            }
-        ```
-   * keď skúsim zavolať {} ?, tak čo? :)
-   * keď priradím ?, tak čo?
-
- ## Crazy
-
 
 # Links
 * [Haskell syntax](https://www.haskell.org/onlinereport/exps.html)
