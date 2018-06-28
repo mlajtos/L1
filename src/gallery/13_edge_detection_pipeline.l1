@@ -4,4 +4,5 @@ Fn: MaxPool { filterSize: 2 strides: 1 }
 e: GetDigit 5
     -> ExpandDimension { axis: 2 }
     -> a => (Fn a) + (Fn -a)
-    -> ResizeBilinear { shape: 2 * (Shape $) }
+    ;-> ResizeBilinear { shape: 2 * (Shape $) }
+    -> a => a -> ResizeBilinear { shape: 2 * (Shape a) }
