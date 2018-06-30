@@ -18,9 +18,10 @@ const binarize = (fn) => (({ a, b }) => fn(a, b))
 export default {
     [Symbols.doc]: `Hello.`,
 
-    empty: {},
-    false: false,
-    true: true,
+    Empty: {},
+    False: false,
+    True: true,
+    None: undefined,
 
     Shape,
     Size,
