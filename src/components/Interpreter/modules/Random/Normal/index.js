@@ -2,7 +2,7 @@ import * as tf from "@tensorflow/tfjs-core"
 import { of } from "rxjs"
 import { isObject } from "lodash-es"
 
-import Symbols from "../../symbols"
+import Symbols from "../../../symbols"
 
 import doc from "./doc.md"
 

@@ -11,7 +11,7 @@ import Mean from "./modules/Mean"
 import Min from "./modules/Min"
 import Max from "./modules/Max"
 
-import RandomNormal from "./modules/RandomNormal"
+import Random from "./modules/Random"
 
 const binarize = (fn) => (({ a, b }) => fn(a, b))
 
@@ -29,7 +29,7 @@ export default {
     Min,
     Max,
 
-    ...RandomNormal,
+    ...Random,
 
     "+": binarize(tf.add),
     "-": ({a, b}) => {
