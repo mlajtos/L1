@@ -1,11 +1,13 @@
+; Gallery of Activation Functions
+
 shape: [20 20]
-x: RandomNormal { shape: shape }
+x: RandomNormal shape
 x1: RectifiedLinearUnit x
 x2: ExponentialLinearUnit x
 x3: Sine x
 x4: Logarithm x
 
-y: RandomUniform { shape: shape }
+y: RandomUniform shape
 y1: RectifiedLinearUnit y
 y2: ExponentialLinearUnit y
 y3: Sine y

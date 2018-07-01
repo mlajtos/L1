@@ -12,6 +12,7 @@ import Min from "./modules/Min"
 import Max from "./modules/Max"
 
 import Random from "./modules/Random"
+import ActivationFunctions from "./modules/ActivationFunctions"
 
 const binarize = (fn) => (({ a, b }) => fn(a, b))
 
@@ -31,6 +32,7 @@ export default {
     Max,
 
     ...Random,
+    ...ActivationFunctions,
 
     "+": binarize(tf.add),
     "-": ({a, b}) => {
