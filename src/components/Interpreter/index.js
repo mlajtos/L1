@@ -13,7 +13,7 @@ class Interpreter {
     interpret = (ast, env = {}, issues) => {
         this.issues = issues
 
-        const state = of(Object.assign(Object.create(this.rootEnv), { self: this.rootEnv }, env))
+        const state = of(Object.assign(Object.create(this.rootEnv), { Self: this.rootEnv }, env))
         const result = this.processToken(ast, state)
 
         return {
@@ -286,6 +286,8 @@ class Interpreter {
 
 }
 
+// TODO: when arg is {}, consider only own props
+// arg = isObject(arg) ? {...arg} : arg
 const call = (fn, arg) => {
 
     if (isFunction(fn)) {
@@ -300,7 +302,7 @@ const call = (fn, arg) => {
         }
     }
 
-    throw new Error(`${fn} is not callable.`)
+    throw new Error(`${fn} is not callable`)
 }
 
 export default new Interpreter
