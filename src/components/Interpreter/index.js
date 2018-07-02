@@ -101,11 +101,16 @@ class Interpreter {
                     map(
                         ([state, stateDelta]) => {
                             const key = Object.keys(stateDelta)[0]
+                            let newState
                             if (state.hasOwnProperty(key)) {
-                                return merge(state, stateDelta)
+                                newState = merge(state, stateDelta)
                             } else {
-                                return assign(state, stateDelta)
+                                newState = assign(state, stateDelta)
+
                             }
+                            newState[Symbols.meta] = merge(state[Symbols.meta], stateDelta[Symbols.meta])
+
+                            return newState
                         }
                     ),
                     tap(
@@ -136,7 +141,14 @@ class Interpreter {
                 ),
                 map(
                     ([path, value]) => {
-                        const obj = {}
+                        const obj = {
+                            [Symbols.meta]: {
+                                [path]: {
+                                    silent: token.silent,
+                                    source: token._source
+                                }
+                            }
+                        }
                         set(obj, path, value)
                         return obj
                     }
