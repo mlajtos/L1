@@ -35,3 +35,7 @@
 1. Broken visual cue for scrolling the board.
 
  ## Crazy
+
+ 1. Name resolution
+    * Capitalized names could be resolved from root
+    * Capitalized names could be resolved by abbreviations (as in Moniel)
