@@ -34,8 +34,11 @@
     * clashes with more than one error on the line
 1. Broken visual cue for scrolling the board.
 
- ## Crazy
+## Crazy
 
  1. Name resolution
     * Capitalized names could be resolved from root
     * Capitalized names could be resolved by abbreviations (as in Moniel)
+
+## Random
+    * allow ! and () as a lamda argument?
