@@ -11,10 +11,10 @@ const semantics = {
                 value: data.eval()
             }
         },
-        Assignment_normal: function(f1, f2, f3, p, o, v, __) {
+        Assignment_normal: function(f1, f2, p, o, v, __) {
             const silent = (f1.sourceString === "_")
             const variable = (f2.sourceString === "$")
-            const symbol = (f2.sourceString === "#")
+
             const path = p.eval()
             const value = v.eval()
             return {
@@ -23,8 +23,7 @@ const semantics = {
                 path,
                 value,
                 silent,
-                variable,
-                symbol
+                variable
             }
         },
         Assignment_import: function(_, p, __) {
@@ -144,6 +143,17 @@ const semantics = {
                 ...None
             }
         },
+        PrimitiveExpression_emptyTensor: function(_, __) {
+            return {
+                ...includeSource(this.source),
+                type: "Tensor",
+                value: {
+                    type: "TensorLiteral",
+                    rank: 0,
+                    value: []
+                }
+            }
+        },
         Reference: function(path) {
             return {
                 ...includeSource(this.source),
@@ -160,9 +170,19 @@ const semantics = {
         identifier: function(_, __) {
             return this.sourceString
         },
+        symbol: function(_, identifier) {
+            return Symbol.for(identifier.eval())
+        },
         number: function(_, __, ___, ____) {
             const v = this.sourceString.replace(/_/g, "")
             return parseFloat(v, 10)
+        },
+        string: function(_, value, __) {
+            return {
+                ...includeSource(this.source),
+                type: "String",
+                value: value.sourceString
+            }
         },
         nonemptyListOf: function(x, _, xs) {
             return [x.eval()].concat(xs.eval())
@@ -192,6 +212,10 @@ const includeSource = (source) => ({
 
 const None = {
     type: "None"
+}
+
+const EmptyTensor = {
+    type: "Tensor"
 }
 
 export default semantics

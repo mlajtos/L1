@@ -1,4 +1,4 @@
-Moniel {
+L1 {
     StartHere
         = Program
 
@@ -6,7 +6,7 @@ Moniel {
         = Assignment*
 
     Assignment
-        = "_"? "$"? "#"? Path ":" Value ("\n"|",")? -- normal
+        = "_"? "$"? Path ":" Value ("\n"|",")? -- normal
         | "::" Path ("\n"|","|";")? -- import
         
     Function
@@ -47,13 +47,15 @@ Moniel {
         | Object
         | Reference -- path
         | Tensor  -- tensor
+        | "[" "]" -- emptyTensor
         | "(" ")" -- none1
         | "!" -- none2
+        | string
         
     Reference
         = Path
     Path
-        = nonemptyListOf<identifier, ".">
+        = nonemptyListOf<(identifier | symbol), ".">
 
     Object (object)
         = "{" Program "}"
@@ -78,8 +80,13 @@ Moniel {
     number (a number)
         = "-"? (digit|"_")+ ("." (digit|"_")*)?
 
+    string
+        = "\"" (~"\"" any)* "\""
+
     identifier (an identifier)
         = &letter (alnum | "_" | "-")+
+    symbol (a symbol)
+        = "#" identifier
 
     // TODO: Comment that will comment out the rest of the program.
     space

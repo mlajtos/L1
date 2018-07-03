@@ -120,11 +120,17 @@ const provider = {
         root: [
             [/-?[0-9][0-9_]*(\.[0-9_]*)?/, "number"],
             [/\p{Lu}(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo}|[-_0-9])*/u, "type.identifier"],
+            [/#(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo})(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo}|[-_0-9])*/u, "symbol"],
             [/(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo})(\p{Ll}|\p{Lu}|\p{Lt}|\p{Lm}|\p{Lo}|[-_0-9])*/u, "identifier"],
             [/[{}()\[\]]/, "@brackets"],
+            [/"/, { token: "string.quote", bracket: "@open", next: "@string" } ],
             [/[;].*$/, "comment"],
             [/(\p{Po}|\p{Sm}|[\^\-])/u, "operator"]
-        ]
+        ],
+        string: [
+            [/[^\\"]+/, "string"],
+            [/"/, { token: "string.quote", bracket: "@close", next: "@pop" } ]
+          ],
     }
 }
 
@@ -136,8 +142,10 @@ const theme = {
     rules: [
         { token: "operator", foreground: "ff0000" },
         { token: "identifier", foreground: "3b8e23" },
+        { token: "symbol", foreground: "327a1f" },
         { token: "type.identifier", foreground: "1459a9" },
         { token: "number", foreground: "b1871b" },
+        { token: "string", foreground: "c225ca" },
         { token: "comment", foreground: "73c0e2" },
     ]
 }

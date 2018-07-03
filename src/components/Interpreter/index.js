@@ -105,8 +105,8 @@ class Interpreter {
                             if (state.hasOwnProperty(key)) {
                                 newState = merge(state, stateDelta)
                             } else {
-                                newState = assign(state, stateDelta)
-
+                                // newState = assign(state, stateDelta)
+                                newState = Object.assign(state, stateDelta)
                             }
                             newState[Symbols.meta] = merge(state[Symbols.meta], stateDelta[Symbols.meta])
 
@@ -141,12 +141,13 @@ class Interpreter {
                 ),
                 map(
                     ([path, value]) => {
+
                         const obj = {
                             [Symbols.meta]: {
-                                [path]: {
-                                    silent: token.silent,
-                                    source: token._source
-                                }
+                                // [path]: { // this is not good
+                                //     silent: token.silent,
+                                //     source: token._source
+                                // }
                             }
                         }
                         set(obj, path, value)
@@ -290,6 +291,7 @@ class Interpreter {
             const result = this.processToken(token.value, state)
             return result
         },
+        String: (token, state) => of(token.value),
         None: (token, state) => of(undefined),
         __unknown__: (token, state) => {
             throw new Error(`Unrecognized token: ${token.type}, rest: ${token}`)
