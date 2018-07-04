@@ -141,15 +141,12 @@ class Interpreter {
                 ),
                 map(
                     ([path, value]) => {
+                        const metaPath = [Symbols.meta, ...path]
+                        const obj = set({}, metaPath, {
+                            silent: token.silent,
+                            source: token._source
+                        })
 
-                        const obj = {
-                            [Symbols.meta]: {
-                                // [path]: { // this is not good
-                                //     silent: token.silent,
-                                //     source: token._source
-                                // }
-                            }
-                        }
                         set(obj, path, value)
                         return obj
                     }
