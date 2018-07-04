@@ -33,6 +33,8 @@
 1. When there is a error, selection is not visible.
     * clashes with more than one error on the line
 1. Broken visual cue for scrolling the board.
+1. Visualization for empty tensor
+1. Syntax-highlighting for markdown
 
 ## Crazy
 
