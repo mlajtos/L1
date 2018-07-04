@@ -1,0 +1,13 @@
+Range: {
+    #call: a => Max a - Min a
+    #doc: "
+# Range
+Returns range of values from tensor
+```L1
+a: Range [1 2 3] ; a: 2
+```
+    "
+}
+
+
+mu: Range RandomNormal [20 20]
