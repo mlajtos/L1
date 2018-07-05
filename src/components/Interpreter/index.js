@@ -102,13 +102,14 @@ class Interpreter {
                         ([state, stateDelta]) => {
                             const key = Object.keys(stateDelta)[0]
                             let newState
+                            let meta = merge(state[Symbols.meta], stateDelta[Symbols.meta])
                             if (state.hasOwnProperty(key)) {
                                 newState = merge(state, stateDelta)
                             } else {
                                 // newState = assign(state, stateDelta)
                                 newState = Object.assign(state, stateDelta)
                             }
-                            newState[Symbols.meta] = merge(state[Symbols.meta], stateDelta[Symbols.meta])
+                            newState[Symbols.meta] = meta
 
                             return newState
                         }
