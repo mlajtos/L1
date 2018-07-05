@@ -23,14 +23,19 @@ export default {
         [Symbols.doc]: `# Exponential Linear Unit`,
         [Symbols.call]: arg => of(tf.elu(arg))
     },
-    
-    Sine: {
-        [Symbols.doc]: `# Sine`,
-        [Symbols.call]: arg => of(tf.sin(arg))
+
+    Sigmoid: {
+        [Symbols.doc]: `# Sigmoid`,
+        [Symbols.call]: arg => of(tf.sigmoid(arg))
     },
-    
-    Logarithm: {
-        [Symbols.doc]: `# Logarithm`,
-        [Symbols.call]: arg => of(tf.log(arg))
+
+    Softmax: {
+        [Symbols.doc]: `# Softmax`,
+        [Symbols.call]: arg => of(tf.softmax(arg))
+    },
+
+    Softplus: {
+        [Symbols.doc]: `# Softplus`,
+        [Symbols.call]: arg => of(tf.softplus(arg))
     }
 }
