@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "webpack-dev-server --content-base dist/ --mode development",
     "build": "webpack-cli --mode production --progress",
-    "serve": "http-server dist/"
+    "serve": "http-server -p 7171 dist/"
   },
   "dependencies": {
     "@tensorflow/tfjs": "^0.11.7",
