@@ -23,7 +23,7 @@ const isError = (value) => value instanceof Error
 const isObservable = (value) => value instanceof Observable
 
 const StringVis = (props) => (
-    <PropertyWrapper {...props} type="string" symbol="„abc“">
+    <PropertyWrapper {...props} type="string" symbol={"\"abc\""}>
         <div>{props.data}</div>
     </PropertyWrapper>
 )
