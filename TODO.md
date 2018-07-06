@@ -35,6 +35,7 @@
 1. Broken visual cue for scrolling the board.
 1. Visualization for empty tensor
 1. Syntax-highlighting for markdown
+1. KaTeX for Markdown
 
 ## Crazy
 
@@ -44,3 +45,6 @@
 
 ## Random
     * allow ! and () as a lamda argument?
+
+## Bugs
+    * rendering an <Issue /> is leaking because Monaco does not notify DOMNode removal
