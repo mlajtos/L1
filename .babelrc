@@ -16,7 +16,9 @@
                 "@babel/react"
             ],
             "plugins": [
-                ["@babel/plugin-proposal-unicode-property-regex", { "useUnicodeFlag": false }],
+                ["@babel/plugin-proposal-unicode-property-regex", {
+                    "useUnicodeFlag": false
+                }],
                 ["@babel/plugin-transform-runtime", {
                     "polyfill": false,
                     "regenerator": true
