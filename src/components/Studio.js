@@ -1,5 +1,7 @@
 import React, { PureComponent } from "react"
 
+import { of } from "rxjs"
+
 import "normalize.css"
 import "./style.sass"
 
@@ -15,7 +17,7 @@ export default class Studio extends PureComponent {
     state = {
         code: "",
         ast: null,
-        computedValues: null
+        computedValues: of({})
     }
 
     issues = null
