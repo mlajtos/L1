@@ -78,7 +78,12 @@ class Interpreter {
                     }
                 ),
                 map(
-                    (state) => Object.create(state)
+                    (state) => Object.assign(
+                        Object.create(state),
+                        {
+                            [Symbols.meta]:  {}
+                        }
+                    )
                 ),
                 shareReplay(),
                 tap(
