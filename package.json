@@ -14,7 +14,7 @@
     "serve": "http-server -p 7171 dist/"
   },
   "dependencies": {
-    "@tensorflow/tfjs": "^0.11.7",
+    "@tensorflow/tfjs": "^0.12.0",
     "@types/lodash-es": "^4.17.0",
     "buffer": "^5.1.0",
     "firacode": "https://github.com/tonsky/FiraCode",
