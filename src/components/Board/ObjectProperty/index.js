@@ -41,7 +41,7 @@ const BooleanVis = (props) => (
 )
 
 const UndefinedVis = (props) => (
-    <PropertyWrapper {...props} type="undefined" symbol="?">
+    <PropertyWrapper {...props} type="undefined" symbol="()">
     </PropertyWrapper>
 )
 
