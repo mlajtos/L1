@@ -36,10 +36,10 @@ export default class Studio extends PureComponent {
     render() {
         return (
             <div className="studio">
-                <Panel scrollable={true}>
+                <Panel id="board" scrollable={true}>
                     <Board data={this.state.computedValues} />
                 </Panel>
-                <Panel>
+                <Panel id="editor">
                     <Editor
                         content={this.state.code}
                         language="L1"
@@ -49,11 +49,6 @@ export default class Studio extends PureComponent {
                         onExecute={this.codeChanged.bind(this, this.state.code)}
                     />
                 </Panel>
-                {/* <Panel>
-                    <Code language="markdown">
-                        {readme}
-                    </Code>
-                </Panel> */}
                 {/* <Panel name="AST" hidden={true}>
                     <Editor
                         content={JSON.stringify(this.state.ast, null, 2)}
