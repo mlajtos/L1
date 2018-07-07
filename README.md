@@ -12,7 +12,7 @@ The main design goal for L1 is to provide a bridge for experienced programmers t
 ; This is a comment
 ```
 
-0. Everything after a semicolon is a comment.
+1. Everything after a semicolon is a comment.
 1. There are only single-line comments.
 2. There **won't** be multi-line comments. Sorry.
 
@@ -22,21 +22,9 @@ The main design goal for L1 is to provide a bridge for experienced programmers t
 a: 0
 ```
 
-0. Yes, a colon. It's a name–value pair, a prop(erty).
-2. Names can be in `camelCase`, `PascalCase`, `python_case`, `kebab-case`, `UPPERCASE`, `lowercase` or `Füčk3d_Úp-_cäšE-ಠ_ಠ`. I don't care.
-3. Choosing good names is **your** responsibility.
-4. Assigned values cannot be reassigned and they are immutable. Period.
-5. Any attempt to reassign will be reported to the authorities. No exceptions.
-
-### Reassignment
-
-```L1
-$x: 23
-x: 47
-```
-
-0. `$` means it is a variable, therefore it can be changed.
-1. Please don't misuse them.
+1. Yes, a colon. It's a name–value pair, a prop(erty).
+1. Names can be in `camelCase`, `PascalCase`, `python_case`, `kebab-case`, `UPPERCASE`, `lowercase` or `Füčk3d_Úp-_cäšE-ಠ_ಠ`. I don't care.
+1. Choosing good names is **your** responsibility.
 
 ## Numbers
 
@@ -98,6 +86,7 @@ d: [1 2, 3 4] ⊗ [1 2, 3 4]   ; [1 2, 3 4] @ [1 2, 3 4]
 a: Fn 23                    ; Fn(23)
 b: Fn2 Fn1 47               ; Fn2(Fn1(47))
 c: (higher-order-fn Fn) 47
+d: Fn!                      ; Fn()
 ```
 
 1. There is always only one argument.
@@ -130,9 +119,9 @@ obj2: { a: 1, b: 2}
 ```
 
 1. Objects hold name–value pairs, prop(ertie)s.
-2. Objects are immutable. (Unless `$`.)
-3. Child object can refer to parent props directly.
-4. Dot `.` operator  works.
+1. Child object can refer to parent props directly.
+1. Dot `.` operator  works.
+1. Shorthand notation for `abc: abc` is `::abc`.
 
 ```L1
 obj: {
@@ -155,7 +144,7 @@ a: {
 a: {
     i: 23
     b: {
-        ::i
+        ::i     ; same as "i: i"
     }
 }
 ```
@@ -167,7 +156,7 @@ Fn: x => x^2
 a: Fn 3
 ```
 
-1. There is only one argument.
+1. There is always only one argument.
 2. Higher-order functions are okay.
 
 ```L1
@@ -186,7 +175,7 @@ a: Fn 3
 ```
 
 ```L1
-Fn: x => y => x + y
+Fn: x => y => x + y     ; higher-order function
 a: (Fn 2) 3
 b: 3 -> (2 -> Fn)
 c: 3 -> (Fn 2)
@@ -224,30 +213,18 @@ iife1: 22 -> a => a + 1
 iife2: (a => a + 1) 22
 ```
 
-# FAQ
+## Functional Objects
 
-## How to 
+1. Objects can be used as functions.
+1. Good for many things, mostly encapsulation.
+1. Can have documentation attached.
 
-### 
 ```L1
-Counter: {
-    i: 0
-    increaseBy: x => {
-        i: i + x
-    }
+fn: {
+    value: 1
+    #call: a => a + value
+    #doc: "Adds provided value with 1"
 }
 
-test: Counter.increaseBy 7
-; test == { i: 7 }
-; Counter.data == 0
+test: fn 22
 ```
-
-# Links
-* [Haskell syntax](https://www.haskell.org/onlinereport/exps.html)
-* [Iterations in PEG](http://www.dalnefre.com/wp/2011/05/parsing-expression-grammars-part-4/)
-* [Continuations by example](http://matt.might.net/articles/programming-with-continuations--exceptions-backtracking-search-threads-generators-coroutines/)
-* [CPS in JS by example](http://matt.might.net/articles/by-example-continuation-passing-style/)
-* [EinSum](https://rockt.github.io/2018/04/30/einsum#fn.2)
-* [Firebase Cloud Fns](https://www.youtube.com/watch?v=prlK_QL_qOA)
-* [Something New](https://github.com/d-cook/SomethingNew)
-* [RxJS for mere mortal](https://stackoverflow.com/a/45227115)
