@@ -2,15 +2,13 @@
 
 ## Demos
 
-1. Gallery of Activation Functions
-    * Needed functions (with docs):
-        1. RandomNormal, RandomUniform
-        2. RectifiedLinearUnit
-        3. ExponentialLinearUnit
-        4. Sine, Cosine
-        6. Logarithm
-    * Opportunity for implementing #doc?
-        * add strings to grammar/sematics/interpreter
+1. [Done] Gallery of Activation Functions - gallery/3_gallery.l1
+1. Tile design – gallery/5_tile_design.l1
+    * needed functions:
+        1. ExpandDimension
+        1. Tile
+        1. Transpose
+        1. GetDigit
 
 ## Wholeness
 
@@ -19,6 +17,14 @@
         * I don't know what that means right now.
         * Can target part of the "notebook"?
     * http://mlajtos.github.com/L1/~ii1jcLg-eIQ
+        * no, something else
+    * kind of relevant – import from other notebooks
+        * `:: #L1.#myNotebook.#rev111.functionOfInterest`
+        * `#L1` object will do the loading (maybe different name?)
+        * "rev" as from "revision" is unique version of the notebook
+            * content-hashes would be awesome, but ugly
+            * automatic numbering?
+            * user-defined version?
 1. Database
     * probably FireBase with Cloud Functions
 
@@ -34,7 +40,7 @@
     * clashes with more than one error on the line
 1. Broken visual cue for scrolling the board.
 1. Visualization for empty tensor
-1. Syntax-highlighting for markdown
+1. Syntax-highlighting for Markdown
 1. KaTeX for Markdown
 
 ## Crazy
@@ -48,3 +54,79 @@
 
 ## Bugs
     * rendering an <Issue /> is leaking because Monaco does not notify DOMNode removal
+
+# Open questions
+
+## How to mutate an existing object?
+
+1. Is it even necessary?
+1. Should it be allowed?
+1. When is it a good idea?
+
+What about this?
+
+```L1
+Counter: {
+    i: 0
+    increaseBy: x => {
+        i: i + x
+        increaseBy: x => { ; can't just ::increaseBy because of the wrong closure
+            i: i + x
+        }
+    }
+}
+
+Counter: Counter.increaseBy 7
+Counter: Counter.increaseBy 2
+Counter: Counter.increaseBy 1 ; does not scale
+
+; also, if Counter is shared, it won't work
+```
+
+### State object
+One route may be having an explicit state object inside the normal object. State object could be mutated. However, there also needs to be a way to access parent (super) object somehow...
+
+```L1
+Counter: {
+    #state: {
+        i: 0
+    }
+    increaseBy: x => {
+        #state.i: #state.i + x
+    }
+}
+
+mu1: Counter.increaseBy 3
+mu2: Counter.increaseBy 3
+```
+
+Another approach:
+
+```L1
+Counter: {
+    #state: {
+        i: 0
+        ; internal fn
+        ; #call: newState => ()
+    }
+    increaseBy: x => #state {
+        i: #state.i + x
+    }
+}
+
+mu1: Counter.increaseBy 3
+mu2: Counter.increaseBy 3
+:: Counter.#state.i
+```
+
+So far, there should be a way to modify super/proto object.
+
+# Links
+* [Haskell syntax](https://www.haskell.org/onlinereport/exps.html)
+* [Iterations in PEG](http://www.dalnefre.com/wp/2011/05/parsing-expression-grammars-part-4/)
+* [Continuations by example](http://matt.might.net/articles/programming-with-continuations--exceptions-backtracking-search-threads-generators-coroutines/)
+* [CPS in JS by example](http://matt.might.net/articles/by-example-continuation-passing-style/)
+* [EinSum](https://rockt.github.io/2018/04/30/einsum#fn.2)
+* [Firebase Cloud Fns](https://www.youtube.com/watch?v=prlK_QL_qOA)
+* [Something New](https://github.com/d-cook/SomethingNew)
+* [RxJS for mere mortal](https://stackoverflow.com/a/45227115)
