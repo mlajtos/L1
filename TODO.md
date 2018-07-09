@@ -45,9 +45,13 @@
 
 ## Crazy
 
- 1. Name resolution
+1. Name resolution
     * Capitalized names could be resolved from root
     * Capitalized names could be resolved by abbreviations (as in Moniel)
+1. Tensors could be callable, as in math
+    * a: [1 2 3] * [1, 2, 3]
+    * a: [1 2 3] [1, 2, 3]
+    * y: W x
 
 ## Random
     * allow ! and () as a lamda argument?
