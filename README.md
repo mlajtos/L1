@@ -120,8 +120,8 @@ obj2: { a: 1, b: 2}
 
 1. Objects hold name–value pairs, prop(ertie)s.
 1. Child object can refer to parent props directly.
-1. Dot `.` operator  works.
-1. Shorthand notation for `abc: abc` is `::abc`.
+1. Dot `.` operator works.
+1. Shorthand notation for `abc: abc` is `::abc`. Also works for paths.
 
 ```L1
 obj: {
@@ -143,8 +143,12 @@ a: {
 ```L1
 a: {
     i: 23
-    b: {
-        ::i     ; same as "i: i"
+    b:  {
+        j: 47
+    }
+    c: {
+        ::i     ; i: i
+        ::b.j   ; j: b.j
     }
 }
 ```
