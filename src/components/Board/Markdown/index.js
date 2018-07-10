@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react"
+import { isString } from "lodash-es"
 
 import monaco, { renderMarkdown } from "../../MonacoEditor"
 
@@ -35,6 +36,9 @@ export default class Markdown extends PureComponent {
         mounted: false
     }
     colorize = async (value) => {
+        if (!isString(value)) {
+            return
+        }
         const stringValue = "" + value
         const colorizedValue = markdownToHTML(stringValue)
         // const colorizedValue = 
@@ -55,6 +59,9 @@ export default class Markdown extends PureComponent {
     }
     render() {
         if (!this.state.colorizedValue) {
+            if (!isString(this.props.children)) {
+                return null
+            }
             return <div className="property markdown">{this.props.children}</div>
         } else {
             return <div className="property markdown" dangerouslySetInnerHTML={{__html: this.state.colorizedValue}} />
