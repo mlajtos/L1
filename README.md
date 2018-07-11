@@ -61,7 +61,7 @@ matrix2: [
 ```
 
 1. Only scalars, vectors and matrices.
-1. If you want to *write* [14-dimensional tensor](quote.jpg) by hand, you have a problem. Please seek help immediately.
+1. If you want to *write* [14-dimensional tensor](quote.png) by hand, you have a problem. Please seek help immediately.
 1. Of course you can reshape any tensor however you like.
 
 ## Operators
@@ -139,7 +139,7 @@ A: {
         y: x + 1
     }
 }
-C: A.B.y  ; C: 2
+z: A.B.y  ; z: 2
 ```
 
 ```L1
