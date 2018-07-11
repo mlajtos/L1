@@ -2,7 +2,15 @@
 
 L1: Tensor Studio is a live-programming environment for differentiable tensor computations.
 
-The main design goal for L1 is to provide a bridge for experienced programmers that are transitioning to the field of functional differentiable programming. L1 is NOT meant as a replacement for real-world programming languages (e.g. Python, Scala, etc.) or runtimes (Tensorflow, Caffe, etc.), rather L1 should be perceived as a playground for exploratory programming in the domain.
+![Screenshot](Screenshot.png)
+
+## ⚠️ Notice
+
+- L1 is meant to provide a bridge for programmers that are transitioning to the field of functional differentiable programming. Think *playground for tensors*.
+
+- L1 is *NOT* meant as a replacement for real-world programming languages (Python, Scala, ...) or runtimes (Tensorflow, Caffe, ...)
+
+- Have fun :)
 
 # Syntax
 
@@ -23,7 +31,7 @@ a: 0
 ```
 
 1. Yes, a colon. It's a name–value pair, a prop(erty).
-1. Names can be in `camelCase`, `PascalCase`, `python_case`, `kebab-case`, `UPPERCASE`, `lowercase` or `Füčk3d_Úp-_cäšE-ಠ_ಠ`. I don't care.
+1. Names can be in `camelCase`, `PascalCase`, `python_case`, `kebab-case`, `UPPERCASE`, `lowercase` or `FüčK3d_Úp-_cäšE-ಠ_ಠ`. Nobody cares.
 1. Choosing good names is **your** responsibility.
 
 ## Numbers
@@ -36,9 +44,9 @@ d: -3.14
 e: 1_000
 ```
 
-1. There are no "types". It's just a numeric value.
-2. If your numbers are too big or too small (or they aren't numbers at all), it is YOUR problem.
-3. Use underscores for clarity.
+1. There are no *types*. It's just a numeric value.
+1. If your numbers are too big, too small (or they aren't numbers at all), it is **your** problem.
+1. Use underscores if you must.
 
 ### Tensors
 
@@ -53,8 +61,8 @@ matrix2: [
 ```
 
 1. Only scalars, vectors and matrices.
-2. If you want to write 11-dimensional tensor by hand, you have a problem. Please seek help immediately.
-3. Of course you can reshape any tensor however you like.
+1. If you want to *write* [14-dimensional tensor](quote.jpg) by hand, you have a problem. Please seek help immediately.
+1. Of course you can reshape any tensor however you like.
 
 ## Operators
 
@@ -67,9 +75,9 @@ e: 3 * 2 ^ 2 + 1       ; 3 * 4 + 1
 f: (3 * 2) ^ (2 + 1)   ; 6^3
 ```
 
-1. Natural order of operations. You know this!
-2. Applicable to tensors of all sizes (auto broadcast).
-4. There are some fancy operators.
+1. Natural order of operations. You got this!
+1. Applicable to tensors of all sizes (auto broadcast).
+1. There are some fancy operators.
 
 ```L1
 a: [1 2 3] × 3   ; [1 2 3] * [3 3 3]
@@ -89,33 +97,34 @@ c: (higher-order-fn Fn) 47
 d: Fn!                      ; Fn()
 ```
 
-1. There is always only one argument.
-2. Argument does not have to be in parenthesis.
-3. Use parenthesis to group expressions together.
+1. There is only one argument.
+1. The argument does not have to be in parenthesis.
+1. Use parenthesis to group expressions together.
+1. Use `()` or `!` to call function without an argument.
 
 ### Pipeline
 
 ```L1
 a: 23 -> Fn             ; Fn 23
 b: 23 -> Fn1 -> Fn2     ; Fn2 Fn1 23
-c: [1 2, 3 4] -> (Sum { axis: 0 })
+c: [1 2, 3 4] -> Fn1
 d: [1 2, 3 4]
-    -> (Product { axis: 1 })
-    -> Sum
+    -> Fn1
+    -> Fn2
 ```
 
-1. Pipeline is a function application, but with the reverse order.
-2. Pipeline can turn nested expression into a linear one.
-3. It can be written as `->`, `//` (Mathematica), `|` (Unix pipe), or `|>` (F# and others)
+1. Pipeline is a function application with the reversed order.
+1. Pipeline can turn nested expression into a linear one.
+1. It can be written as `->`, `//` (Mathematica), `|` (Unix pipe), or `|>` (F# and others).
 
 ## Objects
 
 ```L1
-obj1: {
-    a: 1
-    b: 2
+Obj1: {
+    x: 1
+    y: 2
 }
-obj2: { a: 1, b: 2}
+Obj2: { x: 1, y: 2}
 ```
 
 1. Objects hold name–value pairs, prop(ertie)s.
@@ -124,31 +133,31 @@ obj2: { a: 1, b: 2}
 1. Shorthand notation for `abc: abc` is `::abc`. Also works for paths.
 
 ```L1
-obj: {
+A: {
     x: 1
-    y: {
-        a: x + 1
+    B: {
+        y: x + 1
     }
 }
-a: obj.y.a  ; a: 2
+C: A.B.y  ; C: 2
 ```
 
 ```L1
-a: {
+A: {
     x: 2
     value: x * 3
 }.value
 ```
 
 ```L1
-a: {
+A: {
     i: 23
-    b:  {
+    B:  {
         j: 47
     }
-    c: {
+    C: {
         ::i     ; i: i
-        ::b.j   ; j: b.j
+        ::B.j   ; j: B.j
     }
 }
 ```
@@ -160,8 +169,8 @@ Fn: x => x^2
 a: Fn 3
 ```
 
-1. There is always only one argument.
-2. Higher-order functions are okay.
+1. There is only one argument.
+1. Higher-order functions are okay.
 
 ```L1
 Fn: x => {
@@ -187,8 +196,8 @@ d: (2 -> Fn) 3
 ```
 
 ```L1
-Fn: a => {
-    z: a.x + a.y
+Fn: A => {
+    z: A.x + A.y
     value: z^2
 }.value
 
@@ -199,12 +208,12 @@ a: Fn {
 ```
 
 ```L1
-Flip: s => {
-    h: s.a
-    a: s.h
+Flip: S => {
+    a: S.b
+    b: S.a
 }
 
-mu: { h: 0, a: 1 }
+mu: { a: 0, b: 1 }
     -> Flip
     -> Flip
     -> Flip
@@ -219,16 +228,77 @@ iife2: (a => a + 1) 22
 
 ## Functional Objects
 
-1. Objects can be used as functions.
+1. Object can be used as a function.
 1. Good for many things, mostly encapsulation.
 1. Can have documentation attached.
 
 ```L1
 fn: {
-    value: 1
-    #call: a => a + value
-    #doc: "Adds provided value with 1"
+    #call: a => a + 23
+    #doc: "Adds 23 and the provided *value*"
 }
 
-test: fn 22
+test: fn 24
 ```
+
+## Not mentioned elsewhere
+
+### Self
+
+Top-level prop `Self` contains everything that is available by default, something like "standard library".
+
+```L1
+:: Self
+```
+
+### Silent assignment
+
+```L1
+_a: 23
+_b: 24
+c: a + b
+```
+1. Use underscore `_` in front of an assignment, to silence it.
+1. (Therefore, no names with leading `_`, yay!)
+1. Values still exist and can be used – they are just not displayed.
+
+### None
+
+Expressions `()` and `!` (and top-level prop `None`) have value that is equivalent of `None` in Python or `undefined` in Javascript. It is useful when calling a function that does not need an argument.
+
+```L1
+a: ()
+b: !
+c: None
+```
+
+### Booleans
+
+There are top-level props called `False` and `True`. There is no use for them yet.
+
+### Strings
+
+There is rudimentary support for strings. However, no concatenation, no interpolation, no manipulation. They are necessary for documentation right now.
+
+### Symbols
+
+Following example shows two assignments. First is a normal prop – string as a key, second is a symbol prop – symbol as a key:
+```L1
+mu: 2
+#mu: 2
+```
+
+Symbol props are not displayed (silenced by default), and have a special purpose. For example, `#call` is used when object is used as a function in function application. `#doc` holds a Markdown documentation for the object.
+
+There is also a `#meta` prop, that is used internally to do various stuff:
+
+```L1
+mu: {
+    a: 23
+    _b: 47
+}
+
+meta: mu.#meta
+```
+
+Symbol props can store any values and can be accessed in the same way as a normal props.

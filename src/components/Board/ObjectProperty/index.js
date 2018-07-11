@@ -36,7 +36,7 @@ const NumberVis = (props) => (
 
 const BooleanVis = (props) => (
     <PropertyWrapper {...props} type="boolean" symbol="0/1">
-        <div>{props.data ? "true" : "false"}</div>
+        <div>{props.data ? "True" : "False"}</div>
     </PropertyWrapper>
 )
 

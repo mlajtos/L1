@@ -1,6 +1,6 @@
 import { combineLatest, of, throwError } from "rxjs"
 import { map, tap, shareReplay, catchError, switchMap } from "rxjs/operators"
-import { get, isFunction, isObject, set, merge, assign } from "lodash-es"
+import { get, isFunction, isObject, set, merge, assign, hasIn } from "lodash-es"
 
 import Symbols from "./symbols"
 import RootEnv from "./rootEnvironment"
@@ -207,11 +207,14 @@ class Interpreter {
                 ),
                 map(
                     ([path, state]) => {
-                        const value = get(state, path)
-                        if (value === undefined) {
+                        const exists = hasIn(state, path)
+                        
+                        if (!exists) {
                             // return throwError(new Error(`No value for ${path.join(".")}`))
                             throw new Error(`No value for ${path.join(".")}`)
                         }
+
+                        const value = get(state, path)
                         return value
                     }
                 ),
