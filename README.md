@@ -178,9 +178,9 @@ Fn: x => {
     quadratic: x^2
     cubic: x^3
 }
-a: Fn 3
+A: Fn 3
 
-; a: {
+; A: {
 ;     linear: 3
 ;     quadratic: 9
 ;     cubic: 27
