@@ -52,6 +52,43 @@
     * a: [1 2 3] * [1, 2, 3]
     * a: [1 2 3] [1, 2, 3]
     * y: W x
+1. `#render`
+```L1
+; mu: {
+;     #render: props => (
+;         <div>
+;             <span>{props.name}</span>
+;             <span>{props.surname}</span>
+;         </div>
+;     )
+; }
+mu: {
+    #state: {
+        name: "John"
+        surname: "Doe"
+    }
+    #render: props => (
+        {
+            tag: "div"
+            content: {
+                child1: {
+                    tag: "span"
+                    content: props.name
+                }
+                child2: {
+                    tag: "span"
+                    content: props.surname
+                }
+            }
+        }
+    )
+    #call: a => #render #state 
+}
+
+hu: mu!
+
+
+```
 
 ## Random
     * allow ! and () as a lamda argument?
