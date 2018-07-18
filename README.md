@@ -143,7 +143,7 @@ z: A.B.y  ; z: 2
 ```
 
 ```L1
-A: {
+y: {
     x: 2
     value: x * 3
 }.value
