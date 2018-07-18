@@ -41,10 +41,12 @@
 1. Broken visual cue for scrolling the board
 1. Visualization for empty tensor
 1. Syntax-highlighting for Markdown
-1. KaTeX for Markdown
+	* https://github.com/Microsoft/monaco-editor/issues/892
 
 ## Crazy
 
+1. KaTeX for Markdown
+	* would be super-convenient
 1. Name resolution
     * Capitalized names could be resolved from root
     * Capitalized names could be resolved by abbreviations (as in Moniel)
@@ -52,7 +54,7 @@
     * a: [1 2 3] * [1, 2, 3]
     * a: [1 2 3] [1, 2, 3]
     * y: W x
-1. `#render`
+1. `#render` (because of that "Can I create AI in HTML?" meme)
 ```L1
 ; mu: {
 ;     #render: props => (
@@ -95,6 +97,7 @@ hu: mu!
 
 ## Bugs
     * rendering an <Issue /> is leaking because Monaco does not notify DOMNode removal
+    	* report issue in Monaco GitHub?
 
 # Open questions
 
@@ -125,7 +128,7 @@ Counter: Counter.increaseBy 1 ; does not scale
 ```
 
 ### State object
-One route may be having an explicit state object inside the normal object. State object could be mutated. However, there also needs to be a way to access parent (super) object somehow...
+One route may be having an explicit state object inside the normal object. State object could be mutated. However, there also needs to be a way to access parent/super/prototype object somehow...
 
 ```L1
 Counter: {
