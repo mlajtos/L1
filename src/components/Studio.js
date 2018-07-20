@@ -22,8 +22,11 @@ export default class Studio extends PureComponent {
 
     issues = null
 
+    // defaultExample = "21_closures"
+    defaultExample = "1_intro"
+
     async componentDidMount() {
-        const code = await this.loadFromGallery("21_closures")
+        const code = await this.loadFromGallery(this.defaultExample)
         this.setState({ code })
     }
     codeChanged = async (code, editor, issues) => {

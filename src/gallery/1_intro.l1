@@ -1,0 +1,13 @@
+; L1: Tensor Studio 
+;
+;   "Live-coding with Tensors"
+;
+; https://mlajtos.github.io/L1
+
+
+; Example:
+;   Multiplying row and column vector
+
+x: [1 2 3]
+y: [1,2,3]
+z: x * y
