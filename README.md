@@ -1,8 +1,8 @@
 # L1: Tensor Studio
 
-L1: Tensor Studio is a live-programming environment for differentiable tensor computations.
+[L1: Tensor Studio](https://mlajtos.github.io/L1/latest/) is a live-programming environment for differentiable tensor computations.
 
-![Screenshot](Screenshot.png)
+[![Screenshot](Screenshot.png)](https://mlajtos.github.io/L1/latest/)
 
 ## ⚠️ Notice
 
@@ -242,6 +242,12 @@ test: fn 24
 ```
 
 ## Not mentioned elsewhere
+
+## Examples
+
+There are a few [examples](https://github.com/mlajtos/L1/tree/master/src/gallery):
+
+1. [Gallery of Activation Functions](https://github.com/mlajtos/L1/blob/master/src/gallery/3_gallery.l1)
 
 ### Self
 
