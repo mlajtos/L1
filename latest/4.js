@@ -1,1 +1,0 @@
-(this.webpackJsonp=this.webpackJsonp||[]).push([[4],{559:function(n,e){n.exports="favorite_number: 23\nfirst_three_numbers: [1 2 3]\nsome_data: [\n    1.2   2.3   3.4\n    4.5   5.4   6.5\n]\n\nshape: [2 3]\nmean: 1\nstdDev: 1\n\nrandom_1: RandomNormal shape\n\nF: (mean, stdDev) -> {\n    out: shape -> RandomNormal (shape, mean, stdDev)\n}\n\nF2: (1, 2) F\nmu: F2 [1 2 3]"}}]);

@@ -1,1 +1,0 @@
-(this.webpackJsonp=this.webpackJsonp||[]).push([[25],{580:function(n,p){n.exports="a: {\n    b: {\n        c: {\n            d: {\n                a: 1\n                b: 2\n            }\n            d2: {}\n        }\n    }\n}"}}]);

@@ -1,1 +1,0 @@
-(this.webpackJsonp=this.webpackJsonp||[]).push([[8],{563:function(n,a){n.exports="d: GetDigit 5\nx: RandomNormal {shape: Shape d}\nFn: x => x^2 + x\ny: Fn x\nGradFn: (Gradient Fn)\nmu: GradFn x"}}]);

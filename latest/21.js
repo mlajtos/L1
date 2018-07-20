@@ -1,1 +1,0 @@
-(this.webpackJsonp=this.webpackJsonp||[]).push([[21],{576:function(d,e){d.exports="makeAdder: x => y => x + y\nadd5: makeAdder 5\nadd10: makeAdder 10\n\ntest1: add5 2\ntest2: add10 2"}}]);

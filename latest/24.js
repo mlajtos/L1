@@ -1,1 +1,0 @@
-(this.webpackJsonp=this.webpackJsonp||[]).push([[24],{579:function(e,a){e.exports="digit: 4\nsamplesToAverage: 1000\n\naverageDigit: d => {\n    summed: Iterate {\n        f: a => a + (GetDigit digit)\n        count: samplesToAverage\n    }\n    averageDigit: summed (Zeros [28 28]) / samplesToAverage\n}\n\nmu: averageDigit digit\ngu: mu.averageDigit"}}]);

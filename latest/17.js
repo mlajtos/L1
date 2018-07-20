@@ -1,1 +1,0 @@
-(this.webpackJsonp=this.webpackJsonp||[]).push([[17],{572:function(n,a){n.exports="_RankDown: a => (ExpandDimension { axis: Rank a }) a\n\na: [1 2, 3 4]\nb: RankUp a\nc: RankDown a"}}]);
