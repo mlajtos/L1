@@ -1,0 +1,1 @@
+(this.webpackJsonp=this.webpackJsonp||[]).push([[31],{586:function(n,a){n.exports="a: ExpandDimension {\n    tensor: Iota 1000\n\n} \nb: Transpose a\n\n\nc: b @ a\nd: a * b\ne: a + b\nx: Sine -d / e"}}]);

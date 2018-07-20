@@ -1,0 +1,1 @@
+(this.webpackJsonp=this.webpackJsonp||[]).push([[23],{578:function(n,t){n.exports="f: Sigmoid\nnthOrderGradient: cfg => Iterate {\n    f: Gradient cfg.f\n    count: cfg.n\n}\ngrad: nthOrderGradient { f: f n: 1 }\ninterval: (Iota 100 - 50)\nfn: f interval\ngradient: grad interval\n"}}]);

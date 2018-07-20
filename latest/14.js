@@ -1,0 +1,1 @@
+(this.webpackJsonp=this.webpackJsonp||[]).push([[14],{569:function(n,a){n.exports='Range: {\n    #call: a => Max a - Min a\n    #doc: "\n# Range\nReturns range of values from tensor\n```L1\na: Range [1 2 3] ; a: 2\n```\n    "\n}\n\n\nmu: Range RandomNormal [20 20]'}}]);

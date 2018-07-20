@@ -1,0 +1,1 @@
+(this.webpackJsonp=this.webpackJsonp||[]).push([[18],{573:function(n,s){n.exports="_samples: 1000\n\n_a: Iota samples\na_sin: a * Sine a\n\n_offset: 100000\n\n_b: offset + Iota samples\nb_sin: (Sine b) / b\n\nc: a_sin * Transpose (RankUp b_sin)"}}]);
