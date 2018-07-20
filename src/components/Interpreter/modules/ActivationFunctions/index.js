@@ -24,6 +24,11 @@ export default {
         [Symbols.call]: arg => of(tf.elu(arg))
     },
 
+    ScaledExponentialLinearUnit: {
+        [Symbols.doc]: `# Scaled Exponential Linear Unit`,
+        [Symbols.call]: arg => of(tf.selu(arg))
+    },
+
     Sigmoid: {
         [Symbols.doc]: `# Sigmoid`,
         [Symbols.call]: arg => of(tf.sigmoid(arg))
