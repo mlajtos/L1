@@ -308,3 +308,6 @@ meta: mu.#meta
 ```
 
 Symbol props can store any values and can be accessed in the same way as a normal props.
+
+### Force evaluate
+By default, every input triggers evaluation of the code, to force-evaluate use <kbd>Ctrl+Enter</kbd> or <kbd>⌘⏎</kbd>.
