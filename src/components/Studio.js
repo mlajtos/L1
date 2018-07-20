@@ -13,9 +13,11 @@ import Panel from "./Panel"
 import Code from "./Board/Code"
 import readme from "../../README.md"
 
+import defaultCode from "../gallery/1_intro.l1"
+
 export default class Studio extends PureComponent {
     state = {
-        code: "",
+        code: defaultCode,
         ast: null,
         computedValues: of({})
     }
@@ -23,18 +25,18 @@ export default class Studio extends PureComponent {
     issues = null
 
     // defaultExample = "21_closures"
-    defaultExample = "1_intro"
+    // defaultExample = "1_intro"
 
-    async componentDidMount() {
-        const code = await this.loadFromGallery(this.defaultExample)
-        this.setState({ code })
-    }
+    // async componentDidMount() {
+    //     const code = await this.loadFromGallery(this.defaultExample)
+    //     this.setState({ code })
+    // }
+    // loadFromGallery = async id => {
+    //     const module = await import(`../gallery/${id}.l1`)
+    //     return module.default
+    // }
     codeChanged = async (code, editor, issues) => {
         this.setState(await Evaluator.evaluate(code, {}, issues))
-    }
-    loadFromGallery = async id => {
-        const module = await import(`../gallery/${id}.l1`)
-        return module.default
     }
     render() {
         return (
