@@ -1,32 +1,39 @@
 _Data: {
-    target:  RandomNormal {
-        shape: [20 20]
-    } -> (x => x^2 + x + 3)
+    target: RandomNormal [20 20] -> (x => x^2 + x + 3)
 }
 
 _Model: {
-    $prediction: RandomNormal {
-        shape: [20 20]
-    }
+    ; $ should be unary operator for Tesors, not a sigil
+    ; $ === Variable
+    $prediction: RandomNormal [20 20]
 
-    _predict: x => prediction
-    _loss: predictions => labels =>
+    ; Here would be better if None could be used:
+    ;   () => prediction
+    predict: x => prediction
+
+    ; A bit lenghty, but having MeanSquaredError seems redundant
+    loss: predictions => labels =>
         (predictions - labels)^2
-            -> Mean { axis: [0] }
+            -> Mean
             -> Sum
-    _step: y => (loss (predict {})) y
+    
+    ; This is so soothing :)
+    step: y => (predict!) -> (loss y)
 }
 
 _Optimizer: {
-    _config: {
+    optimize: StochasticGradientDescent {
         learningRate: 0.3
         maxIterations: 1000
         maxTime: 1000
     }
-    _optimize: StochasticGradientDescent config
-    _loss: a => Model.step Data.target
+    
+    ; Again, None as an argument
+    ;   () => Model.step Data.target
+    loss: a => Model.step Data.target
+
+    ; Stats should be Observable with plot
     stats: optimize loss
-    mu: Round (Transpose RankUp ((Iota 10) / 10) @ RankUp stats)
 }
 
 ::Model.prediction
