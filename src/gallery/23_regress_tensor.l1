@@ -1,6 +1,3 @@
-; Trying to fit a random tensor without any input
-; Needed fixes to the interpreter:
-;   * 
 #doc: "
 # Regress Tensor
 
