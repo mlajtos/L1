@@ -1,3 +1,22 @@
+; Trying to fit a random tensor without any input
+; Needed fixes to the interpreter:
+;   * 
+#doc: "
+# Regress Tensor
+
+Fitting a random tensor without any input
+
+## Needed fixes
+1. remove $ sigil and make it an operator for Variable
+1. Reuse Variable from old interpreter
+1. Reintroduce StochasticGradientDescent with live plot
+1. Mean, Sum
+
+## Nice things
+1. None as a lamda argument
+"
+
+
 _Data: {
     target: RandomNormal [20 20] -> (x => x^2 + x + 3)
 }
