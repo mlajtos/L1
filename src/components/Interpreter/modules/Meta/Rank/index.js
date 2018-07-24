@@ -1,11 +1,11 @@
 import * as tf from "@tensorflow/tfjs-core"
 import { of } from "rxjs"
 
-import Symbols from "../../symbols"
+import Symbols from "../../../symbols"
 
 import doc from "./doc.md"
 
 export default {
-    [Symbols.call]: (tensor) => of(tf.tensor(tensor.shape)),
+    [Symbols.call]: (tensor) => of(tf.tensor(tensor.rank)),
     [Symbols.doc]: doc
 }

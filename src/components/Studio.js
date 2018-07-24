@@ -13,7 +13,7 @@ import Panel from "./Panel"
 import Code from "./Board/Code"
 import readme from "../../README.md"
 
-import defaultCode from "../gallery/1_intro.l1"
+import defaultCode from "../gallery/0_helloWorld.l1"
 
 export default class Studio extends PureComponent {
     state = {

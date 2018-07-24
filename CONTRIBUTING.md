@@ -1,4 +1,4 @@
-Development:
+Local Development:
 
 1. ```git clone https://github.com/mlajtos/L1.git```
 1. ```cd L1```
