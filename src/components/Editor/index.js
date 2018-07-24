@@ -10,6 +10,15 @@ import "./style.sass"
 import monaco from "../MonacoEditor"
 
 export default class Editor extends PureComponent {
+    static defaultProps = {
+        onChange: () => {},
+        onExecute: () => {},
+        defaultValue: "",
+        language: "L1",
+        readOnly: false,
+        tabSize: 4
+    }
+
     container = null
     editor = null
 
@@ -36,8 +45,8 @@ export default class Editor extends PureComponent {
             fontFamily: "Fira Code",
             fontSize: 16,
             fontLigatures: true,
-            tabSize: ("tabSize" in this.props) ? this.props.tabSize : 4,
-            readOnly: ("readOnly" in this.props) ? this.props.readOnly : false,
+            tabSize: this.props.tabSize,
+            readOnly: this.props.readOnly,
             glyphMargin: true,
             // lineNumbers: false,
             lineNumbersMinChars: 2,
@@ -66,7 +75,7 @@ export default class Editor extends PureComponent {
         })
 
         this.editor.onDidChangeModelContent((e) => {
-            const fn = this.props.onChange || undefined
+            const fn = this.props.onChange
             if (isFunction(fn)) {
                 const code = this.editor.getValue()
                 this.issues.next(null)
@@ -81,7 +90,7 @@ export default class Editor extends PureComponent {
                 monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter
             ],
             run: (editor) => {
-                const fn = this.props.onExecute || undefined
+                const fn = this.props.onExecute
                 if (isFunction(fn)) {
                     this.issues.next(null)
                     fn.apply(null, [editor, this.issues])
