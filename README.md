@@ -16,7 +16,7 @@
 
 # Thank you
 
-Big thank you to these awesome projects and people behind them:
+Big thank you to these great projects and awesome people behind them:
 - [TensorFlow.js](https://github.com/tensorflow/tfjs)
 - [Ohm](https://github.com/harc/ohm)
 - [Monaco Editor](https://github.com/Microsoft/monaco-editor)
