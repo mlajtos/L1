@@ -10,9 +10,6 @@ import Evaluator from "./Evaluator"
 import Board from "./Board"
 import Panel from "./Panel"
 
-import Code from "./Board/Code"
-import readme from "../../README.md"
-
 import defaultCode from "../gallery/0_helloWorld.l1"
 
 export default class Studio extends PureComponent {
@@ -37,6 +34,9 @@ export default class Studio extends PureComponent {
     // }
     codeChanged = async (code, editor, issues) => {
         this.setState(await Evaluator.evaluate(code, {}, issues))
+    }
+    componentDidMount() {
+        this.codeChanged(this.state.code)
     }
     render() {
         return (
