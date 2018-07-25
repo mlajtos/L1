@@ -4,13 +4,13 @@
 
 [![Screenshot](Screenshot.png)](https://mlajtos.github.io/L1/latest/)
 
-<p align="center"><a href="https://mlajtos.github.io/L1/latest/">Live Demo</a> | <a href="https://github.com/mlajtos/L1/tree/master/src/gallery">Examples</a></p>
+<p align="center"><a href="https://mlajtos.github.io/L1/latest/">Live Demo</a> | <a href="https://github.com/mlajtos/L1/tree/master/src/gallery">Examples</a> | <a href="https://github.com/mlajtos/L1/blob/master/src/components/Interpreter/modules/Documentation/doc.md">Documentation</a></p>
 
 ## ⚠️ Notice
 
 - This project is still under-developed. Any feedback is welcome.
 
-- L1 is for experienced programmers who are transitioning to the field of functional differentiable programming. And for everybody else. :)
+- L1 is for experienced programmers who are transitioning to the field of functional differentiable programming. And also for everybody else. :)
 
 - L1 is NOT a replacement for existing:
     - programming languages – *Python, Scala, ...*
@@ -32,10 +32,12 @@ Big thank you to these great projects and awesome people behind them:
 - [RxJS](https://github.com/Reactive-Extensions/RxJS)
 - ...
 
-This thing directly steals from these languages:
+This thing directly steals from:
 - [APL family](https://en.wikipedia.org/wiki/APL_(programming_language)) – A, [J](https://en.wikipedia.org/wiki/J_(programming_language)), K, Q
 - [LISP family](https://en.wikipedia.org/wiki/Lisp_(programming_language)) – ClojureScript
 - [ECMAScript](https://en.wikipedia.org/wiki/JavaScript)
 - [JSON](https://www.json.org/)
 - [Haskell](https://en.wikipedia.org/wiki/Haskell_(programming_language))
 - [Moniel](https://github.com/mlajtos/moniel) – prototype of L1
+- [Douglas Crockford](https://www.youtube.com/watch?v=NPB34lDZj3E)
+- ...
