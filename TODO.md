@@ -108,6 +108,18 @@ hu: mu!
 
 ## Random
     * allow ! and () as a lamda argument?
+    * :: with expression
+        * eliminates cognitive friction
+        * what key to use?
+            * Lua as an inspiration? sequential numbers
+            * prop name by type
+                * tensor1, string3, boolean2
+                * boring
+            * empty string as a key?
+                * crazy
+                * user cannot use it before naming it (good)
+                * is forced to have only one non-named prop (good)
+                * best way to go
 
 ## Bugs
     * rendering an <Issue /> is leaking because Monaco does not notify DOMNode removal
