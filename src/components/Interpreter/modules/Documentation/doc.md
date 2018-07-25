@@ -247,22 +247,6 @@ test: fn 24
 
 # Extra info
 
-### Examples
-
-There are a few [examples](https://github.com/mlajtos/L1/tree/master/src/gallery). Most of them are broken, here are the working ones:
-
-- [Hello World](https://github.com/mlajtos/L1/blob/master/src/gallery/0_helloWorld.l1)
-- [Intro](https://github.com/mlajtos/L1/blob/master/src/gallery/1_intro.l1)
-- [Gallery of Activation Functions](https://github.com/mlajtos/L1/blob/master/src/gallery/3_gallery.l1)
-- [Closures](https://github.com/mlajtos/L1/blob/master/src/gallery/21_closures.l1)
-- [Range](https://github.com/mlajtos/L1/blob/master/src/gallery/26_range.l1)
-- [Logo](https://github.com/mlajtos/L1/blob/master/src/gallery/16_logo.l1)
-- [Nested](https://github.com/mlajtos/L1/blob/master/src/gallery/17_nested.l1)
-
-But see the broken ones for some *really cool shit*. Due to rewrite of the interpreter, it will take some time to get them working again. 
-
-Meanwhile, PRs are welcome, code is horrible and you have been warned! :)
-
 ### Self
 
 Top-level prop `Self` contains everything that is available by default, something like "standard library".
@@ -324,22 +308,4 @@ meta: mu.#meta
 Symbol props can store any values and can be accessed in the same way as a normal props.
 
 ### Force evaluate
-By default, every input triggers evaluation of the code, to force-evaluate use <kbd>Ctrl+Enter</kbd> or <kbd>Cmd-Return</kbd>.
-
-# Thank you
-
-Big thank you to these great projects and awesome people behind them:
-- [TensorFlow.js](https://github.com/tensorflow/tfjs)
-- [Ohm](https://github.com/harc/ohm)
-- [Monaco Editor](https://github.com/Microsoft/monaco-editor)
-- [FiraCode](https://github.com/tonsky/FiraCode)
-- [React](https://github.com/facebook/react)
-- [RxJS](https://github.com/Reactive-Extensions/RxJS)
-
-This thing directly steals from these languages:
-- [APL family](https://en.wikipedia.org/wiki/APL_(programming_language)) – A, [J](https://en.wikipedia.org/wiki/J_(programming_language)), K, Q
-- [LISP family](https://en.wikipedia.org/wiki/Lisp_(programming_language)) – ClojureScript
-- [ECMAScript](https://en.wikipedia.org/wiki/JavaScript)
-- [JSON](https://www.json.org/)
-- [Haskell](https://en.wikipedia.org/wiki/Haskell_(programming_language))
-- [Moniel](https://github.com/mlajtos/moniel) – prototype of L1
+By default, every input triggers evaluation of the code, to force-evaluate use `Ctrl+Enter` or `Cmd-Return`.

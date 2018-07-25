@@ -4,15 +4,22 @@
 
 [![Screenshot](Screenshot.png)](https://mlajtos.github.io/L1/latest/)
 
-<p align="center"><a href="https://mlajtos.github.io/L1/latest/">Live Demo</a></p>
+<p align="center"><a href="https://mlajtos.github.io/L1/latest/">Live Demo</a> | <a href="https://github.com/mlajtos/L1/tree/master/src/gallery">Examples</a></p>
 
 ## ⚠️ Notice
 
-- L1 is meant to provide a bridge for programmers that are transitioning to the field of functional differentiable programming.
+- This project is still under-developed. Any feedback is welcome.
 
-- L1 is *NOT* meant as a replacement for real-world programming languages (Python, Scala, ...) or runtimes (Tensorflow, Caffe, ...)
+- L1 is for experienced programmers who are transitioning to the field of functional differentiable programming. And for everybody else. :)
 
-- Have fun :)
+- L1 is NOT a replacement for existing:
+    - programming languages – *Python, Scala, ...*
+    - runtimes – *Tensorflow, Caffe, PyTorch, ...*
+    - IDEs – *VSCode, Jupyter, ...*
+
+    It's something completely different.
+
+- Have fun :) 
 
 # Thank you
 

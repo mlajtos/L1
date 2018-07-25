@@ -13,7 +13,6 @@ Fitting a random tensor without any input
 1. None as a lamda argument
 "
 
-
 _Data: {
     target: RandomNormal [20 20] -> (x => x^2 + x + 3)
 }
