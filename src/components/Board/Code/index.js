@@ -7,11 +7,14 @@ import "./style.sass"
 export default class Code extends PureComponent {
     state = {
         colorizedValue: null,
-        mounted: false
     }
+    defaultProps = {
+        language: "L1"
+    }
+    _mounted = false
     colorize = async (value) => {
         const stringValue = "" + value
-        const colorizedValue = await monaco.editor.colorize(stringValue, this.props.language || "L1")
+        const colorizedValue = await monaco.editor.colorize(stringValue, this.props.language)
         if (this._mounted) {
             this.setState({ colorizedValue })
         }
