@@ -8,7 +8,7 @@ export default class Code extends PureComponent {
     state = {
         colorizedValue: null,
     }
-    defaultProps = {
+    static defaultProps = {
         language: "L1"
     }
     _mounted = false
