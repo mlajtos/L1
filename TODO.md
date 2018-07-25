@@ -10,6 +10,15 @@
         1. Transpose
         1. GetDigit
 
+## Language
+* Operators for tensor
+    * equal = ==
+    * not equal !=
+    * less than <
+    * more than >
+    * less than or equal <=
+    * more than or equal >=
+
 ## Wholeness
 
 1. Router
@@ -36,6 +45,9 @@
 1. When there is a error, selection is not visible
     * clashes with more than one error on the line
         * grouping errors by line?
+1. Code completion provider which takes rootEnvironment as the source
+1. Ability to see values of the non-scalar tensors (concrete numbers)
+    - how?
 1. Broken visual cue for scrolling the board
 1. Visualization for empty tensor
 1. Correspondence between code and visualization
@@ -165,7 +177,19 @@ mu2: Counter.increaseBy 3
 :: Counter.#state.i
 ```
 
-So far, there should be a way to modify super/proto object.
+So far, there should be a way to modify super/proto object. But then L1 cease to be pure. Object should not be changed directly from outside by force. But it should be able to change itself when asked nicely.
+
+```L1
+a: {
+    b: 22
+}
+; a.b: 23
+a: a.#mutate {
+    b: 23
+}
+
+; looks really awful
+```
 
 # Links
 * [Haskell syntax](https://www.haskell.org/onlinereport/exps.html)
