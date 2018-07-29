@@ -2,13 +2,21 @@
 
 ## Demos
 
-1. [Done] Gallery of Activation Functions - gallery/3_gallery.l1
 1. Tile design – gallery/5_tile_design.l1
     * needed functions:
         1. ExpandDimension
         1. Tile
         1. Transpose
         1. GetDigit
+1. Other
+    * Iota
+    * RankUp, RankDown
+    * Transpose
+    * LinearSpace - #doc
+    * RandomUniform - #doc
+    * ArgMin, ArgMax, Sum, Product
+    * StochasticGradientDescent
+    * Gradient
 
 ## Language
 * Operators for tensor
@@ -18,7 +26,7 @@
     * more than >
     * less than or equal <=
     * more than or equal >=
-* `@` should be used for indexing/where, not for matrix multiplication
+* `@` should be used for indexing/where, not for matrix multiplication!
 * Lists?
     * `(expr, expr)`
         * no, because of `(expr)`
@@ -51,6 +59,12 @@
             * user-defined version?
 1. Database
     * probably FireBase with Cloud Functions
+    * what if the content was the address for the router?
+        * super easy to implement
+        * user-linkable
+        * stepping stone to hashes
+        * no need for centralised repo
+        * bit.ly URL shortener as a convenience
 
 ## UX
 
