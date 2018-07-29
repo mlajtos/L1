@@ -1,4 +1,0 @@
-transformedDigit:
-    GetDigit '5
-        -> ExpandDimension { tensor: $, axis: '2}
-        -> MaxPool { tensor: $, filterSize: '2, strides: '1}
