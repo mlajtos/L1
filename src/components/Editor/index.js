@@ -100,6 +100,9 @@ export default class Editor extends PureComponent {
         })
 
         this.subscribeToIssues()
+        
+        const action = this.editor.getAction("executeCode")
+        action.run()
     }
     setDecorations = (issues) => {
         const markers = issues.map(issueToMarker)

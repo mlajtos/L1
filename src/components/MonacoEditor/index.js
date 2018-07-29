@@ -95,18 +95,15 @@ import 'monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution.js';
 const languageName = "L1"
 
 const language = {
-    id: languageName
+    id: languageName,
+    extensions: [".l1", ".L1"]
 }
-
-monaco.languages.register(language)
 
 const languageConfiguration = {
     comments: {
         lineComment: ";"
     }
 }
-
-monaco.languages.setLanguageConfiguration(languageName, languageConfiguration)
 
 const provider = {
     brackets: [
@@ -134,8 +131,6 @@ const provider = {
     }
 }
 
-monaco.languages.setMonarchTokensProvider(languageName, provider)
-
 const theme = {
     base: "vs",
     inherit: true,
@@ -150,7 +145,10 @@ const theme = {
     ]
 }
 
+monaco.languages.register(language)
+monaco.languages.setLanguageConfiguration(languageName, languageConfiguration)
 monaco.editor.defineTheme(languageName, theme)
+monaco.languages.setMonarchTokensProvider(languageName, provider)
 
 const functions = ["Shape", "Rank", "Min", "Max", "RankUp", "Transpose", "RandomNormal", "RandomUniform"]
 

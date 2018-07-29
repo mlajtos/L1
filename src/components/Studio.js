@@ -35,9 +35,6 @@ export default class Studio extends PureComponent {
     codeChanged = async (code, editor, issues) => {
         this.setState(await Evaluator.evaluate(code, {}, issues))
     }
-    componentDidMount() {
-        this.codeChanged(this.state.code)
-    }
     render() {
         return (
             <div className="studio">
