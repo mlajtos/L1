@@ -18,6 +18,21 @@
     * more than >
     * less than or equal <=
     * more than or equal >=
+* `@` should be used for indexing/where, not for matrix multiplication
+* Lists?
+    * `(expr, expr)`
+        * no, because of `(expr)`
+    * `|expr, expr|`
+        * no, because pipeline (can be removed)
+    * `/expr, expr/`
+        * wtf
+    * `<expr, expr>`
+        * no, leaving that for HTML
+    * `[|expr, expr|]`
+        * definitely no
+    * `#[expr, expr]`
+        * meh
+
 
 ## Wholeness
 
