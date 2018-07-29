@@ -15,9 +15,9 @@ L1 is a playground for differentiable linear algebra, heavily used in Machine Le
 * automatic evaluation
 * live visualization
 * GPU-accelerated computation
+* auto-broadcast for tensor operations
 * built-in documentation
 * syntax-highlightning and code-completion
-* auto-broadcast for tensor operations
 
 **Note:** This project is still under-developed. Any help is welcome.
 
