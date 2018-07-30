@@ -64,6 +64,11 @@
         * stepping stone to hashes
         * no need for centralised repo
         * bit.ly URL shortener as a convenience
+        * code snippets in #doc can be linkable
+1. How to directly compare two tensors?
+    * `a: Zeros [10], b: Ones [10]
+1. How to visualize high-rank tensors?
+    * 1D, 2D slices?
 
 ## UX
 
@@ -87,10 +92,12 @@
 
 ## Crazy
 
+1. silent assignment folded by default?
 1. KaTeX for Markdown
 	* would be super-convenient
 1. Name resolution
     * Capitalized names could be resolved from root
+        * or non-overideable through #meta
     * Capitalized names could be resolved by abbreviations (as in Moniel)
 1. Tensors could be callable, as in math
     * a: [1 2 3] * [1, 2, 3]
@@ -148,6 +155,7 @@ hu: mu!
                 * user cannot use it before naming it (good)
                 * is forced to have only one non-named prop (good)
                 * best way to go
+            * as a shorthand for #valueOf or #return?
 
 ## Bugs
     * rendering an <Issue /> is leaking because Monaco does not notify DOMNode removal
