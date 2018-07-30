@@ -36,11 +36,11 @@ export default {
             }
 
             if (arg.hasOwnProperty("min")) {
-                mean = arg.min
+                min = arg.min
             }
 
             if (arg.hasOwnProperty("max")) {
-                stdDev = arg.max
+                max = arg.max
             }
 
             return of(tf.randomUniform($(shape), $(min)[0], $(max)[0]))
