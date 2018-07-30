@@ -12,8 +12,8 @@
     * Iota
     * RankUp, RankDown
     * Transpose
-    * LinearSpace - #doc
-    * RandomUniform - #doc
+    * $doc
+        * Eye, Ones, Zeroes
     * ArgMin, ArgMax, Sum, Product
     * StochasticGradientDescent
     * Gradient
