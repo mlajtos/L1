@@ -11,7 +11,12 @@
   "scripts": {
     "dev": "webpack-dev-server --content-base dist/ --mode development",
     "build": "webpack-cli --mode production --progress",
-    "serve": "http-server -p 7171 dist/"
+    "serve": "http-server -p 7171 dist/",
+    "clean": "rm -rf latest",
+    "move": "mv dist latest",
+    "git:add-build": "git add latest",
+    "git:commit-build": "git commit -m Build",
+    "deploy": "run-s build clean move git:add-build git:commit-build"
   },
   "dependencies": {
     "@tensorflow/tfjs": "^0.12.0",
@@ -47,6 +52,7 @@
     "html-webpack-plugin": "^3.2.0",
     "loader-utils": "^1.1.0",
     "node-sass": "^4.9.0",
+    "npm-run-all": "^4.1.3",
     "raw-loader": "^0.5.1",
     "react-hot-loader": "^4.3.3",
     "sass-loader": "^7.0.3",
