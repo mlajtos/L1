@@ -3,12 +3,13 @@ import { of } from "rxjs"
 
 import LinearSpace from "./LinearSpace"
 import Ones from "./Ones"
+import Zeros from "./Zeros"
 
 const $ = (tensor) => tensor.dataSync()
 
 export default {
     Ones,
-    Zeros: shape => of(tf.zeros($(shape))),
+    Zeros,
     Eye: size => of(tf.eye($(size)[0])),
     LinearSpace,
 }
