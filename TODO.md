@@ -12,8 +12,6 @@
     * Iota
     * RankUp, RankDown
     * Transpose
-    * $doc
-        * Eye, Ones, Zeroes
     * ArgMin, ArgMax, Sum, Product
     * StochasticGradientDescent
     * Gradient
