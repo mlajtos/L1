@@ -30,6 +30,7 @@
 * Lists?
     * `(expr, expr)`
         * no, because of `(expr)`
+        * on second thought, hmm..
     * `|expr, expr|`
         * no, because pipeline (can be removed)
     * `/expr, expr/`
