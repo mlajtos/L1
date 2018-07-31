@@ -9,17 +9,21 @@
 
 L1 is a playground for differentiable linear algebra, heavily used in Machine Learning. The application is a combination of a programming language, runtime and IDE in one unified package.
 
+### Goal
+
+Become the standard tool for prototyping new Machine Learning ideas.
+
 ### Features
 * designed for rapid learning and prototyping
-* elegant functional language
-* automatic evaluation
 * live visualization
-* GPU-accelerated computation
+* elegant functional language
+* eager execution
 * auto-broadcast for tensor operations
+* GPU-accelerated computation
 * built-in documentation
 * syntax-highlightning and code-completion
 
-**Note:** This project is still under-developed. Any help is welcome.
+**Note:** This project is still under-developed. Help and/or feedback is welcome. [Create new issue.](https://github.com/mlajtos/L1/issues/new)
 
 ---
 
