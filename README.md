@@ -23,6 +23,13 @@ Become the standard tool for prototyping new Machine Learning ideas.
 * built-in documentation
 * syntax-highlightning and code-completion
 
+### Coming Soon
+* variable tensors and optimisation
+* richer set of tensor operators
+* enhancements to built-in documentation system
+* linkable notebooks
+* etc.
+
 **Note:** This project is still under-developed. Help and/or feedback is welcome. [Create new issue.](https://github.com/mlajtos/L1/issues/new)
 
 ---
