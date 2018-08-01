@@ -3,49 +3,44 @@ import { isString } from "lodash-es"
 
 import monaco, { renderMarkdown } from "../../MonacoEditor"
 
-import { MarkdownRenderer } from 'monaco-editor/esm/vs/editor/contrib/markdown/markdownRenderer';
-import { StaticServices } from 'monaco-editor/esm/vs/editor/standalone/browser/standaloneServices';
-
-// console.log(StaticServices)
-// const renderer = new MarkdownRenderer(monaco.editor.create(document.createElement("div")), StaticServices.modeService.get())
-// const el = renderer.render({
-//     value: "# L1\n```L1\na: 23```"
-// }).element
-
-// console.log(el, el.innerHTML)
-
 import "./style.sass"
 
 const markdownToHTML = (value) => {
     const result = renderMarkdown({
         value
-    }).innerHTML
-    return result
-}
-
-const markdownToHTML_2 = (value) => {
-    const result = renderer.render({
-        value
-    }).element.innerHTML
+    }, {
+        inline: false,
+        codeBlockRenderer: async function (languageAlias, value) {
+            return await monaco.editor.colorize(value, languageAlias)
+        }
+    })
     return result
 }
 
 export default class Markdown extends PureComponent {
-    state = {
-        colorizedValue: null,
-        mounted: false
-    }
+    _containerElement = null
+    _colorizedElement = null
+
     colorize = async (value) => {
+        if (!this._containerElement) {
+            return
+        }
+
         if (!isString(value)) {
             return
         }
         const stringValue = "" + value
-        const colorizedValue = markdownToHTML(stringValue)
-        // const colorizedValue = 
-        // console.log(colorizedValue)
-        if (this._mounted) {
-            this.setState({ colorizedValue })
+
+        const colorizedElement = markdownToHTML(stringValue)
+
+        if (this._colorizedElement) {
+            this._containerElement.replaceChild(colorizedElement, this._colorizedElement)
+        } else {
+            this._containerElement.appendChild(colorizedElement)
         }
+
+        this._colorizedElement = colorizedElement
+
     }
     componentDidUpdate() {
         this.colorize(this.props.children)
@@ -58,14 +53,7 @@ export default class Markdown extends PureComponent {
         this._mounted = false
     }
     render() {
-        if (!this.state.colorizedValue) {
-            if (!isString(this.props.children)) {
-                return null
-            }
-            return <div className="property markdown">{this.props.children}</div>
-        } else {
-            return <div className="property markdown" dangerouslySetInnerHTML={{__html: this.state.colorizedValue}} />
-        }
+        return <div ref={e => this._containerElement = e} className="property markdown" />
     }
 
 }

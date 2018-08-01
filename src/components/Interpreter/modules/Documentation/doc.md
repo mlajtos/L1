@@ -86,12 +86,14 @@ c: SquareRoot Square 23   ; SquareRoot(Square(23))
 d: RandomNormal !         ; RandomNormal()
 ```
 
-```
+```L1
 size1: Size [1 2 3]         ; size1 = 3
 size2: Size [1,2,3]         ; size2 = 3
 size3: Size [1 2, 3 4]      ; size3 = 4
+
 shape1: Shape [1 2 3]       ; shape1 = [3]
 shape2: Shape [1 2, 3 4]    ; shape2 = [2 2]
+
 rank0: Rank 23              ; rank0 = 0
 rank1: Rank [1 2 3]         ; rank1 = 1
 rank2: Rank [1 2, 3 4]      ; rank2 = 2

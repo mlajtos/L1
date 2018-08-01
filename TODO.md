@@ -72,8 +72,6 @@
 
 ## UX
 
-1. **Syntax-highlighting for Markdown**
-	* https://github.com/Microsoft/monaco-editor/issues/892
 1. working links in Markdown
 1. When there is a error, selection is not visible
     * clashes with more than one error on the line
