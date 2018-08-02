@@ -8,11 +8,12 @@ export default {
 `
 # Mouse
 Provides mouse coordinates (\`x\` and \`y\`) inside the window.
-\`\`\`
+
+\`\`\`L1
 x: Mouse.x
 y: Mouse.y
 \`\`\`
 `,
     x: fromEvent(window, "mousemove").pipe(map(e => tf.scalar(e.x))),
     y: fromEvent(window, "mousemove").pipe(map(e => tf.scalar(e.y))),
-} 
+}
