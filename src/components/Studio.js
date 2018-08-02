@@ -23,36 +23,45 @@ const codeFromHash = decodeHash(document.location.hash)
 const defaultCode = codeFromHash || helloWorldCode
 
 export default class Studio extends PureComponent {
+    _editor = null
     state = {
         code: defaultCode,
         ast: null,
         computedValues: of({}),
         dirty: false
     }
-
-    issues = null
-
-    // defaultExample = "21_closures"
-    // defaultExample = "1_intro"
-
-    // async componentDidMount() {
-    //     const code = await this.loadFromGallery(this.defaultExample)
-    //     this.setState({ code })
-    // }
-    // loadFromGallery = async id => {
-    //     const module = await import(`../gallery/${id}.l1`)
-    //     return module.default
-    // }
-    codeChanged = async (code, editor, issues) => {
+    _onPopState = (e) => {
+        if (e.state && e.state.code) {
+            this._editor.setContent(e.state.code)
+        }
+    }
+    componentDidMount() {
+        window.addEventListener("popstate", this._onPopState)
+    }
+    componentWillUnmount() {
+        window.removeEventListener("popstate", this._onPopState)
+    }
+    handleHistory(code) {
         if (code !== this.state.code) {
-            this.setState({ dirty: true })
-            document.location.hash = ""
+            if (history.state) {
+                if (history.state.saved || false) {
+                    history.pushState({ code, saved: false, timestamp: Date.now() }, "", "#")
+                } else {
+                    history.replaceState({ code, saved: false, timestamp: Date.now() }, "", "#")
+                }
+            } else {
+                history.pushState({ code, saved: false, timestamp: Date.now() }, "", "#")
+            }
+        }
+    }
+    codeChanged = async (code, editor, issues, forced) => {
+        if (!forced) {
+            this.handleHistory(code)
         }
         this.setState(await Evaluator.evaluate(code, {}, issues))
     }
     saveCode = () => {
-        this.setState({ dirty: false })
-        document.location.hash = btoa(this.state.code)
+        history.replaceState({ code: this.state.code, saved: true, timestamp: Date.now() }, "", "#" + btoa(this.state.code))
     }
     render() {
         return (
@@ -62,11 +71,11 @@ export default class Studio extends PureComponent {
                 </Panel>
                 <Panel id="editor">
                     <Editor
+                        ref={e => this._editor = e}
                         content={this.state.code}
                         language="L1"
                         theme="L1"
                         onChange={this.codeChanged}
-                        issues={this.issues}
                         onExecute={this.codeChanged.bind(this, this.state.code)}
                         onSave={this.saveCode}
                     />

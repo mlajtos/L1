@@ -29,6 +29,8 @@ export default class Editor extends PureComponent {
 
     issues = new Subject
 
+    _forced = false
+
     _mount = async (el) => {
         this.container = el
         if (this.container) {
@@ -80,7 +82,7 @@ export default class Editor extends PureComponent {
             if (isFunction(fn)) {
                 const code = this.editor.getValue()
                 this.issues.next(null)
-                fn.apply(null, [code, this.editor, this.issues])
+                fn.apply(null, [code, this.editor, this.issues, this._forced])
             }
         })
 
@@ -153,6 +155,11 @@ export default class Editor extends PureComponent {
     }
     renderIssue(issue, element) {
         ReactDOM.render(<Issue {...issue} />, element)
+    }
+    setContent(content) {
+        this._forced = true
+        this.editor.setValue(content)
+        this._forced = false
     }
     render() {
         return (
