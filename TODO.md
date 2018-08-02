@@ -68,6 +68,10 @@
         * [DONE]
             * atob, btoa is not enough – only Latin1 chars, ugh
                 * https://github.com/dankogai/js-base64
+            * what must be preserved:
+                * scrollOffset in board
+                * scrollOffset in dditor
+                * cursor position in editor
 1. How to directly compare two tensors?
     * `a: Zeros [10], b: Ones [10]
 1. How to visualize high-rank tensors?
