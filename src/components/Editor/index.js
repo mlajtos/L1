@@ -13,6 +13,7 @@ export default class Editor extends PureComponent {
     static defaultProps = {
         onChange: () => {},
         onExecute: () => {},
+        onSave: () => {}, 
         defaultValue: "",
         language: "L1",
         readOnly: false,
@@ -94,6 +95,21 @@ export default class Editor extends PureComponent {
                 if (isFunction(fn)) {
                     this.issues.next(null)
                     fn.apply(null, [editor, this.issues])
+                }
+                return null;
+            }
+        })
+
+        this.editor.addAction({
+            id: "save",
+            label: "Save",
+            keybindings: [
+                monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S
+            ],
+            run: (editor) => {
+                const fn = this.props.onSave
+                if (isFunction(fn)) {
+                    fn()
                 }
                 return null;
             }
