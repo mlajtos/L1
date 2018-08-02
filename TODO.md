@@ -65,6 +65,9 @@
         * no need for centralised repo
         * bit.ly URL shortener as a convenience
         * code snippets in #doc can be linkable
+        * [DONE]
+            * atob, btoa is not enough – only Latin1 chars, ugh
+                * https://github.com/dankogai/js-base64
 1. How to directly compare two tensors?
     * `a: Zeros [10], b: Ones [10]
 1. How to visualize high-rank tensors?
