@@ -15,8 +15,9 @@
     "clean": "rm -rf latest",
     "move": "mv dist latest",
     "git:add-build": "git add latest",
-    "git:commit-build": "git commit -m Build",
-    "deploy": "run-s build clean move git:add-build git:commit-build"
+    "git:commit-build": "git commit -m '🤖 Automated Build'",
+    "git:push": "git push",
+    "deploy": "run-s build clean move git:add-build git:commit-build git:push"
   },
   "dependencies": {
     "@tensorflow/tfjs": "^0.12.0",
