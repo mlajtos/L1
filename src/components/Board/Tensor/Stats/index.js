@@ -74,7 +74,7 @@ export default class Stats extends PureComponent {
                 <Field name="Max">
                     {formatNumber(+this.state.max)}
                 </Field>
-                { this.state.computing ? "Computing..." : null}
+                {/* { this.state.computing ? "Computing..." : null} */}
             </div>
         )
     }

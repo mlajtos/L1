@@ -24,6 +24,7 @@
         background-color: #f6f8fa
         overflow: auto
         border-radius: 5px
+        position: relative
 
     code
         padding: 0.3em
@@ -31,3 +32,28 @@
 
     ol, ul
         padding-left: 2em
+
+.codeContainer
+    .runButton
+        position: absolute
+        right: 0
+        top: 0
+        right: 0
+        bottom: 0
+        vertical-align: top
+        border-radius: 0 8px 8px 0
+        border: 1px solid darkgray
+        background-color: #eee
+        padding: 0 1em
+        font-size: 1.1em
+        cursor: pointer
+        font-weight: bold
+        color: #333
+        outline: none
+        background-color: rgba(0, 160, 236, 0.05)
+        border-color: rgba(15, 143, 255, 0.69)
+        color: rgba(15, 143, 255, 0.69)
+        mix-blend-mode: multiply
+        border-width: 0
+        &:hover
+            filter: invert(1)

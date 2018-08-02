@@ -37,6 +37,10 @@ export default class Studio extends PureComponent {
     }
     componentDidMount() {
         window.addEventListener("popstate", this._onPopState)
+        window.loadCode = (code) => {
+            this._editor.setContent(atob(code))
+            history.pushState({ code, saved: true, timestamp: Date.now() }, "", "#" + code)
+        }
     }
     componentWillUnmount() {
         window.removeEventListener("popstate", this._onPopState)

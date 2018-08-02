@@ -11,7 +11,14 @@ const markdownToHTML = (value) => {
     }, {
         inline: false,
         codeBlockRenderer: async function (languageAlias, value) {
-            return await monaco.editor.colorize(value, languageAlias)
+            const codeblock = await monaco.editor.colorize(value, languageAlias)
+
+            return `
+                <div class="codeContainer">
+                    <button class="runButton" onclick="loadCode('${btoa(value)}')">Run</button>
+                    ${codeblock}
+                </div>
+            `
         }
     })
     return result
