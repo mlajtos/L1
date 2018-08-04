@@ -309,5 +309,6 @@ meta: mu.#meta
 
 Symbol props can store any values and can be accessed in the same way as a normal props.
 
-### Force evaluate
-By default, every input triggers evaluation of the code, to force-evaluate use `Ctrl+Enter` or `Cmd-Return`.
+### Keyboard shortcuts
+* force-evaluate code – `Ctrl+Enter` or `Cmd-Return`
+* create sharable URL – `Ctrl+S` or `Cmd-S`
