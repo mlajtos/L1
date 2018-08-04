@@ -31,9 +31,12 @@ Become the standard tool for prototyping new Machine Learning ideas.
 * etc.
 
 ### Issues
+* None of the mobile browsers are supported
 * Firefox is rather slow and has unpredictable behavior, please use Chrome instead
 
-**Note:** This project is still under-developed. Help and/or feedback is welcome. [Create new issue.](https://github.com/mlajtos/L1/issues/new)
+### Feedback
+
+This project is still under-developed. Any form of help or feedback is welcome. [Having an issue?](https://github.com/mlajtos/L1/issues/new)
 
 ---
 
