@@ -20,6 +20,9 @@ const decodeHash = (hash) => {
 }
 
 const codeFromHash = decodeHash(document.location.hash)
+if (codeFromHash) {
+    history.replaceState({ code: codeFromHash, saved: true, timestamp: Date.now() }, "", "#" + btoa(codeFromHash))
+}
 const defaultCode = codeFromHash || helloWorldCode
 
 export default class Studio extends PureComponent {
