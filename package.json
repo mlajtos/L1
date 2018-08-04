@@ -15,7 +15,7 @@
     "clean": "rm -rf latest",
     "move": "mv dist latest",
     "git:add-build": "git add latest",
-    "git:commit-build": "git commit -m '🤖 Automated Build'",
+    "git:commit-build": "git commit -m '🚀 Deploy'",
     "git:push": "git push",
     "deploy": "run-s build clean move git:add-build git:commit-build git:push"
   },
