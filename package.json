@@ -20,9 +20,9 @@
     "deploy": "run-s build clean move git:add-build git:commit-build git:push"
   },
   "dependencies": {
-    "@tensorflow/tfjs": "^0.12.0",
-    "@types/lodash-es": "^4.17.0",
-    "buffer": "^5.1.0",
+    "@tensorflow/tfjs": "^0.12.4",
+    "@types/lodash-es": "^4.17.1",
+    "buffer": "^5.2.0",
     "firacode": "https://github.com/tonsky/FiraCode",
     "fontfaceobserver": "^2.0.13",
     "lodash-es": "^4.17.10",
@@ -30,11 +30,11 @@
     "monaco-editor": "^0.13.1",
     "normalize.css": "^8.0.0",
     "numeral": "^2.0.6",
-    "ohm-js": "*",
+    "ohm-js": "0.14.0",
     "ramda": "^0.25.0",
-    "react": "*",
-    "react-dom": "*",
-    "rxjs": "^6.2.0"
+    "react": "16.4.2",
+    "react-dom": "16.4.2",
+    "rxjs": "^6.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.55",
