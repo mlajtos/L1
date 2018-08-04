@@ -24,7 +24,6 @@
     * more than >
     * less than or equal <=
     * more than or equal >=
-* `@` should be used for indexing/where, not for matrix multiplication!
 * Lists?
     * `(expr, expr)`
         * no, because of `(expr)`
@@ -108,6 +107,13 @@
     * a: [1 2 3] * [1, 2, 3]
     * a: [1 2 3] [1, 2, 3]
     * y: W x
+    * ---
+    * or something completely else:
+    * `a: [1 2 3], c: a[0] ; c = 1 :D`
+    * this way the second tensor is an address to the first one
+    * `source: [1 2, 3 4], indices: [0 0, 1 1], result: source(indices) ; result = [1 4]`
+    * this is the real shit!
+    * (and `@` can stay for matmul, yay!)
 1. `#render` (because of that "Can I create AI in HTML?" meme)
 ```L1
 ; mu: {
