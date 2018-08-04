@@ -23,13 +23,6 @@ Become the standard tool for prototyping new Machine Learning ideas.
 * awesome built-in documentation
 * syntax-highlightning and code-completion
 
-### Coming Soon
-* variable tensors and optimisation
-* richer set of tensor operators
-* pre-trained models
-* loading data
-* etc.
-
 ### Issues
 * None of the mobile browsers are supported
 * Firefox is rather slow and has unpredictable behavior, please use Chrome instead
@@ -37,6 +30,13 @@ Become the standard tool for prototyping new Machine Learning ideas.
 ### Feedback
 
 This project is still under-developed. Any form of help or feedback is welcome. [Having an issue?](https://github.com/mlajtos/L1/issues/new)
+
+### What comes next?
+* variable tensors and optimisation
+* richer set of tensor operators
+* pre-trained models
+* loading data
+* etc.
 
 ---
 
