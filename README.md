@@ -30,6 +30,9 @@ Become the standard tool for prototyping new Machine Learning ideas.
 * loading data
 * etc.
 
+### Issues
+* Firefox is rather slow and has unpredictable behavior, please use Chrome instead
+
 **Note:** This project is still under-developed. Help and/or feedback is welcome. [Create new issue.](https://github.com/mlajtos/L1/issues/new)
 
 ---
