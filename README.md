@@ -7,7 +7,7 @@
 
 ## About
 
-L1 is a playground for differentiable linear algebra, heavily used in Machine Learning. The application is a combination of a programming language, runtime and IDE in one unified package.
+L1 is a playground for differentiable linear algebra, heavily used in Machine Learning. This project is a combination of a programming language, interpreter, standard library and IDE in one unified experience.
 
 ### Goal
 
