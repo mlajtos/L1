@@ -25,7 +25,7 @@ Become the standard tool for prototyping new Machine Learning ideas.
 
 ### Issues
 * None of the mobile browsers are supported
-* Firefox is rather slow and has unpredictable behavior, please use Chrome instead
+* Firefox is rather slow and has unpredictable behavior, please use Chrome instead ([#3](https://github.com/mlajtos/L1/issues/3))
 
 ### Feedback
 
