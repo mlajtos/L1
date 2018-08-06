@@ -24,6 +24,8 @@
     * more than >
     * less than or equal <=
     * more than or equal >=
+    * Sum +/ Σ
+    * Product */ Π
 * Lists?
     * `(expr, expr)`
         * no, because of `(expr)`
