@@ -19,7 +19,7 @@ Become the standard tool for prototyping new Machine Learning ideas. [More...](G
 * elegant functional language
 * eager execution
 * auto-broadcast for tensor operations
-* GPU-accelerated computation
+* GPU-accelerated calculations
 * awesome built-in documentation
 * syntax-highlightning and code-completion
 
@@ -27,16 +27,18 @@ Become the standard tool for prototyping new Machine Learning ideas. [More...](G
 * None of the mobile browsers are supported
 * Firefox is rather slow and has unpredictable behavior, please use Chrome instead ([#3](https://github.com/mlajtos/L1/issues/3))
 
-### Feedback
-
-This project is still under-developed. Any form of help or feedback is welcome. [Having an issue?](https://github.com/mlajtos/L1/issues/new)
-
-### What comes next?
+### What's comming?
 * variable tensors and optimization
 * richer set of operators
 * pre-trained models
-* loading data
+* loading data, I/O
 * [etc.](https://github.com/mlajtos/L1/blob/master/TODO.md)
+
+### Open Source
+
+This project is under [MIT license](LICENSE).
+
+Any form of help or feedback is welcome. Including [PRs](https://github.com/mlajtos/L1/pulls), promotion, backing, [reporting bugs](https://github.com/mlajtos/L1/issues/new), [suggesting ideas](https://github.com/mlajtos/L1/issues/new), etc.
 
 ---
 
