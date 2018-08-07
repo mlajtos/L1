@@ -44,12 +44,21 @@
 
 ## Wholeness
 
+1. Traditional visualizations
+    * Plots
+        * What is the best plotting library?
+            * should be able to continuously redraw itself with new data
+        * What does TensorBoard use?
+        * line, bar, scatter, ..?
+        * `BarChart [0 1 2 3 4 5]`
+        * `LineChart [0 1 2 3 4 5]`
+        * `ScatterPlot [0 0, 1 1, 2 2, 3 3]` or `[0 1 2 3, 0 1 2 3]`
+        * `BarChart [0 1 2, 3 4 5]`
+        * `Chart { ... }`
 1. Router
     * Must be hierarchical
         * I don't know what that means right now.
         * Can target part of the "notebook"?
-    * http://mlajtos.github.com/L1/~ii1jcLg-eIQ
-        * no, something else
     * kind of relevant – import from other notebooks
         * `:: #L1.#myNotebook.#rev111.functionOfInterest`
         * `#L1` object will do the loading (maybe different name?)

@@ -36,7 +36,7 @@ This project is still under-developed. Any form of help or feedback is welcome. 
 * richer set of operators
 * pre-trained models
 * loading data
-* etc.
+* [etc.](https://github.com/mlajtos/L1/blob/master/TODO.md)
 
 ---
 
