@@ -11,7 +11,7 @@ L1 is a playground for differentiable linear algebra, heavily used in Machine Le
 
 ### Goal
 
-Become the standard tool for prototyping new Machine Learning ideas.
+Become the standard tool for prototyping new Machine Learning ideas. [More...](GOAL.md)
 
 ### Features
 * designed for rapid learning and prototyping

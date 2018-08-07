@@ -164,7 +164,8 @@ hu: mu!
 ```
 
 ## Random
-    * allow ! and () as a lamda argument?
+    * ::Self should be ::RTFM
+    * allow ! and () as a lambda argument?
     * :: with expression
         * eliminates cognitive friction
         * what key to use?
