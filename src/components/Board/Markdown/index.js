@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react"
 import { isString } from "lodash-es"
+import { Base64 } from "js-base64"
 
 import monaco, { renderMarkdown } from "../../MonacoEditor"
 
@@ -15,7 +16,7 @@ const markdownToHTML = (value) => {
 
             return `
                 <div class="codeContainer">
-                    <button class="runButton" onclick="loadCode('${btoa(value)}')">Run</button>
+                    <button class="runButton" onclick="loadCode('${Base64.encode(value)}')">Run</button>
                     ${codeblock}
                 </div>
             `

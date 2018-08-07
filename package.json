@@ -25,6 +25,7 @@
     "buffer": "^5.2.0",
     "firacode": "https://github.com/tonsky/FiraCode",
     "fontfaceobserver": "^2.0.13",
+    "js-base64": "^2.4.8",
     "lodash-es": "^4.17.10",
     "mnist": "^1.1.0",
     "monaco-editor": "^0.13.1",

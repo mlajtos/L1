@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react"
 import { of } from "rxjs"
+import { Base64 } from "js-base64"
 
 import "normalize.css"
 import "./style.sass"
@@ -11,17 +12,19 @@ import Panel from "./Panel"
 
 import helloWorldCode from "../gallery/0_helloWorld.l1"
 
+const encodeSource = (code) => Base64.encode(code)
+
 const decodeHash = (hash) => {
     try {
-        return atob(hash.substring(1))
+        return Base64.decode(hash)
     } catch (e) {
         return undefined
     }
 }
 
-const codeFromHash = decodeHash(document.location.hash)
+const codeFromHash = decodeHash(document.location.hash.substring(1))
 if (codeFromHash) {
-    history.replaceState({ code: codeFromHash, saved: true, timestamp: Date.now() }, "", "#" + btoa(codeFromHash))
+    history.replaceState({ code: codeFromHash, saved: true, timestamp: Date.now() }, "", "#" + encodeSource(codeFromHash))
 }
 const defaultCode = codeFromHash || helloWorldCode
 
@@ -41,7 +44,7 @@ export default class Studio extends PureComponent {
     componentDidMount() {
         window.addEventListener("popstate", this._onPopState)
         window.loadCode = (hash) => {
-            const code = atob(hash)
+            const code = decodeHash(hash)
             this._editor.setContent(code)
             history.pushState({ code, saved: true, timestamp: Date.now() }, "", "#" + hash)
         }
@@ -69,7 +72,7 @@ export default class Studio extends PureComponent {
         this.setState(await Evaluator.evaluate(code, {}, issues))
     }
     saveCode = () => {
-        history.replaceState({ code: this.state.code, saved: true, timestamp: Date.now() }, "", "#" + btoa(this.state.code))
+        history.replaceState({ code: this.state.code, saved: true, timestamp: Date.now() }, "", "#" + encodeSource(this.state.code))
     }
     render() {
         return (
