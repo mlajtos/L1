@@ -34,11 +34,11 @@ Become the standard tool for prototyping new Machine Learning ideas. [More...](G
 * loading data, I/O
 * [etc.](https://github.com/mlajtos/L1/blob/master/TODO.md)
 
-### Open Source
+### Contribution
+
+Any form of help and feedback is welcome. Including [PRs](CONTRIBUTING.md), [reporting bugs](https://github.com/mlajtos/L1/issues/new), [suggesting ideas](https://github.com/mlajtos/L1/issues/new), promotion,  etc.
 
 This project is under [MIT license](LICENSE).
-
-Any form of help or feedback is welcome. Including [PRs](https://github.com/mlajtos/L1/pulls), promotion, backing, [reporting bugs](https://github.com/mlajtos/L1/issues/new), [suggesting ideas](https://github.com/mlajtos/L1/issues/new), etc.
 
 ---
 
