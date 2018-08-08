@@ -59,6 +59,7 @@ This thing is stealing great ideas from:
 - [ECMAScript](https://en.wikipedia.org/wiki/JavaScript)
 - [JSON](https://www.json.org/)
 - [Haskell](https://en.wikipedia.org/wiki/Haskell_(programming_language))
+- [Smalltalk](https://en.wikipedia.org/wiki/Smalltalk)
 - [Moniel](https://github.com/mlajtos/moniel) – prototype of L1
 - [Douglas Crockford](https://www.youtube.com/watch?v=NPB34lDZj3E)
 - [Bret Victor](https://vimeo.com/36579366)
