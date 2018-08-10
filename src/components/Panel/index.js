@@ -23,7 +23,7 @@ export default class Panel extends PureComponent {
     }
     render() {
         const scrolled = this.props.scrollable && this.state.scrolled
-        const className = "panel " + (scrolled ? "scrolled" : "")
+        const className = "panel" + (scrolled ? " scrolled" : "") + (this.props.disabled ? " disabled" : "")
 
         return (
             <div id={this.props.id || ""} className={className} onScroll={this.props.scrollable ? this.onScroll : undefined}>

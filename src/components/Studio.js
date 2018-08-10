@@ -34,7 +34,7 @@ export default class Studio extends PureComponent {
         code: defaultCode,
         ast: null,
         computedValues: of({}),
-        dirty: false
+        outOfSync: false
     }
     _onPopState = (e) => {
         if (e.state && e.state.code) {
@@ -69,7 +69,16 @@ export default class Studio extends PureComponent {
         if (!forced) {
             this.handleHistory(code)
         }
-        this.setState(await Evaluator.evaluate(code, {}, issues))
+        const result = await Evaluator.evaluate(code, {}, issues)
+
+        if (result.ast) {
+            this.setState({
+                ...result,
+                outOfSync: false
+            })
+        } else {
+            this.setState({ outOfSync: true })
+        }
     }
     saveCode = () => {
         history.replaceState({ code: this.state.code, saved: true, timestamp: Date.now() }, "", "#" + encodeSource(this.state.code))
@@ -77,7 +86,7 @@ export default class Studio extends PureComponent {
     render() {
         return (
             <div className="studio">
-                <Panel id="board" scrollable={true}>
+                <Panel id="board" scrollable={true} disabled={this.state.outOfSync}>
                     <Board data={this.state.computedValues} />
                 </Panel>
                 <Panel id="editor">
