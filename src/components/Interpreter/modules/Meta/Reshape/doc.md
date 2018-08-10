@@ -3,6 +3,7 @@
 Returns a function that reshapes a tensor to specified shape.
 
 ```L1
+::Reshape
 a: [1 2 3 4]
 shape1: Shape a ; shape = [4]
 b: a -> Reshape [2 2]

@@ -3,6 +3,7 @@
 Rank returns the rank of the provided tensor
 
 ```L1
+::Rank
 rank-0: Rank 1 ; rank-0 = 0
 rank-1: Rank [1 2 3] ; rank-1 = 1
 rank-2: Rank [1 2, 3 4] ; rank-2 = 2
