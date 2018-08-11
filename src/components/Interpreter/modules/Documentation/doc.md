@@ -121,7 +121,6 @@ d: [1 2, 3 4]
 
 1. Pipeline is a function application with the reversed order.
 1. Pipeline can turn nested expression into a linear one.
-1. It can be written as `->`, `//` (Mathematica), `|` (Unix pipe), or `|>` (F# and others).
 
 ## Objects
 
