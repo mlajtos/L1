@@ -4,6 +4,8 @@ import Code from "../../Code"
 
 import { formatNumber } from ".."
 
+import "./style.sass"
+
 export default class Stats extends PureComponent {
     state = {
         data: null,
