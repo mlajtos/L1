@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react"
 import * as tf from "@tensorflow/tfjs-core"
 
-import { isFunction, repeat } from "lodash-es"
+import { repeat } from "lodash-es"
 import numeral from "numeral"
 
 import ScalarVis from "../Scalar"
