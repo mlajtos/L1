@@ -129,6 +129,7 @@ class Interpreter {
                 )
             })
 
+            // Object.freeze?
             return stateAcc
         },
         Assignment: (token, state) => {
