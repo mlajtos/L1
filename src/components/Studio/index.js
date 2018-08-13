@@ -5,12 +5,12 @@ import { Base64 } from "js-base64"
 import "normalize.css"
 import "./style.sass"
 
-import Editor from "./Editor"
-import Evaluator from "./Evaluator"
-import Board from "./Board"
-import Panel from "./Panel"
+import Editor from "../Editor"
+import Evaluator from "../Evaluator"
+import Board from "../Board"
+import Panel from "../Panel"
 
-import helloWorldCode from "../gallery/0_helloWorld.l1"
+import helloWorldCode from "./hello-world.l1"
 
 const encodeSource = (code) => Base64.encode(code)
 
