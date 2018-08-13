@@ -81,7 +81,7 @@ class GenericTensor extends PureComponent {
             <div className="tensor-content">
                 <div className="visualization">
                     {
-                        (true || this.props.data.size > 25)
+                        (this.props.data.size > 25)
                             ? <CanvasTensor key="canvas" data={data} revisionId={this.props.revisionId} />
                             : <SvgTensor data={data} />
                     }
