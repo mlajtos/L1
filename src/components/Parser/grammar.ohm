@@ -19,7 +19,7 @@ L1 {
         = Pipeline
         
     Pipeline
-    	= Pipeline "->" (~Assignment Addition) -- binary
+    	= Pipeline ("->"|"|>") (~Assignment Addition) -- binary
         | Addition -- fallthrough
         
     Addition
