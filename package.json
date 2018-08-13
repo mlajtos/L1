@@ -23,6 +23,7 @@
     "@tensorflow/tfjs": "^0.12.4",
     "@types/lodash-es": "^4.17.1",
     "buffer": "^5.2.0",
+    "dedent": "^0.7.0",
     "firacode": "https://github.com/tonsky/FiraCode",
     "fontfaceobserver": "^2.0.13",
     "js-base64": "^2.4.8",

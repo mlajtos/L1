@@ -1,5 +1,7 @@
-import { convertToLineNumberAndColumn } from "./index"
 import { isEmpty } from "lodash-es"
+import dedent from "dedent"
+
+import { convertToLineNumberAndColumn } from "./index"
 
 const semantics = {
     operation: "eval",
@@ -179,7 +181,7 @@ const semantics = {
             return {
                 ...includeSource(this.source),
                 type: "String",
-                value: value.sourceString
+                value: dedent(value.sourceString)
             }
         },
         nonemptyListOf: function(x, _, xs) {
