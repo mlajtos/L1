@@ -11,9 +11,8 @@ const semantics = {
                 value: data.eval()
             }
         },
-        Assignment_normal: function(f1, f2, p, o, v, __) {
+        Assignment_normal: function(f1, p, o, v, __) {
             const silent = (f1.sourceString === "_")
-            const variable = (f2.sourceString === "$")
 
             const path = p.eval()
             const value = v.eval()
@@ -22,8 +21,7 @@ const semantics = {
                 type: "Assignment",
                 path,
                 value,
-                silent,
-                variable
+                silent
             }
         },
         Assignment_import: function(_, p, __) {
