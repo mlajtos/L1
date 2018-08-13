@@ -1,0 +1,26 @@
+guesses: [
+    4900
+    5400
+    7000
+    11136
+    3500
+    7175
+    3300
+    3801
+    4321
+    8500
+    6600
+    8091
+    5000
+    3400
+    3259
+    3000
+    2637
+    5354
+]
+
+work-days:       40
+people:          50
+cups-per-person: 6
+
+cups-count: work-days * people * cups-per-person

@@ -1,6 +1,0 @@
-makeAdder: x => y => x + y
-add5: makeAdder 5
-add10: makeAdder 10
-
-test1: add5 2
-test2: add10 2
