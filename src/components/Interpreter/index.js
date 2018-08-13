@@ -81,7 +81,7 @@ class Interpreter {
                     (state) => Object.assign(
                         Object.create(state),
                         {
-                            [Symbols.meta]:  {}
+                            [Symbols.meta]: {}
                         }
                     )
                 ),
