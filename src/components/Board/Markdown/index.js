@@ -11,7 +11,7 @@ const markdownToHTML = (value) => {
         value
     }, {
         inline: false,
-        codeBlockRenderer: async function (languageAlias, value) {
+        codeBlockRenderer: async function (languageAlias = "L1", value) {
             const codeblock = await monaco.editor.colorize(value, languageAlias)
 
             return `
