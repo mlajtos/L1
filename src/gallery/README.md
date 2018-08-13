@@ -1,15 +1,19 @@
 # Examples
 
-Most of the examples are broken right now, here are the working ones:
+- [Hello World](https://mlajtos.github.io/L1/latest/#aGVsbG8td29ybGQ6IDIzICsgMjQKCjsgVW5jb21tZW50IGZvbGxvd2luZyBsaW5lIGZvciBtb3JlOgo7IDo6U2VsZg==)
 
-- [Hello World](https://github.com/mlajtos/L1/blob/master/src/gallery/0_helloWorld.l1)
-- [Intro](https://github.com/mlajtos/L1/blob/master/src/gallery/1_intro.l1)
-- [Gallery of Activation Functions](https://github.com/mlajtos/L1/blob/master/src/gallery/3_gallery.l1)
-- [Closures](https://github.com/mlajtos/L1/blob/master/src/gallery/21_closures.l1)
-- [Range](https://github.com/mlajtos/L1/blob/master/src/gallery/26_range.l1)
-- [Logo](https://github.com/mlajtos/L1/blob/master/src/gallery/16_logo.l1)
-- [Nested](https://github.com/mlajtos/L1/blob/master/src/gallery/17_nested.l1)
+- [Built-in RTFM](https://mlajtos.github.io/L1/latest/#OjpTZWxm) – self-hosted documentation
 
-But see the broken ones for some *really cool shit*. Due to rewrite of the interpreter, it will take some time to get them working again.
+- [Intro](https://mlajtos.github.io/L1/latest/#OyBMMTogVGVuc29yIFN0dWRpbyAKOwo7ICAgIkxpdmUtY29kaW5nIHdpdGggVGVuc29ycyIKOwo7ICAgICAgIGh0dHBzOi8vbWxhanRvcy5naXRodWIuaW8vTDEKCgo7IEV4YW1wbGU6CjsgICBNdWx0aXBseWluZyByb3cgYW5kIGNvbHVtbiB2ZWN0b3IKCng6IFsxIDIgM10KeTogWzEsMiwzXQp6OiB4ICogeQ==) – Old promo code
 
-Meanwhile, PRs are welcome, code is horrible and you have been warned! :)
+- [Activation Functions on Random Distributions](https://mlajtos.github.io/L1/latest/#OyBHYWxsZXJ5IG9mIEFjdGl2YXRpb24gRnVuY3Rpb25zIG9uIFJhbmRvbSBEaXN0cmlidXRpb25zCgpfZ2FsbGVyeTogeCA9PiB7CiAgICBpZGVudGl0eTogeAogICAgcmVsdTogUmVjdGlmaWVkTGluZWFyVW5pdCB4CiAgICBzaWdtb2lkOiBTaWdtb2lkIHgKICAgIGVsdTogRXhwb25lbnRpYWxMaW5lYXJVbml0IHgKICAgIHNlbHU6IFNjYWxlZEV4cG9uZW50aWFsTGluZWFyVW5pdCB4CiAgICBzaW46IFNpbmUgeAogICAgbG9nOiBMb2dhcml0aG0geAogICAgc29mdHBsdTogU29mdHBsdXMgeAp9Cgpfc2hhcGU6IFsxMDAgMTAwXQoKcmFuZG9tLW5vcm1hbDogUmFuZG9tTm9ybWFsIHNoYXBlIC0+IGdhbGxlcnkKcmFuZG9tLXVuaWZvcm06IFJhbmRvbVVuaWZvcm0gc2hhcGUgLT4gZ2FsbGVyeQo=) - illustration of what an activation function can do to a random tensor
+
+- [Closures](https://mlajtos.github.io/L1/latest/#OyBFeGFtcGxlIG9mIGNsb3N1cmVzCgptYWtlQWRkZXI6IHggPT4geSA9PiB4ICsgeQphZGQ1OiBtYWtlQWRkZXIgNQphZGQxMDogbWFrZUFkZGVyIDEwCgp0ZXN0MTogYWRkNSAyCnRlc3QyOiBhZGQxMCAy) – basically a super-power
+
+- [Range](https://mlajtos.github.io/L1/latest/#UmFuZ2U6IHsKICAgICNkb2M6ICIKICAgICAgICAjIFJhbmdlCiAgICAgICAgUmV0dXJucyByYW5nZSBvZiB2YWx1ZXMgZnJvbSB0ZW5zb3IKCiAgICAgICAgYGBgCiAgICAgICAgYTogUmFuZ2UgWzEgMiAzXSA7IGE6IDIKICAgICAgICBgYGAKICAgICIKICAgICNjYWxsOiBhID0+IE1heCBhIC0gTWluIGEKfQoKZGF0YTogUmFuZG9tTm9ybWFsIFsyMCAyMF0KcmFuZ2U6IFJhbmdlIGRhdGE=) – Sample implementation of functional object, including documentation
+
+- [Hidden assignment](https://mlajtos.github.io/L1/latest/#OyBBc3NpZ25tZW50IHByZWZpeGVkIHdpdGggdW5kZXJzY29yZSBpcyBoaWRkZW4KCl9wcml2YXRlU3R1ZmY6IHsKICAgIGE6IDIKICAgIHN0cjogIgogICAgICAgICMjIyBIZWxsbwogICAgICAgIEhvdyBhcmUgeW91PwogICAgIgogICAgZm46IHggPT4gYSAqIHggKyAxCn0KCiNkb2M6IHByaXZhdGVTdHVmZi5zdHIKbXU6IChwcml2YXRlU3R1ZmYuZm4gMjMp) – unimportant assignments can be *silenced*
+- [Logo](https://mlajtos.github.io/L1/latest/#TDE6IFsKICAgIDAgMCAwIDAgMCAwIDAKICAgIDAgMSAwIDAgMSAxIDAKICAgIDAgMSAwIDAgMCAxIDAKICAgIDAgMSAwIDAgMCAxIDAKICAgIDAgMSAwIDAgMCAxIDAKICAgIDAgMSAxIDEgMCAxIDAKICAgIDAgMCAwIDAgMCAwIDAKXQ==) – silly example demonstrating matrix literal
+
+## Prototyping new language features
+- [Pattern matching](https://mlajtos.github.io/L1/latest/#c29tZURhdGE6IHttaW46IDIsIG1heDozIH0KCmE6IHNvbWVEYXRhCiAgICAgPyB7bWluLCBtYXh9CiAgICAgICAgLT4gQ2xpcCB7IG1pbiwgbWF4IH0KICAgICA/IHttYXh9CiAgICAgICAgLT4gQ2xpcCB7IG1heCB9CiAgICAgPyB7bWlufQogICAgICAgIC0+IENsaXAgeyBtaW4gfQogICAgID8ge30KICAgICAgICAtPiBbXQ==) – an example of how pattern-matching could work in the future
