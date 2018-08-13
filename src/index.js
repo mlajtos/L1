@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom"
 import React from "react"
+
 import Studio from "./components/Studio"
 
 self.MonacoEnvironment = {
