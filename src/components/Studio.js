@@ -77,7 +77,7 @@ export default class Studio extends PureComponent {
                 outOfSync: false
             })
         } else {
-            this.setState({ outOfSync: true })
+            this.setState({ code, outOfSync: true })
         }
     }
     saveCode = () => {
