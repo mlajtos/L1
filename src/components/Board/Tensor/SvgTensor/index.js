@@ -26,8 +26,8 @@ export default class SvgTensor extends PureComponent {
         const svgHeight = tileHeight * height
 
         return (
-            <div style={{ flex: 1 }}>
                 <svg className="svg-tensor" viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
+                    <g>
                     {
                         Array.from({ length: size }, (_, i) => {
 
@@ -46,8 +46,8 @@ export default class SvgTensor extends PureComponent {
                             )
                         })
                     }
+                    </g>
                 </svg>
-            </div>
         )
     }
 }

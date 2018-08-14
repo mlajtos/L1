@@ -1,5 +1,5 @@
 div.canvas
-    flex: 1 1 0
+    flex: 1
     align-items: center
     justify-content: center
     display: flex
@@ -7,9 +7,9 @@ div.canvas
         image-rendering: pixelated
         box-sizing: border-box
         margin: 0.2em
-        border-radius: 2px
-        box-shadow: 0px 0px 0px 1px darkgray
-        min-height: 10px
-        max-height: 100px
-        min-width: 100%
+        filter: drop-shadow(0px 0px 1px darkgray)
+        object-fit: fill
+        min-width: 75%
         max-width: 100%
+        max-height: 200px
+        min-height: 100%
