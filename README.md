@@ -3,7 +3,7 @@
 
 [![Screenshot](Screenshots/Screenshot3.png)](https://mlajtos.github.io/L1/latest/)
 
-<p align="center"><a href="https://mlajtos.github.io/L1/latest/">Live Demo</a> | <a href="https://mlajtos.github.io/L1/latest/#OjpTZWxm">Documentation</a></p>
+<p align="center"><a href="https://mlajtos.github.io/L1/latest/">Live Demo</a> | <a href="https://mlajtos.github.io/L1/latest/#OjpTZWxm">Documentation</a> | <a href="https://github.com/mlajtos/L1/tree/master/src/gallery">Examples</a></p>
 
 ## About
 
