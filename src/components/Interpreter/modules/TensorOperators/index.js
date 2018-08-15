@@ -3,7 +3,12 @@ import * as tf from "@tensorflow/tfjs"
 const binarize = (fn) => (({ a, b }) => fn(a, b))
 
 export default {
-    "+": binarize(tf.add),
+    "+": ({a, b}) => {
+        if (a === undefined) {
+            return tf.sum(b)
+        }
+        return tf.add(a, b)
+    },
     "-": ({a, b}) => {
         if (a === undefined) {
             return tf.neg(b)

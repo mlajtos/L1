@@ -25,6 +25,7 @@ L1 {
     Addition
         = (Addition ("+"|"-") Multiplication) -- binary
         | Multiplication -- fallthrough
+        | "+" Multiplication -- sum
         | "-" Multiplication -- negative
     Multiplication
         = (Multiplication ("*"|"×"|"/"|"÷"|"%"|"@"|"⊗") Exponentiation) -- binary
