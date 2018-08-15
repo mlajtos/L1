@@ -6,7 +6,8 @@ import Size from "./Size"
 import Rank from "./Rank"
 import Reshape from "./Reshape"
 import Transpose from "./Transpose"
+import Reverse from "./Reverse"
 
 export default {
-    Shape, Size, Rank, Reshape, Transpose
+    Shape, Size, Rank, Reshape, Transpose, Reverse
 }

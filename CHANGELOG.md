@@ -11,7 +11,7 @@
 * multiline strings are dedented by default (as in Swift)
 
 ### API
-* [Clip](https://mlajtos.github.io/L1/latest/#OjpDbGlw), [Sum](https://mlajtos.github.io/L1/latest/#OjpTdW0=), [Transpose](https://mlajtos.github.io/L1/latest/#OjpUcmFuc3Bvc2U=), [Product](https://mlajtos.github.io/L1/latest/#OjpQcm9kdWN0)
+* [Clip](https://mlajtos.github.io/L1/latest/#OjpDbGlw), [Sum](https://mlajtos.github.io/L1/latest/#OjpTdW0=), [Transpose](https://mlajtos.github.io/L1/latest/#OjpUcmFuc3Bvc2U=), [Product](https://mlajtos.github.io/L1/latest/#OjpQcm9kdWN0), [Reverse](https://mlajtos.github.io/L1/latest/#OjpSZXZlcnNl)
 
 ### Documentation
 * [Examples](https://github.com/mlajtos/L1/tree/master/src/gallery) are back!
