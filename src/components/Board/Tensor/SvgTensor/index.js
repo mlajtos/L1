@@ -9,8 +9,14 @@ export default class SvgTensor extends PureComponent {
         const { props } = this
 
         const [height, width] = ((tensorShape) => {
-            const [h = 1, w = 1] = tensorShape
-            return [h, w]
+            if (tensorShape.length === 2) {
+                const [h = 1, w = 1] = tensorShape
+                return [h, w]
+            } else {
+                const [w = 1] = tensorShape
+                return [1, w]
+            }
+            
         })(props.data.shape)
 
         const normalized = normalizeTensor(props.data)
