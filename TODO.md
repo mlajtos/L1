@@ -98,6 +98,7 @@
 ## Crazy
 
 1. silent assignment folded by default?
+1. Markdown for error messages
 1. KaTeX for Markdown
     * would be super-convenient
 1. Name resolution

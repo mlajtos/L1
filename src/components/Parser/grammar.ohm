@@ -30,6 +30,7 @@ L1 {
     Multiplication
         = (Multiplication ("*"|"×"|"/"|"÷"|"%"|"@"|"⊗") Exponentiation) -- binary
         | Exponentiation -- fallthrough
+        | "*" Multiplication  -- product
         | "/" Multiplication  -- reciprocal
     Exponentiation
         = Access "^" Exponentiation  -- binary

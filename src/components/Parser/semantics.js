@@ -127,8 +127,9 @@ const semantics = {
                 value: value.eval()
             }
         },
-        Addition_negative: function(op, v) { return unaryOperation(op, v, this.source) },
         Addition_sum: function(op, v) { return unaryOperation(op, v, this.source) },
+        Addition_negative: function(op, v) { return unaryOperation(op, v, this.source) },
+        Multiplication_product: function(op, v) { return unaryOperation(op, v, this.source) },
         Multiplication_reciprocal: function(op, v) { return unaryOperation(op, v, this.source) },
         PrimitiveExpression_magic: function(op, v) { return unaryOperation(op, v, this.source) },
         PrimitiveExpression_paren: function(_, v, __) { return v.eval() },

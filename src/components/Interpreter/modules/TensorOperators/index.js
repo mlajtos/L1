@@ -17,13 +17,19 @@ export default {
     },
     "*": ({a, b}) => {
         if (a === undefined) {
-            return tf.sign(b)
+            if (!tf.prod) {
+                return new Error("TensorFlow.js does not support tf.prod().")
+            }
+            return tf.prod(b)
         }
         return tf.mul(a, b)
     },
     "×": ({a, b}) => {
         if (a === undefined) {
-            return tf.sign(b)
+            if (!tf.prod) {
+                return new Error("TensorFlow.js does not support tf.prod().")
+            }
+            return tf.prod(b)
         }
         return tf.mul(a, b)
     },
