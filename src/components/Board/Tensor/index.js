@@ -62,8 +62,15 @@ export default class Tensor extends PureComponent {
         if (!this.state.data) {
             return null
         }
+
+        const isEmpty = (this.state.data.size === 0)
         const isScalar = (this.state.data.rank === 0)
-        const Component = isScalar ? ScalarVis : GenericTensor
+        const Component =
+            isEmpty
+                ? EmptyTensor
+                : isScalar
+                    ? ScalarVis
+                    : GenericTensor
 
         return (
             <PropertyWrapper {...this.props} type={"tensor " + (isScalar ? "scalar" : "")} symbol={this.state.symbol}>
@@ -72,6 +79,10 @@ export default class Tensor extends PureComponent {
         )
     }
 }
+
+const EmptyTensor = (props) => (
+    <div>Empty tensor</div>
+)
 
 class GenericTensor extends PureComponent {
     render() {
