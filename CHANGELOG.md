@@ -15,6 +15,7 @@
 ### Documentation
 * [Examples](https://github.com/mlajtos/L1/tree/master/src/gallery) are back!
 * code snippets are easily runnable
+* wrote about [goals of L1](GOAL.md)
 
 ### Playground
 * shareable hyperlinks (Ctrl+S, Cmd-S)

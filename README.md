@@ -23,9 +23,9 @@ Become the standard tool for prototyping new Machine Learning ideas. [More...](G
 * awesome built-in documentation
 * syntax-highlightning and code-completion
 
-### Issues
-* None of the mobile browsers are supported
-* Firefox is rather slow and has unpredictable behavior, please use Chrome instead ([#3](https://github.com/mlajtos/L1/issues/3))
+### Changelog
+
+* [August 2018](CHANGELOG.md#august-2018)
 
 ### What's comming?
 * variable tensors and optimization
@@ -34,9 +34,15 @@ Become the standard tool for prototyping new Machine Learning ideas. [More...](G
 * loading data, I/O
 * [etc.](https://github.com/mlajtos/L1/blob/master/TODO.md)
 
+### Issues
+* None of the mobile browsers are supported
+* Firefox is rather slow and has unpredictable behavior – [#3](https://github.com/mlajtos/L1/issues/3)
+    * please use Chrome for best experience
+* Edge looks visually off, but works OK
+
 ### Contribution
 
-Any form of help and feedback is welcome. Including [PRs](CONTRIBUTING.md), [reporting bugs](https://github.com/mlajtos/L1/issues/new), [suggesting ideas](https://github.com/mlajtos/L1/issues/new), promotion,  etc.
+Any form of help and feedback is welcome – including [PRs](CONTRIBUTING.md), [reporting bugs](https://github.com/mlajtos/L1/issues/new), [suggesting ideas](https://github.com/mlajtos/L1/issues/new), [shooting down existing ideas](TODO.md), [creating new examples](https://github.com/mlajtos/L1/tree/master/src/gallery), promotion, testing, etc.
 
 This project is under [MIT license](LICENSE).
 
