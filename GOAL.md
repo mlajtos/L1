@@ -22,7 +22,7 @@ When you are in a flow state, you don't want to think about type declarations, o
 
 L1 is not going to be all-encompassing IDE that covers everything in between data scraping to production deployment. It isn't even about the model creation...
 
-The focus is to loose all non-essential parts of the accidental complexities that accumulated in programming history and present whats left in the most simple way possible.
+The focus is to lose all non-essential parts of the accidental complexities that accumulated in the history of programming and present what has left in the most simple way possible.
 
 ### Unified
 
@@ -44,10 +44,6 @@ The L1 language reads like clean JSON with expressions. This combination is extr
 
 Writing a computer code without actually seeing what it does in real-time is a sin. Programming with live feedback keeps the user engaged and not frustrated by waiting for the manual edit-compile-run cycle.
 
-Nobody would ever want to draw with their eyes closed and then check the progress. And then closing the eyes again and draw blind. And after that check the result and so on. Programming should be like drawing with eyes open.
+Nobody would ever want to draw with their eyes closed, and only after that look at the drawing. Programming should be like drawing with eyes open.
 
-L1 should be a smooth live experience where you forget that you are programming.
-
----
-
-This is a drug-fueled rant, but I hope it conveys the motive for the L1 quite clearly.
+L1 aspires to be a smooth live programming experience where you actually forget that you are programming. Interactivity matters.
