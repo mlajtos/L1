@@ -4,7 +4,7 @@
 
 - [Built-in RTFM](https://mlajtos.github.io/L1/latest/#OjpTZWxm) – self-hosted documentation
 
-- [Current Promo](https://mlajtos.github.io/L1/latest/#YTogWzEgMiAzXSAgICAgICAgICA7IGNvbnN0IGEgPSB0Zi50ZW5zb3IoWzEsIDIsIDNdKQpiOiBbMSwyLDNdICAgICAgICAgIDsgY29uc3QgYiA9IHRmLnRlbnNvcihbWzFdLCBbMl0sIFszXV0pCmM6IFNoYXBlIGEgLT4gRXllICAgOyBjb25zdCBjID0gdGYuZXllKGEuc2hhcGVbMF0pCmQ6IChhICogYileYyAgICAgICAgOyBjb25zdCBkID0gYS5tdWwoYikucG93KGMp) – [Current promo code](https://github.com/mlajtos/L1/blob/master/Screenshots/Screenshot3.png) with JS equivalent
+- [Current Promo](https://mlajtos.github.io/L1/latest/#YTogWzEgMiAzXSAgICAgICAgICA7IGNvbnN0IGEgPSB0Zi50ZW5zb3IoWzEsIDIsIDNdKQpiOiBbMSwyLDNdICAgICAgICAgIDsgY29uc3QgYiA9IHRmLnRlbnNvcihbWzFdLCBbMl0sIFszXV0pCmM6IFNoYXBlIGEgLT4gRXllICAgOyBjb25zdCBjID0gdGYuZXllKGEuc2hhcGVbMF0pCmQ6IChhICogYileYyAgICAgICAgOyBjb25zdCBkID0gYS5tdWwoYikucG93KGMp) – [Current promo code](https://github.com/mlajtos/L1/blob/master/Screenshots/Screenshot4.png) with JS equivalent
 
 - [Old Promo](https://mlajtos.github.io/L1/latest/#OyBMMTogVGVuc29yIFN0dWRpbyAKOwo7ICAgIkxpdmUtY29kaW5nIHdpdGggVGVuc29ycyIKOwo7ICAgICAgIGh0dHBzOi8vbWxhanRvcy5naXRodWIuaW8vTDEKCgo7IEV4YW1wbGU6CjsgICBNdWx0aXBseWluZyByb3cgYW5kIGNvbHVtbiB2ZWN0b3IKCng6IFsxIDIgM10KeTogWzEsMiwzXQp6OiB4ICogeQ==) – [Old promo code](https://github.com/mlajtos/L1/blob/master/Screenshots/Screenshot.png)
 
