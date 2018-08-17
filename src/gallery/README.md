@@ -17,6 +17,8 @@
 - [Hidden assignment](https://mlajtos.github.io/L1/latest/#OyBBc3NpZ25tZW50IHByZWZpeGVkIHdpdGggdW5kZXJzY29yZSBpcyBoaWRkZW4KCl9wcml2YXRlU3R1ZmY6IHsKICAgIGE6IDIKICAgIHN0cjogIgogICAgICAgICMjIyBIZWxsbwogICAgICAgIEhvdyBhcmUgeW91PwogICAgIgogICAgZm46IHggPT4gYSAqIHggKyAxCn0KCiNkb2M6IHByaXZhdGVTdHVmZi5zdHIKbXU6IChwcml2YXRlU3R1ZmYuZm4gMjMp) – unimportant assignments can be *silenced*
 - [Logo](https://mlajtos.github.io/L1/latest/#TDE6IFsKICAgIDAgMCAwIDAgMCAwIDAKICAgIDAgMSAwIDAgMSAxIDAKICAgIDAgMSAwIDAgMCAxIDAKICAgIDAgMSAwIDAgMCAxIDAKICAgIDAgMSAwIDAgMCAxIDAKICAgIDAgMSAxIDEgMCAxIDAKICAgIDAgMCAwIDAgMCAwIDAKXQ==) – silly example demonstrating matrix literal
 
+- [Sine experiment](https://mlajtos.github.io/L1/latest/#YTogWzEsMiwzLDQsNSw2LDcsOCw5LDEwLDExLDEyLDEzLDE0LDE1LDE2LDE3LDE4XQpiOiBUcmFuc3Bvc2UgYSAKYzogKGEgKiBiKQplOiBTaW5lIGM=) – weird example 
+
 ## Prototyping new language features
 - [Pattern matching 1](https://mlajtos.github.io/L1/latest/#c29tZURhdGE6IHttaW46IDIsIG1heDozIH0KCmE6IHNvbWVEYXRhCiAgICAgPyB7bWluLCBtYXh9CiAgICAgICAgLT4gQ2xpcCB7IG1pbiwgbWF4IH0KICAgICA/IHttYXh9CiAgICAgICAgLT4gQ2xpcCB7IG1heCB9CiAgICAgPyB7bWlufQogICAgICAgIC0+IENsaXAgeyBtaW4gfQogICAgID8ge30KICAgICAgICAtPiBbXQ==) – an example of how pattern-matching could work in the future
 - [Pattern matching 2](https://mlajtos.github.io/L1/latest/#c29tZURhdGE6IHsgbWluOiAyLCBtYXg6MyB9CgphOiBzb21lRGF0YSA/CiAgICAge21pbiwgbWF4fSAtPiBDbGlwIHsgbWluLCBtYXggfQogICAgIHttYXh9ICAgICAgLT4gQ2xpcCB7IG1heCB9CiAgICAge21pbn0gICAgICAtPiBDbGlwIHsgbWluIH0KICAgICB7fSAgICAgICAgIC0+IFtd) – slightly better syntax (no idea about parsability)
