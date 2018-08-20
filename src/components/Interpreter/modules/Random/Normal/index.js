@@ -6,7 +6,7 @@ import Symbols from "../../../symbols"
 
 import doc from "./doc.md"
 
-const $ = (tensor) => tensor.dataSync()
+const $ = (tensor) => Array.from(tensor.dataSync())
 
 export default {
     RandomNormal: {
