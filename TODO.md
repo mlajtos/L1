@@ -4,14 +4,11 @@
 
 1. Tile design – gallery/5_tile_design.l1
     * needed functions:
-        1. ExpandDimension
         1. Tile
-        1. Transpose
         1. GetDigit
 1. Other
     * Iota
     * RankUp, RankDown
-    * Transpose
     * ArgMin, ArgMax, Sum, Product
     * StochasticGradientDescent
     * Gradient
