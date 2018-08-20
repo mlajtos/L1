@@ -5,6 +5,8 @@
     grid-column-end: -1
     display: block
     line-height: 1.5em
+    box-sizing: border-box
+    padding: 15px
 
     &:hover
         background-color: white !important
@@ -12,6 +14,18 @@
     > *
         width: 100%
         box-sizing: border-box
+
+    h1, h2, h3, h4, h5, h6
+        margin-top: 24px
+        margin-bottom: 16px
+        font-weight: 600
+        line-height: 1.25
+
+        &:first-child
+            margin-top: 0
+
+    h1
+        font-size: 1.8em
 
     h1, h2
         padding-bottom: 0.3em
@@ -32,6 +46,13 @@
 
     ol, ul
         padding-left: 2em
+
+    blockquote
+        margin: 0
+        margin-left: 15px
+        padding: 0 1em
+        color: #6a737d
+        border-left: 0.25em solid #dfe2e5
 
 .codeContainer
     .runButton
