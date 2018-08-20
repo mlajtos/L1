@@ -23,6 +23,8 @@
 
 - [Sine Experiment 2](https://mlajtos.github.io/L1/latest/#X3Jlc29sdXRpb246IDEwMDAKX3JhbmdlOiAxMAoKX2E6IExpbmVhclNwYWNlIHsKICAgIHN0YXJ0OiAtcmFuZ2UKICAgIHN0b3A6IHJhbmdlCiAgICBjb3VudDogcmVzb2x1dGlvbgp9CgpfYjogYSAtPiBFeHBhbmQgMQoKX2M6IFRyYW5zcG9zZSBiCl9kOiBjICogYgplOiBTaW5lIGQ=) – beautiful pattern
 
+- [Random Number of Random Numbers](https://mlajtos.github.io/L1/latest/#I2RvYzogIgogICAgIyBSYW5kb20gTnVtYmVyIG9mIFJhbmRvbSBOdW1iZXJzCgogICAgSG93IGRvIHlvdSBkbyB0aGlzIGluIFRlbnNvckZsb3cgb3IgUHlUb3JjaD8KIgoKcmFuZG86CiAgICBSYW5kb21Vbmlmb3JtICEKICAgIC0+IHIgPT4gMSArIDEwICogcgogICAgLT4gRmxvb3IKICAgIC0+IFJhbmRvbU5vcm1hbA==) – demonstration of simple flexibility
+
 ## Prototyping new language features
 - [Pattern Matching 1](https://mlajtos.github.io/L1/latest/#c29tZURhdGE6IHttaW46IDIsIG1heDozIH0KCmE6IHNvbWVEYXRhCiAgICAgPyB7bWluLCBtYXh9CiAgICAgICAgLT4gQ2xpcCB7IG1pbiwgbWF4IH0KICAgICA/IHttYXh9CiAgICAgICAgLT4gQ2xpcCB7IG1heCB9CiAgICAgPyB7bWlufQogICAgICAgIC0+IENsaXAgeyBtaW4gfQogICAgID8ge30KICAgICAgICAtPiBbXQ==) – an example of how pattern-matching could work in the future
 - [Pattern Matching 2](https://mlajtos.github.io/L1/latest/#c29tZURhdGE6IHsgbWluOiAyLCBtYXg6MyB9CgphOiBzb21lRGF0YSA/CiAgICAge21pbiwgbWF4fSAtPiBDbGlwIHsgbWluLCBtYXggfQogICAgIHttYXh9ICAgICAgLT4gQ2xpcCB7IG1heCB9CiAgICAge21pbn0gICAgICAtPiBDbGlwIHsgbWluIH0KICAgICB7fSAgICAgICAgIC0+IFtd) – slightly better syntax (no idea about parsability)
