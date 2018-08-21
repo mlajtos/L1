@@ -1,16 +1,15 @@
 #doc: "
-# Regress Tensor
+    # Regress Tensor
 
-Fitting a random tensor without any input
+    Fitting a random tensor without any input
 
-## Needed fixes
-1. remove $ sigil and make it an operator for Variable
-1. Reuse Variable from old interpreter
-1. Reintroduce StochasticGradientDescent with live plot
-1. Mean, Sum
+    ## Needed fixes
+    1. reuse Variable from old interpreter
+    1. create `$` operator for Variable
+    1. reintroduce `StochasticGradientDescent` with live plot
 
-## Nice things
-1. None as a lamda argument
+    ## Nice things
+    1. None as a lamda argument
 "
 
 _Data: {
@@ -18,22 +17,19 @@ _Data: {
 }
 
 _Model: {
-    ; $ should be unary operator for Tesors, not a sigil
     ; $ === Variable
-    $prediction: RandomNormal [20 20]
+    ; prediction: $ RandomNormal [20 20]
+    prediction: RandomNormal [20 20]
 
     ; Here would be better if None could be used:
     ;   () => prediction
     predict: x => prediction
 
-    ; A bit lenghty, but having MeanSquaredError seems redundant
     loss: predictions => labels =>
-        (predictions - labels)^2
-            -> Mean
-            -> Sum
+        +(predictions - labels)^2
     
-    ; This is so soothing :)
-    step: y => (predict!) -> (loss y)
+    step: y => 
+        predict! -> loss y
 }
 
 _Optimizer: {
@@ -47,7 +43,7 @@ _Optimizer: {
     ;   () => Model.step Data.target
     loss: a => Model.step Data.target
 
-    ; Stats should be Observable with plot
+    ; Stats should be an Observable with plot
     stats: optimize loss
 }
 
