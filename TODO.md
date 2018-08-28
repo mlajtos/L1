@@ -21,8 +21,6 @@
     * more than >
     * less than or equal <=
     * more than or equal >=
-    * Sum +/ Σ
-    * Product */ Π
 
 ## Wholeness
 
