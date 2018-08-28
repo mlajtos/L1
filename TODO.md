@@ -23,21 +23,6 @@
     * more than or equal >=
     * Sum +/ Σ
     * Product */ Π
-* Lists?
-    * `(expr, expr)`
-        * no, because of `(expr)`
-        * on second thought, hmm..
-    * `|expr, expr|`
-        * no, because pipeline (can be removed)
-    * `/expr, expr/`
-        * wtf
-    * `<expr, expr>`
-        * no, leaving that for HTML
-    * `[|expr, expr|]`
-        * definitely no
-    * `#[expr, expr]`
-        * meh
-
 
 ## Wholeness
 
