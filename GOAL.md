@@ -10,7 +10,7 @@ Another formulation of the mentioned goal would be:
 
 This *italic* goal is borderline boring. But again, it is not meant as *"become the best numeric environment"* – whatever that might mean. Professionals are not the target audience here, but even they can benefit from this tool. However, L1 is not going to be the next TensorFlow, PyTorch, Mathematica, Jupyter Notebook, VS Code, TensorBoard, MATLAB, or anything. The intention is somewhere else.
 
-The ultimate goal of L1 is to be the medium for creative thoughts about specific subset of Machine Learning.
+The ultimate goal of L1 is to be the medium for creative thought about specific subset of Machine Learning.
 
 ## Design goals
 
@@ -38,7 +38,7 @@ The large part of learning curve is dictated by the knowledge you already have. 
 
 The famous programming language by Kenneth Iverson – APL – was anything but familiar. Extremely powerful, but alien. On the other hand, FORTRAN was lesser of the two, but it was familiar to mathematicians, so they could be productive without the steep learning curve.
 
-The L1 language reads like clean JSON with expressions. This combination is extremely simplistic, but still powerful – and above all – very familiar.
+The L1 language reads like clean JSON with expressions. This combination is extremely simplistic, but still powerful – and above all – very familiar. More about that in part [Better JavaScript](#better-javascript)
 
 ### Interactive
 
@@ -47,3 +47,229 @@ Writing a computer code without actually seeing what it does in real-time is a s
 Nobody would ever want to draw with a pencil on a paper with their eyes closed, and only after that look at the drawing. Programming should be like drawing with your eyes open.
 
 L1 aspires to be a smooth live programming experience where you actually forget that you are programming. Immediate feedback matters.
+
+## Better JavaScript
+
+Syntax and semantics of L1 language is heavily inspired by its host language – JavaScript. The main designing force is to simplify JS to the extreme – throw out everything that is non-essential. JavaScript is frozen to be backward compatible, so it will only grow in size, so adding new stuff in a proper way is hard or impossible. L1 is the opposite.
+
+### Const by default
+
+Assignment is done by colon, because you are really creating an object with named properties. As in Python.
+
+```js
+// JS
+const a = 23
+```
+
+```L1
+; L1
+a: 23
+```
+
+### References
+
+Following example just adds one number to the other using a reference:
+
+```js
+const a = 23
+const b = a + 24
+```
+
+```L1
+a: 23
+b: a + 24
+```
+
+However, if you want to do it in the object, you are out of luck:
+
+```js
+const obj = {
+    a: 23,
+    b: this.a + 24 // obj.b is NaN, no Error!
+}
+```
+
+But this is totally normal thing in L1:
+
+```L1
+obj: {
+    a: 23
+    b: a + 24  ; obj.b is 47
+}
+```
+
+### Referential transparency
+
+Take this example:
+
+```js
+const obj = { a: 23 }
+const a = obj.a // a is 23, nice
+```
+
+Substituting `obj` for its value should still work:
+
+```js
+const a = { a: 23 }.a // Oops, SyntaxError: Unexpected token .
+```
+
+You have to enclose it in parens:
+
+```js
+const a = ({ a: 23 }).a
+```
+
+In L1 this works:
+
+```L1
+a: {
+    a: 23
+}.a
+```
+
+### Function duality
+
+ES6 arrow functions (lambdas) are the most usefull thing added to JS:
+
+```js
+const fn = a => a + 1  // function definition
+const x = fn(22)       // function application
+```
+
+There is really no striking difference to L1:
+
+```L1
+fn: a => a + 1         ; function definition
+x: fn(22)              ; function application
+```
+
+However the second best thing that would be added to JS is pipeline operator:
+
+```js
+const x = 22 |> fn
+```
+
+In L1, pipeline operator makes a bit more sense:
+
+```L1
+x: 22 -> fn
+```
+
+### Parens again
+
+Lets use arrow function to return an object:
+
+```js
+const fn = a => { mu: 23 + a }
+const obj = fn(24)                  // undefined
+```
+
+`obj` is `undefined`. WAT?! You created a function body with a label instead of a object literal. Just use parens:
+
+```js
+const fn = a => ({ mu: 23 + a })
+const obj = fn(24)
+```
+
+No such surprise in L1:
+
+```L1
+fn: a => {
+    mu: 23 + a
+}
+obj: fn(24)
+```
+
+Actually in L1 you can drop parens even from the function application:
+
+```L1
+obj: fn 24
+```
+
+In L1 parens are only grouping things together – no other hidden meaning.
+
+### Synergies
+
+When you combine these techniques together, you can do something silly as this:
+
+```js
+const fn = a => {
+    const b = a + 12
+    const c = b * 2
+    return { a, b, c }
+}
+const mu = fn(23)
+```
+
+In L1 this is a bit more straightforward:
+
+```L1
+fn: a => {
+    a: a
+    b: a + 12
+    c: b * 2
+}
+mu: fn 23
+```
+
+Even on the silly example, there is a modest gain in readability:
+* **JS:** 87 characters
+    * including 23 white space characters
+* **L1:** 44 characters
+    * including 15 white space characters
+
+### Object as a function
+
+JS proxies are going to let you do magical (read: meta) things with objects. However, you will never be able to do this beautiful thing from Python:
+
+```python
+class ObjClass(object):
+    a = 23
+    def __call__(self, b):
+        return self.a + b
+
+obj = ObjClass()
+mu = obj(24)
+```
+
+JS:
+```js
+// don't even try
+```
+
+In L1 this is embarrassingly trivial:
+
+```L1
+obj: {
+    a: 23
+    #call: b => a + b
+}
+mu: obj 24
+```
+
+### Documentation
+
+Have you ever seen documentation in JS? Not on a web, but in JS. You know, as in Python's `help()`. Documentation should be as close to code as possible. Example from Python:
+
+```python
+def fn(a):
+    """increments a provided number"""
+    return a + 1
+
+help(fn)  # print(fn.__doc__)
+```
+
+Add some Markdown and you have something good:
+
+```L1
+fn: {
+    #doc: "
+        # Incrementer
+        
+        *Increments* a provided number by 1. Example:
+
+            mu: fn 22
+    "
+    #call: a => a + 1
+}
+```
