@@ -9,9 +9,10 @@
 1. Other
     * Iota
     * RankUp, RankDown
-    * ArgMin, ArgMax, Sum, Product
+    * ArgMin, ArgMax
     * StochasticGradientDescent
     * Gradient
+    * Flow
 
 ## Language
 * Operators for tensor
@@ -230,3 +231,14 @@ a: a.#mutate {
 * [Firebase Cloud Fns](https://www.youtube.com/watch?v=prlK_QL_qOA)
 * [Something New](https://github.com/d-cook/SomethingNew)
 * [RxJS for mere mortal](https://stackoverflow.com/a/45227115)
+* [RxJS with React](https://medium.freecodecamp.org/how-to-build-a-github-search-in-react-with-rxjs-6-and-recompose-e9c6cc727e7f)
+* [hm](https://www.wired.com/2008/04/ff-wozniak/)
+* [geokit](https://rsnous.com/posts/notes-from-dynamicland-geokit/)
+* [Bohm](https://blogs.scientificamerican.com/cross-check/david-bohm-quantum-mechanics-and-enlightenment/)
+* [Kay](https://www.fastcompany.com/40435064/what-alan-kay-thinks-about-the-iphone-and-technology-now)
+* [Change detection](https://source.wustl.edu/2018/07/changedetection/)
+* [Notation](https://github.com/hypotext/notation)
+* [HCI](https://www.interaction-design.org/literature/book/the-encyclopedia-of-human-computer-interaction-2nd-ed)
+* [Mu](https://www.quantamagazine.org/to-remember-the-brain-must-actively-forget-20180724/)
+* [Mu2](https://blogs.scientificamerican.com/observations/brain-gain-a-person-can-instantly-blossom-into-a-savant-and-no-one-knows-why/)
+* [Mu3](https://qz.com/1116991/a-biologist-believes-that-trees-speak-a-language-we-can-learn/)
