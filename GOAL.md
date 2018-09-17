@@ -273,3 +273,23 @@ fn: {
     #call: a => a + 1
 }
 ```
+
+### Observables
+
+`Promise` is a future value that resolves or fails. `Observable` is a Promise that can resolve multiple times, so an asynchronous data stream. Observables will probably end up in JS and will superseed Promises as a standard way for dealing with asynchronous programming. Incorporating Observables into a language is therefore a must to have feature.
+
+In vanilla JS, when you want to track `x`-coordinate of a mouse and do something with that value you would go something like this:
+
+```js
+var mu = 0
+const onMouseXChanged = (value) => { mu = value * 10 }
+document.addEventListener("mousemove", (e) => onMouseXChanged(e.screenX))
+```
+
+This is a classic Observer pattern and it is a really useful in real world applications. However it is cumbersome and does not scale really well. People created libraries like [RxJS](https://rxjs-dev.firebaseapp.com/) to deal with Observers and Observables in a better way. But this useful patern should be used on a language level, not as a library. Instead, one should be able to write following one-liner:
+
+```L1
+mu: Mouse.x * 10
+```
+
+This way, `mu` will always be synchronized to the `x`-coordinate of the mouse. And of course subsequent computations dependent on `mu` will also be recalculated whenever is needed.
