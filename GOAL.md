@@ -104,25 +104,25 @@ Take this example:
 
 ```js
 const obj = { a: 23 }
-const a = obj.a // a is 23, nice
+const b = obj.a // b is 23, nice
 ```
 
 Substituting `obj` for its value should still work:
 
 ```js
-const a = { a: 23 }.a // Oops, SyntaxError: Unexpected token .
+const b = { a: 23 }.a // Oops, SyntaxError: Unexpected token .
 ```
 
 You have to enclose it in parens:
 
 ```js
-const a = ({ a: 23 }).a
+const b = ({ a: 23 }).a
 ```
 
 In L1 this works:
 
 ```L1
-a: {
+b: {
     a: 23
 }.a
 ```
