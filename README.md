@@ -19,9 +19,9 @@ Become the standard tool for prototyping new Machine Learning ideas. [More...](G
 * elegant pure functional language
 * eager execution
 * auto-broadcast for tensor operations
-* fast GPU-accelerated calculations
+* fast GPU-accelerated computation
 * awesome built-in documentation
-* syntax-highlightning and code-completion
+* syntax-highlighting and code-completion
 
 ### Changelog
 
