@@ -34,7 +34,7 @@ e: 1_000
 ```
 
 1. There are no *types*. It's just a numeric value.
-1. *But to be honest – 32-bit float.*
+1. *But to be honest – 32-bit float.* [Extra](https://mlajtos.github.io/L1/latest/#eDogMC4xKygwLjIrMC4zKSwKeTogKDAuMSswLjIpKzAuMw==)
 1. If your numbers are too big, too small (or they aren't numbers at all), you gotta pump those rookie numbers up.
 
 ### Tensors
