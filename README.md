@@ -66,6 +66,7 @@ This thing is stealing great ideas from:
 - [QML](https://en.m.wikipedia.org/wiki/QML)
 - [JSON](https://www.json.org/)
 - [Jsonnet](https://jsonnet.org/)
+– [Ren](https://pointillistic.com/ren/)
 - [Haskell](https://en.wikipedia.org/wiki/Haskell_(programming_language))
 - [Smalltalk](https://en.wikipedia.org/wiki/Smalltalk)
 - [Moniel](https://github.com/mlajtos/moniel) – prototype of L1
